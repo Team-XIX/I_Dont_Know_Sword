@@ -12,35 +12,59 @@ public class PlayerController : MonoBehaviour
 
     [Header("대시 설정")]
     [SerializeField] private float dashForce = 10f;
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashInvincibilityDuration = 0.15f;
-    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float dashCooldown = 0.45f;
     private bool canDash = true;
     private bool isDashing = false;
+    private bool isInvincible = false;
 
-    // 참조용 컴포넌트
+    [Header("참조")]
+    [SerializeField] private GameObject mainSprite;
+
     private Collider2D playerCollider;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
-    // 성능 최적화를 위한 캐싱
     private WaitForSeconds dashDurationWait;
     private WaitForSeconds dashCooldownWait;
     private WaitForSeconds invincibilityDurationWait;
 
+    private int isMovingHash;
+    private int isDashingHash;
+    public bool IsInvincible => isInvincible;
+    public bool IsDashing => isDashing;
+    public Vector2 MoveDirection => lastMoveDirection;
+    private Vector2 lastMoveDirection = Vector2.right;
+
     void Awake()
     {
-        // 컴포넌트 캐싱 (GetComponent 호출 최소화)
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
 
-        // WaitForSeconds 캐싱 (가비지 컬렉션 최소화)
+        if (mainSprite == null)
+        {
+            mainSprite = transform.Find("MainSprite").gameObject;
+        }
+
+        animator = mainSprite.GetComponent<Animator>();
+        spriteRenderer = mainSprite.GetComponent<SpriteRenderer>();
+
         dashDurationWait = new WaitForSeconds(dashDuration);
         dashCooldownWait = new WaitForSeconds(dashCooldown);
         invincibilityDurationWait = new WaitForSeconds(dashInvincibilityDuration);
+
+        isMovingHash = Animator.StringToHash("isMoving");
+        isDashingHash = Animator.StringToHash("isDashing");
+    }
+
+    void Update()
+    {
+        UpdateAnimationState();
     }
 
     void FixedUpdate()
     {
-        // 물리 기반 이동은 FixedUpdate에서 처리 (성능 최적화)
         if (!isDashing)
         {
             ApplyMovement();
@@ -49,27 +73,27 @@ public class PlayerController : MonoBehaviour
 
     #region 입력 처리
 
-    // Input System에서 이동 입력을 받는 콜백 메서드
     public void OnMove(InputAction.CallbackContext context)
     {
-        // 입력 데이터만 저장 (실제 처리는 FixedUpdate에서)
         moveInput = context.ReadValue<Vector2>();
+
+        if (moveInput != Vector2.zero)
+        {
+            lastMoveDirection = moveInput.normalized;
+        }
     }
 
-    // Input System에서 대시 입력을 받는 콜백 메서드
     public void OnDash(InputAction.CallbackContext context)
     {
-        // performed 단계에서만 실행 (버튼 누를 때)
         if (context.performed && canDash && !isDashing)
         {
             StartCoroutine(PerformDash());
         }
     }
 
-    // Input System에서 발사 입력을 받는 콜백 메서드
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isDashing)
         {
             FireProjectile();
         }
@@ -77,80 +101,116 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region 이동/액션 구현
 
-    // 실제 이동을 적용하는 메서드 (FixedUpdate에서 호출)
+    /// <summary>
+    /// 플레이어 이동 실행
+    /// </summary>
     private void ApplyMovement()
     {
-        // 외부 데이터에서 이동속도를 가져올 수 있도록 설계
-        // 예: float currentMoveSpeed = PlayerDataManager.Instance.GetStat(StatType.MoveSpeed);
+        // Player 데이터 기다리는중...
+        float currentMoveSpeed = moveSpeed;
 
-        // 정규화된 방향에 속도 곱하기 (대각선 이동 보정)
-        if (moveInput.sqrMagnitude > 0)
+        if (moveInput != Vector2.zero)
         {
-            Vector2 movementVelocity = moveInput.normalized * moveSpeed;
+            Vector2 movementVelocity = moveInput.normalized * currentMoveSpeed;
             rb.velocity = movementVelocity;
         }
         else
         {
-            // 입력이 없을 때 정지
             rb.velocity = Vector2.zero;
         }
     }
 
-    // 대시 기능 구현
+    /// <summary>
+    /// 대시 실행
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator PerformDash()
     {
-        // 대시 상태 설정
         canDash = false;
         isDashing = true;
 
-        // 대시 방향 결정 (입력이 없으면 캐릭터가 바라보는 방향)
-        Vector2 dashDirection = moveInput.normalized;
-        if (dashDirection == Vector2.zero)
+        if (animator != null)
         {
-            dashDirection = transform.right;
+            animator.SetBool(isDashingHash, true);
         }
 
-        // 대시 속도 적용 (물리 기반)
+        Vector2 dashDirection = moveInput != Vector2.zero ? moveInput.normalized : lastMoveDirection;
+
         rb.velocity = dashDirection * dashForce;
-
-        // 무적 효과 적용
         StartCoroutine(ApplyInvincibility());
-
-        // 대시 지속 시간 (캐싱된 WaitForSeconds 사용)
         yield return dashDurationWait;
 
-        // 대시 종료 후 속도 초기화
         isDashing = false;
         rb.velocity = Vector2.zero;
 
-        // 대시 쿨다운 적용 (캐싱된 WaitForSeconds 사용)
+        if (animator != null)
+        {
+            animator.SetBool(isDashingHash, false);
+        }
+
         yield return dashCooldownWait;
         canDash = true;
     }
 
-    // 무적 효과 적용
+    /// <summary>
+    /// 대시 중 무적 상태 적용
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ApplyInvincibility()
     {
-        // 콜라이더 비활성화로 무적 구현
+        isInvincible = true;
         playerCollider.enabled = false;
-
-        // 캐싱된 WaitForSeconds 사용
         yield return invincibilityDurationWait;
-
-        // 무적 해제
         playerCollider.enabled = true;
+        isInvincible = false;
     }
 
-    // 투사체 발사 기능 (인터페이스 연결용)
+    /// <summary>
+    /// 플레이어가 발사체를 발사
+    /// </summary>
     private void FireProjectile()
     {
-        // 투사체 발사 시스템과 연결할 인터페이스 메서드
-        // 구현은 다른 스크립트에서 할 예정
-
-        // 예시: ProjectileSystem.Instance.FireProjectile(transform.position, aimDirection);
+        // 구현 예정
+        // ProjectileSystem.Instance.FireProjectile(transform.position, lastMoveDirection);
     }
 
-    #endregion
+    /// <summary>
+    /// 애니메이션 상태 업데이트
+    /// </summary>
+    private void UpdateAnimationState()
+    {
+        if (animator == null || mainSprite == null) return;
+
+        bool isMoving = moveInput != Vector2.zero;
+        animator.SetBool(isMovingHash, isMoving && !isDashing);
+
+        if (!isDashing && isMoving)
+        {
+            bool facingRight = moveInput.x > 0;
+            UpdateFacingDirection(facingRight);
+        }
+    }
+
+    /// <summary>
+    /// 플레이어의 바라보는 방향을 업데이트
+    /// </summary>
+    /// <param name="facingRight"></param>
+    private void UpdateFacingDirection(bool facingRight)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = !facingRight;
+        }
+        else
+        {
+            Vector3 scale = mainSprite.transform.localScale;
+            float xScale = Mathf.Abs(scale.x);
+            mainSprite.transform.localScale = new Vector3(
+                facingRight ? xScale : -xScale,
+                scale.y,
+                scale.z
+            );
+        }
+    }
 }
