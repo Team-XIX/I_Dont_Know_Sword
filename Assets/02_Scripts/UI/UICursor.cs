@@ -3,17 +3,17 @@ using UnityEngine.UI;
 
 public class UICursor : MonoBehaviour
 {
-    public RectTransform cursor; // Ä¿¼­ UI ÀÌ¹ÌÁö
-    public RectTransform canvas; // Äµ¹ö½º
+    public RectTransform cursor; // ì»¤ì„œ UI ì´ë¯¸ì§€
+    public RectTransform canvas; // ìº”ë²„ìŠ¤
 
-    Vector2 mousePos; // ¸¶¿ì½º Æ÷Áö¼Ç
+    Vector2 mousePos; // ë§ˆìš°ìŠ¤ í¬ì§€ì…˜
 
     void Update()
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, Input.mousePosition, null, out mousePos);
-        //½ºÅ©¸° ÁÂÇ¥(Screen Space)¿¡ ÀÖ´Â ¸¶¿ì½º À§Ä¡¸¦ Æ¯Á¤ RectTransform(UI ¿ä¼Ò ±âÁØ)ÀÇ ·ÎÄÃ ÁÂÇ¥(Local Space)·Î º¯È¯ÇÏ´Â ÇÔ¼ö
+        //ìŠ¤í¬ë¦° ì¢Œí‘œ(Screen Space)ì— ìˆëŠ” ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ íŠ¹ì • RectTransform(UI ìš”ì†Œ ê¸°ì¤€)ì˜ ë¡œì»¬ ì¢Œí‘œ(Local Space)ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
 
-        // Äµ¹ö½º ³»ºÎ¿¡¼­¸¸ ¿òÁ÷ÀÌµµ·Ï Á¦ÇÑ
+        // ìº”ë²„ìŠ¤ ë‚´ë¶€ì—ì„œë§Œ ì›€ì§ì´ë„ë¡ ì œí•œ
         float clampedX = Mathf.Clamp(mousePos.x, -canvas.rect.width / 2, canvas.rect.width / 2);
         float clampedY = Mathf.Clamp(mousePos.y, -canvas.rect.height / 2, canvas.rect.height / 2);
 

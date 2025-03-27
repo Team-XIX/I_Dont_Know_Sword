@@ -10,11 +10,22 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField] int hp;
     [SerializeField] int attackPower;
 
-    public int Hp { get => hp; set => hp = value; }
+    public int Hp 
+    { 
+        get => hp;
+        set
+        {
+            hp = value;
+            if (hp <= 0)
+            {
+                ChangeState(MonsterState.Dead); // 체력이 0 이하가 되면 즉시 Dead로 변경
+            }
+        }
+    }
     public int AttackPower { get => attackPower; set => attackPower = value; }
 
     [Header("Monster AI")]
-    public MonsterState monsterState;
+    public MonsterState monsterState = MonsterState.Idle;
     public enum MonsterState
     {
         Idle,
@@ -22,13 +33,17 @@ public abstract class MonsterBase : MonoBehaviour
         Attack,// 근접 + 원거리
         Dead
     }
+    public float detectRange;// 플레이어를 감지하는 범위, 거리 밖으로 나가면 target을 null로
+    [SerializeField] protected float moveSpeed;// 이동 속도
+    public PlayerController target;// 플레이어 == 타겟.
     public Animator anim;
-    public TestPlayer target;
+    public Rigidbody2D rb;
     private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM 패턴의 코루틴을 실행하기 위한 딕셔너리.
 
-    private void Start()
+    protected virtual void Start()
     {
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         stateHandlers = new Dictionary<MonsterState, Func<IEnumerator>>()
         {
             {MonsterState.Idle, Idle},
@@ -73,5 +88,11 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void RangePattern()// 원거리 공격 (엘리트 몬스터와 보스 몬스터가 가지고 있는 패턴)
     {
         // 각 몬스터 마다 개별 클라스에서 구현한 여러가지 원거리 공격 패턴을 랜덤으로 실행
+    }
+
+    //
+    public void SetTargetNull()// 플레이어가 다른 방으로 이동시 호출.
+    {
+        target = null;
     }
 }
