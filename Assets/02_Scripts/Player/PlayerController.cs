@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("ÀÌµ¿ ¼³Á¤")]
+    [Header("ì´ë™ ì„¤ì •")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
-    [Header("´ë½Ã ¼³Á¤")]
+    [Header("ëŒ€ì‹œ ì„¤ì •")]
     [SerializeField] private float dashForce = 10f;
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashInvincibilityDuration = 0.15f;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     private bool isInvincible = false;
 
-    [Header("ÂüÁ¶")]
+    [Header("ì°¸ì¡°")]
     [SerializeField] private GameObject mainSprite;
 
     private Collider2D playerCollider;
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    #region ÀÔ·Â Ã³¸®
+    #region ì…ë ¥ ì²˜ë¦¬
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -103,11 +103,11 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î ÀÌµ¿ ½ÇÇà
+    /// í”Œë ˆì´ì–´ ì´ë™ ì‹¤í–‰
     /// </summary>
     private void ApplyMovement()
     {
-        // Player µ¥ÀÌÅÍ ±â´Ù¸®´ÂÁß...
+        // Player ë°ì´í„° ê¸°ë‹¤ë¦¬ëŠ”ì¤‘...
         float currentMoveSpeed = moveSpeed;
 
         if (moveInput != Vector2.zero)
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// ´ë½Ã ½ÇÇà
+    /// ëŒ€ì‹œ ì‹¤í–‰
     /// </summary>
     /// <returns></returns>
     private IEnumerator PerformDash()
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// ´ë½Ã Áß ¹«Àû »óÅÂ Àû¿ë
+    /// ëŒ€ì‹œ ì¤‘ ë¬´ì  ìƒíƒœ ì ìš©
     /// </summary>
     /// <returns></returns>
     private IEnumerator ApplyInvincibility()
@@ -167,16 +167,16 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ¹ß»çÃ¼¸¦ ¹ß»ç
+    /// í”Œë ˆì´ì–´ê°€ ë°œì‚¬ì²´ë¥¼ ë°œì‚¬
     /// </summary>
     private void FireProjectile()
     {
-        // ±¸Çö ¿¹Á¤
+        // êµ¬í˜„ ì˜ˆì •
         // ProjectileSystem.Instance.FireProjectile(transform.position, lastMoveDirection);
     }
 
     /// <summary>
-    /// ¾Ö´Ï¸ŞÀÌ¼Ç »óÅÂ ¾÷µ¥ÀÌÆ®
+    /// ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœ ì—…ë°ì´íŠ¸
     /// </summary>
     private void UpdateAnimationState()
     {
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ¹Ù¶óº¸´Â ¹æÇâÀ» ¾÷µ¥ÀÌÆ®
+    /// í”Œë ˆì´ì–´ì˜ ë°”ë¼ë³´ëŠ” ë°©í–¥ì„ ì—…ë°ì´íŠ¸
     /// </summary>
     /// <param name="facingRight"></param>
     private void UpdateFacingDirection(bool facingRight)
