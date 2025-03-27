@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NormalMonster : MonsterBase
 {
-    [SerializeField] private float maxSearchDistance = 5f; // 너무 멀리 탐색하지 않도록 제한
     [SerializeField] private float attackRange = 1f; // 공격 범위
     int wallLayerMask;
 
