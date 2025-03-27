@@ -18,7 +18,7 @@ public abstract class MonsterBase : MonoBehaviour
             hp = value;
             if (hp <= 0)
             {
-                ChangeState(MonsterState.Dead); // Ã¼·ÂÀÌ 0 ÀÌÇÏ°¡ µÇ¸é Áï½Ã Dead·Î º¯°æ
+                ChangeState(MonsterState.Dead); // ì²´ë ¥ì´ 0 ì´í•˜ê°€ ë˜ë©´ ì¦‰ì‹œ Deadë¡œ ë³€ê²½
             }
         }
     }
@@ -29,21 +29,23 @@ public abstract class MonsterBase : MonoBehaviour
     public enum MonsterState
     {
         Idle,
-        Move,// ÀÌµ¿½Ã(ÀÏ¹İ¸ó½ºÅÍ : ¹«Á¶°Ç ÃßÀûÇü½Ä + °Å¸®µÇ¸é °ø°İ, ¿¤¸®Æ®+º¸½º¸ó½ºÅÍ : Æ¯Á¤ °Å¸® ³»ÀÇ ÀÌµ¿ÇÒ À§Ä¡¸¦ Âï°í ¸¸¾à »çÀÌ¿¡ º®¿¡ ¾ø´Ù¸é ÀÌµ¿ ½ÇÇà => ÀÌÈÄ °ø°İ, º®ÀÌ ÀÖ´Ù¸é Àç±Í·Î ´Ù½Ã ½ÇÇà) 
-        Attack,// ±ÙÁ¢ + ¿ø°Å¸®
+        Move,// ì´ë™ì‹œ(ì¼ë°˜ëª¬ìŠ¤í„° : ë¬´ì¡°ê±´ ì¶”ì í˜•ì‹ + ê±°ë¦¬ë˜ë©´ ê³µê²©, ì—˜ë¦¬íŠ¸+ë³´ìŠ¤ëª¬ìŠ¤í„° : íŠ¹ì • ê±°ë¦¬ ë‚´ì˜ ì´ë™í•  ìœ„ì¹˜ë¥¼ ì°ê³  ë§Œì•½ ì‚¬ì´ì— ë²½ì— ì—†ë‹¤ë©´ ì´ë™ ì‹¤í–‰ => ì´í›„ ê³µê²©, ë²½ì´ ìˆë‹¤ë©´ ì¬ê·€ë¡œ ë‹¤ì‹œ ì‹¤í–‰) 
+        Attack,// ê·¼ì ‘ + ì›ê±°ë¦¬
         Dead
     }
-    public float detectRange;// ÇÃ·¹ÀÌ¾î¸¦ °¨ÁöÇÏ´Â ¹üÀ§, °Å¸® ¹ÛÀ¸·Î ³ª°¡¸é targetÀ» null·Î
-    [SerializeField] protected float moveSpeed;// ÀÌµ¿ ¼Óµµ
-    public PlayerController target;// ÇÃ·¹ÀÌ¾î == Å¸°Ù.
+    public float detectRange;// í”Œë ˆì´ì–´ë¥¼ ê°ì§€í•˜ëŠ” ë²”ìœ„, ê±°ë¦¬ ë°–ìœ¼ë¡œ ë‚˜ê°€ë©´ targetì„ nullë¡œ
+    protected float distanceToWall;// ë²½ê¹Œì§€ì˜ ê±°ë¦¬
+    [SerializeField] protected float moveSpeed;// ì´ë™ ì†ë„
+    public PlayerController target;// í”Œë ˆì´ì–´ == íƒ€ê²Ÿ.
     public Animator anim;
     public Rigidbody2D rb;
-    private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM ÆĞÅÏÀÇ ÄÚ·çÆ¾À» ½ÇÇàÇÏ±â À§ÇÑ µñ¼Å³Ê¸®.
+    private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM íŒ¨í„´ì˜ ì½”ë£¨í‹´ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•œ ë”•ì…”ë„ˆë¦¬.
 
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        distanceToWall = GetComponent<CircleCollider2D>().radius + 0.2f; // ë²½ê¹Œì§€ ë‹¤ê°€ê°ˆ ìˆ˜ ìˆëŠ” ìµœì†Œ ê±°ë¦¬ëŠ” ëª¬ìŠ¤í„°ì˜ ì½œë¼ì´ë”ë³´ë‹¤ ì¡°ê¸ˆ ë” ê¸¸ê²Œ.
         stateHandlers = new Dictionary<MonsterState, Func<IEnumerator>>()
         {
             {MonsterState.Idle, Idle},
@@ -60,14 +62,14 @@ public abstract class MonsterBase : MonoBehaviour
         {
             if (stateHandlers.TryGetValue(monsterState, out var stateRoutine))
             {
-                yield return StartCoroutine(stateRoutine()); // »óÅÂ ½ÇÇà
+                yield return StartCoroutine(stateRoutine()); // ìƒíƒœ ì‹¤í–‰
             }
             yield return null;
         }
     }
     protected void ChangeState(MonsterState newState)
     {
-        if (monsterState == newState) return;// ÇöÀç »óÅÂ¿Í »õ·Î¿î »óÅÂ°¡ °°´Ù¸é ¸®ÅÏ (ºÒÇÊ¿äÇÑ »óÅÂ ÀüÈ¯ ¹æÁö)
+        if (monsterState == newState) return;// í˜„ì¬ ìƒíƒœì™€ ìƒˆë¡œìš´ ìƒíƒœê°€ ê°™ë‹¤ë©´ ë¦¬í„´ (ë¶ˆí•„ìš”í•œ ìƒíƒœ ì „í™˜ ë°©ì§€)
 
         monsterState = newState;
     }
@@ -77,21 +79,21 @@ public abstract class MonsterBase : MonoBehaviour
     protected abstract IEnumerator Dead();
 
 
-    protected virtual void TakeDamage(int damage)// µ¥¹ÌÁö¸¦ ¹Ş´Â ÇÔ¼ö
+    protected virtual void TakeDamage(int damage)// ë°ë¯¸ì§€ë¥¼ ë°›ëŠ” í•¨ìˆ˜
     {
 
     }
-    protected virtual void MeleeAttack()// ±ÙÁ¢ °ø°İ (º¸½º ¸ó½ºÅÍ¸¦ Á¦¿ÜÇÑ ¸ğµç ¸ó½ºÅÍ°¡ °¡Áö°í ÀÖ´Â ÆĞÅÏ)
+    protected virtual void MeleeAttack()// ê·¼ì ‘ ê³µê²© (ë³´ìŠ¤ ëª¬ìŠ¤í„°ë¥¼ ì œì™¸í•œ ëª¨ë“  ëª¬ìŠ¤í„°ê°€ ê°€ì§€ê³  ìˆëŠ” íŒ¨í„´)
     {
 
     }
-    protected virtual void RangePattern()// ¿ø°Å¸® °ø°İ (¿¤¸®Æ® ¸ó½ºÅÍ¿Í º¸½º ¸ó½ºÅÍ°¡ °¡Áö°í ÀÖ´Â ÆĞÅÏ)
+    protected virtual void RangePattern()// ì›ê±°ë¦¬ ê³µê²© (ì—˜ë¦¬íŠ¸ ëª¬ìŠ¤í„°ì™€ ë³´ìŠ¤ ëª¬ìŠ¤í„°ê°€ ê°€ì§€ê³  ìˆëŠ” íŒ¨í„´)
     {
-        // °¢ ¸ó½ºÅÍ ¸¶´Ù °³º° Å¬¶ó½º¿¡¼­ ±¸ÇöÇÑ ¿©·¯°¡Áö ¿ø°Å¸® °ø°İ ÆĞÅÏÀ» ·£´ıÀ¸·Î ½ÇÇà
+        // ê° ëª¬ìŠ¤í„° ë§ˆë‹¤ ê°œë³„ í´ë¼ìŠ¤ì—ì„œ êµ¬í˜„í•œ ì—¬ëŸ¬ê°€ì§€ ì›ê±°ë¦¬ ê³µê²© íŒ¨í„´ì„ ëœë¤ìœ¼ë¡œ ì‹¤í–‰
     }
 
     //
-    public void SetTargetNull()// ÇÃ·¹ÀÌ¾î°¡ ´Ù¸¥ ¹æÀ¸·Î ÀÌµ¿½Ã È£Ãâ.
+    public void SetTargetNull()// í”Œë ˆì´ì–´ê°€ ë‹¤ë¥¸ ë°©ìœ¼ë¡œ ì´ë™ì‹œ í˜¸ì¶œ.
     {
         target = null;
     }

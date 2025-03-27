@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Golem : MonsterBase
+public class NormalMonster : MonsterBase
 {
-    // Flood Fill ¾Ë°í¸®ÁòÀ» »ç¿ëÇÏ¿© º®À» ÇÇÇØ ÀÌµ¿ÇÏµµ·Ï ±¸Çö
-    private Queue<Vector2> pathQueue = new Queue<Vector2>(); // Å½»öÇÒ À§Ä¡ ÀúÀå
-    private HashSet<Vector2> visited = new HashSet<Vector2>(); // ¹æ¹®ÇÑ À§Ä¡
-    [SerializeField] private float maxSearchDistance = 5f; // ³Ê¹« ¸Ö¸® Å½»öÇÏÁö ¾Êµµ·Ï Á¦ÇÑ
-    [SerializeField] private float attackRange = 1f; // °ø°İ ¹üÀ§
+    [SerializeField] private float maxSearchDistance = 5f; // ë„ˆë¬´ ë©€ë¦¬ íƒìƒ‰í•˜ì§€ ì•Šë„ë¡ ì œí•œ
+    [SerializeField] private float attackRange = 1f; // ê³µê²© ë²”ìœ„
     int wallLayerMask;
 
     protected override void Start()
     {
         base.Start();
         wallLayerMask = LayerMask.GetMask("Wall");
-        InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5ÃÊ¸¶´Ù °æ·Î °»½Å
+        InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5ì´ˆë§ˆë‹¤ ê²½ë¡œ ê°±ì‹ 
     }
 
     private void UpdatePath()
@@ -26,24 +23,36 @@ public class Golem : MonsterBase
             return;
         }
 
-        // ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ¿¡ º®ÀÌ ÀÖ´ÂÁö È®ÀÎ
-        if (IsWallBetweenPlayerAndMonster())
+        // ë²½ì´ ë„ˆë¬´ ê°€ê¹Œìš°ë©´ ì´ë™ ì¤‘ì§€
+        if (IsNearWall())
         {
             ChangeState(MonsterState.Idle);
             return;
         }
 
-        FindPath();
+        // í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ì´ë™
+        MoveTo(target.transform.position);
     }
-    private bool IsWallBetweenPlayerAndMonster()
+    private bool IsNearWall()
     {
         Vector2 monsterPos = transform.position;
         Vector2 targetPos = target.transform.position;
 
-        // ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ¿¡ º®ÀÌ ÀÖ´Ù¸é true ¸®ÅÏ
-        return Physics2D.Linecast(monsterPos, targetPos, wallLayerMask);
+        // ëª¬ìŠ¤í„°ì™€ í”Œë ˆì´ì–´ ì‚¬ì´ì— ë²½ì´ ìˆëŠ”ì§€ í™•ì¸
+        if (Physics2D.Linecast(monsterPos, targetPos, wallLayerMask))
+        {
+            // ë²½ê³¼ì˜ ê±°ë¦¬ ê³„ì‚°
+            RaycastHit2D wallHit = Physics2D.Raycast(monsterPos, (targetPos - monsterPos).normalized, detectRange, wallLayerMask);
+            if (wallHit.collider != null && Vector2.Distance(monsterPos, wallHit.point) <= distanceToWall)
+            {
+                return true; // ë²½ì— ë„ˆë¬´ ê°€ê¹Œì›Œì§€ë©´ true
+            }
+        }
+        
+        return false; // ë²½ì´ ì—†ê±°ë‚˜, ë²½ê³¼ ì¶©ë¶„í•œ ê±°ë¦¬ê°€ ìˆë‹¤ë©´ false
     }
 
+    /*
     private void FindPath()
     {
         Debug.Log("FindPath");
@@ -56,15 +65,15 @@ public class Golem : MonsterBase
         pathQueue.Enqueue(start);
         visited.Add(start);
 
-        int searchCount = 0; // Å½»öÇÑ ³ëµå ¼ö Á¦ÇÑ
-        bool pathFound = false; // °æ·Î¸¦ Ã£¾Ò´ÂÁö È®ÀÎ
+        int searchCount = 0; // íƒìƒ‰í•œ ë…¸ë“œ ìˆ˜ ì œí•œ
+        bool pathFound = false; // ê²½ë¡œë¥¼ ì°¾ì•˜ëŠ”ì§€ í™•ì¸
 
         while (pathQueue.Count > 0)
         {
             Vector2 current = pathQueue.Dequeue();
             searchCount++;
 
-            if (searchCount > maxSearchDistance) break; // ³Ê¹« ¸¹Àº °÷ Å½»ö ¹æÁö
+            if (searchCount > maxSearchDistance) break; // ë„ˆë¬´ ë§ì€ ê³³ íƒìƒ‰ ë°©ì§€
 
             List<Vector2> nextPositions = GetNeighborPositions(current);
             foreach (Vector2 next in nextPositions)
@@ -76,7 +85,7 @@ public class Golem : MonsterBase
 
                     if (Vector2.Distance(next, targetPos) < 1.5f && !Physics2D.Linecast(current, next, wallLayerMask))
                     {
-                        // °æ·Î Ã£À¸¸é
+                        // ê²½ë¡œ ì°¾ìœ¼ë©´
                         pathFound = true;
                         MoveTo(next);
                         return;
@@ -87,7 +96,7 @@ public class Golem : MonsterBase
 
         if (!pathFound)
         {
-            // °æ·Î¸¦ Ã£Áö ¸øÇÏ¸é Idle »óÅÂ·Î º¯°æ
+            // ê²½ë¡œë¥¼ ì°¾ì§€ ëª»í•˜ë©´ Idle ìƒíƒœë¡œ ë³€ê²½
             ChangeState(MonsterState.Idle);
         }
     }
@@ -101,22 +110,28 @@ public class Golem : MonsterBase
         current + Vector2.right
     };
     }
+    */// flood fill ì•Œê³ ë¦¬ì¦˜ íê¸°.Raycasting ë°©ì‹ìœ¼ë¡œ ë³€ê²½.
+
     private void MoveTo(Vector2 targetPos)
     {
         Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
         float moveDistance = moveSpeed * Time.deltaTime;
         Vector2 nextPosition = (Vector2)transform.position + direction * moveDistance;
 
-        // º®°ú Ãæµ¹ Ã¼Å© (´ÙÀ½ À§Ä¡°¡ º®ÀÎÁö È®ÀÎ)
-        if (!Physics2D.OverlapCircle(nextPosition, 0.2f, wallLayerMask))
+        // ë²½ê³¼ì˜ ê±°ë¦¬ ê³„ì‚°
+        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, direction, moveDistance + 0.6f, wallLayerMask);
+
+        if (wallHit.collider != null)
         {
-            transform.position = nextPosition; // º®ÀÌ ¾øÀ¸¸é ÀÌµ¿
+            // ë²½ê³¼ì˜ ê±°ë¦¬ê°€ 0.6 ì´í•˜ì´ë©´ ì´ë™í•˜ì§€ ì•ŠìŒ
+            if (Vector2.Distance(transform.position, wallHit.point) <= distanceToWall)
+            {
+                return; // ì´ë™í•˜ì§€ ì•ŠìŒ
+            }
         }
-        else
-        {
-            // º®¿¡ ¸·ÇûÀ¸¸é °æ·Î ´Ù½Ã Å½»ö
-            FindPath();
-        }
+
+        // ë²½ì´ ì—†ê±°ë‚˜ ì¶©ë¶„í•œ ê±°ë¦¬ê°€ ìˆìœ¼ë©´ ì´ë™
+        transform.position = nextPosition;
     }
 
     protected override IEnumerator Idle()
@@ -125,8 +140,8 @@ public class Golem : MonsterBase
         {
             if (target != null && Vector2.Distance(transform.position, target.transform.position) < detectRange)
             {
-                // º®ÀÌ ¾øÀ¸¸é ´Ù½Ã Move »óÅÂ·Î ÀüÈ¯
-                if (!IsWallBetweenPlayerAndMonster())
+                // ë²½ì´ ì—†ìœ¼ë©´ ë‹¤ì‹œ Move ìƒíƒœë¡œ ì „í™˜
+                if (!IsNearWall())
                 {
                     ChangeState(MonsterState.Move);
                 }
@@ -135,27 +150,36 @@ public class Golem : MonsterBase
         }
     }
 
-    protected override IEnumerator Move()// ÇÃ·¹ÀÌ¾î ÃßÀû + °Å¸®°¡ µÇ¸é Attack »óÅÂ·Î º¯°æ
+    protected override IEnumerator Move()// í”Œë ˆì´ì–´ ì¶”ì  + ê±°ë¦¬ê°€ ë˜ë©´ Attack ìƒíƒœë¡œ ë³€ê²½
     {
         while (monsterState == MonsterState.Move)
         {
-            if(target == null)// ÇÃ·¹ÀÌ¾î°¡ °Å¸® ¹ÛÀ¸·Î ¹ş¾î³ª¸é targetÀ» null·Î º¯°æ.
+            if (target == null)
             {
                 ChangeState(MonsterState.Idle);
                 yield break;
             }
-            if(Vector2.Distance(transform.position, target.transform.position) < attackRange)
+
+            if (Vector2.Distance(transform.position, target.transform.position) < attackRange)
             {
                 ChangeState(MonsterState.Attack);
                 yield break;
             }
-            // À§ Á¶°Ç¿¡ ÇØ´çÇÏÁö ¾ÊÀ¸¸é TargetÀ» ÇâÇØ ÀÌµ¿
+
+            // ë²½ì— ë„ˆë¬´ ê°€ê¹Œì›Œì¡Œë‹¤ë©´ ë©ˆì¶”ê³  Idle ìƒíƒœë¡œ ë³€ê²½
+            if (IsNearWall())
+            {
+                ChangeState(MonsterState.Idle);
+                yield break;
+            }
+
+            // í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ì´ë™
             MoveTo(target.transform.position);
             yield return null;
         }
     }
 
-    protected override IEnumerator Attack()// ÇÃ·¹ÀÌ¾îÀÇ ¹æÇâÀ¸·Î °ø°İ ½ÇÇà
+    protected override IEnumerator Attack()// í”Œë ˆì´ì–´ì˜ ë°©í–¥ìœ¼ë¡œ ê³µê²© ì‹¤í–‰
     {
         while (monsterState == MonsterState.Attack)
         {
