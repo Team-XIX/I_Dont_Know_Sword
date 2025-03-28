@@ -275,11 +275,40 @@ MonoBehaviour:
   target: {fileID: 2064793292}
   smoothSpeed: 1
   followThreshold: 0
+--- !u!1 &1888802226 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7811795166722742393, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+  m_PrefabInstance: {fileID: 2205411825643489379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2064793292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 419269854390199679, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
   m_PrefabInstance: {fileID: 2205411825643489379}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2064793297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888802226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a402e94bd351c4d828b8d41492d3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 3
+  _attackPower: 10
+  _moveSpeed: 5
+  _currentHealth: 0
+  _attackSpeed: 1
+  _spreadAngle: 0
+  _multiAngle: 0
+  _projectileSize: 1
+  _projectileSpeed: 0
+  _projectileRange: 0
+  _reflectionCount: 0
+  _penetrationCount: 0
 --- !u!1001 &2205411825643489379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -339,7 +368,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7811795166722742393, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2064793297}
   m_SourcePrefab: {fileID: 100100000, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

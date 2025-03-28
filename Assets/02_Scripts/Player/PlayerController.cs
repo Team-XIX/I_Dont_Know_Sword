@@ -58,6 +58,14 @@ public class PlayerController : MonoBehaviour
         isDashingHash = Animator.StringToHash("isDashing");
     }
 
+    void Start()
+    {
+        if (StatHandler.Instance != null)
+        {
+            moveSpeed = StatHandler.Instance.MoveSpeed;
+        }
+    }
+
     void Update()
     {
         UpdateAnimationState();
@@ -107,8 +115,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ApplyMovement()
     {
-        // Player 데이터 기다리는중...
-        float currentMoveSpeed = moveSpeed;
+        float currentMoveSpeed = StatHandler.Instance != null ? StatHandler.Instance.MoveSpeed : moveSpeed;
 
         if (moveInput != Vector2.zero)
         {
@@ -137,6 +144,7 @@ public class PlayerController : MonoBehaviour
 
         Vector2 dashDirection = moveInput != Vector2.zero ? moveInput.normalized : lastMoveDirection;
 
+        dashForce = StatHandler.Instance != null ? StatHandler.Instance.MoveSpeed * 1.5f : moveSpeed * 1.5f;
         rb.velocity = dashDirection * dashForce;
         StartCoroutine(ApplyInvincibility());
         yield return dashDurationWait;
