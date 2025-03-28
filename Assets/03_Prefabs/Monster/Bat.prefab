@@ -187,7 +187,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1094689825, guid: 19a923558fbfde74aa2a3a62dfc9b744, type: 3}
+  m_Sprite: {fileID: 1090062625, guid: c25413fffdf18964b9dfb93c769e7b39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -235,7 +235,7 @@ Animator:
   m_GameObject: {fileID: 3554995128976348016}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b376bde7bfb14b44891f9a9099ae4ca4, type: 2}
+  m_Controller: {fileID: 9100000, guid: c19ec83802610d94d951131d182a7671, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -262,11 +262,13 @@ MonoBehaviour:
   attackPower: 1
   attackSpeed: 1.5
   monsterState: 0
-  detectRange: 7.5
-  moveSpeed: 2
+  detectRange: 10
+  moveSpeed: 3
   target: {fileID: 0}
   anim: {fileID: 0}
   rb: {fileID: 0}
+  monsterData: {fileID: 11400000, guid: f34ca8023516e1647b5a27093a79a14d, type: 2}
+  isLookRight: 0
   attackRange: 1.5
 --- !u!58 &6220810487378068659
 CircleCollider2D:
@@ -300,6 +302,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.45}
+  m_Offset: {x: 0, y: -0.24}
   serializedVersion: 2
   m_Radius: 0.6

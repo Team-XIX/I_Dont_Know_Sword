@@ -469,6 +469,10 @@ PrefabInstance:
       propertyPath: isLookRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3422166432753352795, guid: b52811b0a35cd8340b0929097af3f4ba, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6024066050384364e92341b6c5bfd895, type: 2}
     - target: {fileID: 3532203694939129993, guid: b52811b0a35cd8340b0929097af3f4ba, type: 3}
       propertyPath: m_BodyType
       value: 1
@@ -476,10 +480,6 @@ PrefabInstance:
     - target: {fileID: 4511793695123066855, guid: b52811b0a35cd8340b0929097af3f4ba, type: 3}
       propertyPath: m_Name
       value: Golem2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8503668604678940634, guid: b52811b0a35cd8340b0929097af3f4ba, type: 3}
-      propertyPath: m_FlipX
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8503668604678940634, guid: b52811b0a35cd8340b0929097af3f4ba, type: 3}
       propertyPath: m_Sprite
@@ -603,7 +603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6167022531585226619, guid: e851a3816f8b51e41b90d0ee34038b66, type: 3}
       propertyPath: m_Name
-      value: Golem
+      value: Golem1
       objectReference: {fileID: 0}
     - target: {fileID: 6875309452261538172, guid: e851a3816f8b51e41b90d0ee34038b66, type: 3}
       propertyPath: m_Sprite
@@ -661,6 +661,10 @@ PrefabInstance:
       propertyPath: isLookRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8873891674550234000, guid: e851a3816f8b51e41b90d0ee34038b66, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: c8b15cb5518873d45b79604f3bfe7d10, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -686,18 +690,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1090062625, guid: c25413fffdf18964b9dfb93c769e7b39, type: 3}
-    - target: {fileID: 4136204143989903630, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4136204143989903630, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4136204143989903630, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6220810487378068659, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
       propertyPath: m_Offset.y
       value: -0.24
@@ -750,6 +742,10 @@ PrefabInstance:
       propertyPath: detectRange
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8869052188629335775, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: f34ca8023516e1647b5a27093a79a14d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

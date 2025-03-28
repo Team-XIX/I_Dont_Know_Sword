@@ -10,6 +10,8 @@ public class NormalMonster : MonsterBase
     protected override void Start()
     {
         base.Start();
+        if(monsterData != null)
+            attackRange = monsterData.attackRange;
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
     }

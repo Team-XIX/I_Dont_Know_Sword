@@ -45,6 +45,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM 패턴의 코루틴을 실행하기 위한 딕셔너리.
 
     [Header("Monster etc")]
+    [SerializeField] protected MonsterData monsterData;
     SpriteRenderer spriteRenderer;
     Color originalColor;
     bool isBlinking = false;// 피격시 깜빡임
@@ -62,6 +63,14 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     }
     protected virtual void Start()
     {
+        if(monsterData != null)
+        {
+            Hp = monsterData.maxHp;
+            attackPower = monsterData.attackPower;
+            attackSpeed = monsterData.attackSpeed;
+            detectRange = monsterData.detectRange;
+            moveSpeed = monsterData.moveSpeed;
+        }   // 데이터 초기화.
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();

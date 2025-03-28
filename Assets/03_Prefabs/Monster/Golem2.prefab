@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 552906876, guid: c57e06fcc0f9eee40a65cde275b29842, type: 3}
+  m_Sprite: {fileID: 1094689825, guid: 19a923558fbfde74aa2a3a62dfc9b744, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4511793695123066855}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -126,7 +126,7 @@ Animator:
   m_GameObject: {fileID: 4511793695123066855}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bca49295b8ea1454fb5cfa85d0558375, type: 2}
+  m_Controller: {fileID: 9100000, guid: b376bde7bfb14b44891f9a9099ae4ca4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -151,13 +151,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   attackPower: 1
+  attackSpeed: 1.5
   monsterState: 0
-  detectRange: 5
+  detectRange: 7.5
   moveSpeed: 2
   target: {fileID: 0}
   anim: {fileID: 0}
   rb: {fileID: 0}
-  attackRange: 1
+  monsterData: {fileID: 11400000, guid: 6024066050384364e92341b6c5bfd895, type: 2}
+  isLookRight: 1
+  attackRange: 1.5
 --- !u!58 &5568594336752619909
 CircleCollider2D:
   m_ObjectHideFlags: 0
