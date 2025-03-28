@@ -135,6 +135,15 @@ public class NormalMonster : MonsterBase
 
     protected override IEnumerator Idle()
     {
+        var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (curAnimStateInfo.IsName("Idle") == false)
+        {
+            anim.Play("Idle", 0, 0);
+            yield return null;
+        }
+            anim.Play("Idle", 0, 0);
+
         while (monsterState == MonsterState.Idle)
         {
             if (target != null && Vector2.Distance(transform.position, target.transform.position) < detectRange)
@@ -148,17 +157,28 @@ public class NormalMonster : MonsterBase
             yield return null;
         }
     }
-
     protected override IEnumerator Move()// 플레이어 추적 + 거리가 되면 Attack 상태로 변경
     {
+        var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (curAnimStateInfo.IsName("Move") == false)
+        {
+            anim.Play("Move", 0, 0);
+            yield return null;
+        }
+
         while (monsterState == MonsterState.Move)
         {
+            // 타겟 체킹
             if (target == null)
             {
                 ChangeState(MonsterState.Idle);
                 yield break;
             }
+            // 플레이어의 위치에 따른 스프라이트 x flip 조정
+            this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x < transform.position.x;
 
+            // 공격 범위 내에 들어오면 Attack 상태로 변경
             if (Vector2.Distance(transform.position, target.transform.position) < attackRange)
             {
                 ChangeState(MonsterState.Attack);
@@ -177,22 +197,56 @@ public class NormalMonster : MonsterBase
             yield return null;
         }
     }
-
     protected override IEnumerator Attack()// 플레이어의 방향으로 공격 실행
     {
-        while (monsterState == MonsterState.Attack)
+        var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (curAnimStateInfo.IsName("Attack") == false)
         {
-            Debug.Log("Attack");
+            anim.Play("Attack", 0, 0);
+            yield return null;
+            curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
+        }
+
+        // 애니메이션이 끝날 때까지 기다림 (attack 애니메이션 도중에 move로 변경 방지)
+        while (curAnimStateInfo.normalizedTime < 1.0f)
+        {
+            // 애니메이션 진행도를 계속 갱신
+            curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            //진행 중에는 상태변경 대기.
             yield return null;
         }
+        // while문이 끝나게 되면 상태 변경 조건 확인.
+        if (Vector2.Distance(transform.position, target.transform.position) >= attackRange)// 타겟이 공격 범위 밖에 있으면 Move 상태로 변경.
+        {
+            ChangeState(MonsterState.Move);
+        }
+        else// 타겟이 아직 공격 범위 안에 있으면 공격 속도만큼 대기 후 다시 공격.
+        {
+            yield return new WaitForSeconds(curAnimStateInfo.length * AttackSpeed); // 살짝 대기 후 다시 공격
+            ChangeState(MonsterState.Attack);
+        }
     }
-
     protected override IEnumerator Dead()
     {
+        var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        if (curAnimStateInfo.IsName("Dead") == false)
+        {
+            anim.Play("Dead", 0, 0);
+            yield return null;
+        }
+
         while (monsterState == MonsterState.Dead)
         {
             Debug.Log("Dead");
             yield return null;
         }
+    }
+
+    public void AnimEventAttack()// 애니메이션 이벤트를 통해 호출할 실제 공격 함수.
+    {
+        if(Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
+            Debug.Log("Attack");
     }
 }

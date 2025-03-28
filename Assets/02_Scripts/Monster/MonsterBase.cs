@@ -9,6 +9,7 @@ public abstract class MonsterBase : MonoBehaviour
     [Header("Monster Stats")]
     [SerializeField] int hp;
     [SerializeField] int attackPower;
+    [SerializeField] float attackSpeed = 1.5f;
 
     public int Hp 
     { 
@@ -23,6 +24,7 @@ public abstract class MonsterBase : MonoBehaviour
         }
     }
     public int AttackPower { get => attackPower; set => attackPower = value; }
+    public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
 
     [Header("Monster AI")]
     public MonsterState monsterState = MonsterState.Idle;
