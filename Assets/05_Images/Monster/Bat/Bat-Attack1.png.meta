@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: efcdd1603e067754bb1152cc904dfe7b
+guid: b9615aad3465bf24ca04118a29bacc9d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,12 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Golem_1_walk_0
+      name: Bat-Attack1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,19 +137,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c312bd7daf797b4d99f9cbfd109f973
-      internalID: -546899547
+      spriteID: ee48bbc3edff05d48aa06bfbb73ac7d3
+      internalID: -1931115525
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_1
+      name: Bat-Attack1_1
       rect:
         serializedVersion: 2
-        x: 90
+        x: 64
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,19 +158,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9394e86d269267a46a339aea974f33da
-      internalID: 511721120
+      spriteID: a45d998f89c6c5d4d8833d83f944add1
+      internalID: -695776628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_2
+      name: Bat-Attack1_2
       rect:
         serializedVersion: 2
-        x: 180
+        x: 128
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,19 +179,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14e823ac8f8d531408eea6a42407b53c
-      internalID: -1079436225
+      spriteID: 6f43ab1aa78f2aa4080b2db361b51530
+      internalID: 1531563314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_3
+      name: Bat-Attack1_3
       rect:
         serializedVersion: 2
-        x: 270
+        x: 192
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,19 +200,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f648d1c34395ee4dadb4370c8e55b05
-      internalID: -890350786
+      spriteID: 36d0ffdb6708ded429e56f2efc1e51e2
+      internalID: 1870775340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_4
+      name: Bat-Attack1_4
       rect:
         serializedVersion: 2
-        x: 360
+        x: 256
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -221,19 +221,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a67306da981c8d4284d9ff3c6fd7910
-      internalID: 521613660
+      spriteID: caf884fbfb575fa4ba60fb1aad760e42
+      internalID: 1958396742
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_5
+      name: Bat-Attack1_5
       rect:
         serializedVersion: 2
-        x: 450
+        x: 320
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -242,19 +242,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29504643843f94e44840d999babc51fb
-      internalID: 98986893
+      spriteID: db636ebd9bbff8847a56c8a6e25cb744
+      internalID: -804231307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_6
+      name: Bat-Attack1_6
       rect:
         serializedVersion: 2
-        x: 540
+        x: 384
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -263,19 +263,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6b3d383749f2e945b541531bada9a13
-      internalID: 259740527
+      spriteID: 51f8b6f21085e11418df9bf8f059016d
+      internalID: 1958223378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_1_walk_7
+      name: Bat-Attack1_7
       rect:
         serializedVersion: 2
-        x: 630
+        x: 448
         y: 0
-        width: 90
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -284,50 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a368e5b2da65644292dd9cd0e3c725e
-      internalID: 1804980385
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_1_walk_8
-      rect:
-        serializedVersion: 2
-        x: 720
-        y: 0
-        width: 90
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 16885f6ff7ae96345bbd57b172f5ad63
-      internalID: -732735372
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_1_walk_9
-      rect:
-        serializedVersion: 2
-        x: 810
-        y: 0
-        width: 90
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1c209501f13c83e418a1203790c8baec
-      internalID: 1176598566
+      spriteID: 9a0242b27f2c08b4e813bcb4532cdddc
+      internalID: 1489740625
       vertices: []
       indices: 
       edges: []
@@ -343,16 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Golem_1_walk_0: -546899547
-      Golem_1_walk_1: 511721120
-      Golem_1_walk_2: -1079436225
-      Golem_1_walk_3: -890350786
-      Golem_1_walk_4: 521613660
-      Golem_1_walk_5: 98986893
-      Golem_1_walk_6: 259740527
-      Golem_1_walk_7: 1804980385
-      Golem_1_walk_8: -732735372
-      Golem_1_walk_9: 1176598566
+      Bat-Attack1_0: -1931115525
+      Bat-Attack1_1: -695776628
+      Bat-Attack1_2: 1531563314
+      Bat-Attack1_3: 1870775340
+      Bat-Attack1_4: 1958396742
+      Bat-Attack1_5: -804231307
+      Bat-Attack1_6: 1958223378
+      Bat-Attack1_7: 1489740625
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
