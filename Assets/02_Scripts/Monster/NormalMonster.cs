@@ -175,8 +175,11 @@ public class NormalMonster : MonsterBase
                 ChangeState(MonsterState.Idle);
                 yield break;
             }
-            // 플레이어의 위치에 따른 스프라이트 x flip 조정
-            this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x < transform.position.x;
+            // 플레이어의 위치에 따른 스프라이트 x flip 조정 (오리지널 스프라이트 기준 if else 처리)
+            if(isLookRight)
+                this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x < transform.position.x;
+            else
+                this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x > transform.position.x;
 
             // 공격 범위 내에 들어오면 Attack 상태로 변경
             if (Vector2.Distance(transform.position, target.transform.position) < attackRange)

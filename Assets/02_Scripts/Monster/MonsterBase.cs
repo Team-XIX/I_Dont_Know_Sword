@@ -48,6 +48,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     SpriteRenderer spriteRenderer;
     Color originalColor;
     bool isBlinking = false;// 피격시 깜빡임
+    [SerializeField] protected bool isLookRight = false;// 오리지널 스프라이트의 바라보는 방향값.
 
     private void Update()
     {
