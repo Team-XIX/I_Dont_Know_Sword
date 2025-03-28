@@ -6,8 +6,8 @@ public class FollowCamera : MonoBehaviour
 {
     public Transform target;
     float offsetX, offsetY;
-    public float smoothSpeed = 0.75f; // Ä«¸Ş¶ó ÀÌµ¿ ¼Óµµ
-    public float followThreshold = 2.0f; // Å¸°Ù°ú Ä«¸Ş¶óÀÇ °Å¸® ÀÓ°è°ª
+    public float smoothSpeed = 0.75f; // ì¹´ë©”ë¼ ì´ë™ ì†ë„
+    public float followThreshold = 2.0f; // íƒ€ê²Ÿê³¼ ì¹´ë©”ë¼ì˜ ê±°ë¦¬ ì„ê³„ê°’
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class FollowCamera : MonoBehaviour
     }
 
     /// <summary>
-    /// Ä«¸Ş¶ó°¡ ºÎµå·´°Ô ¿òÁ÷ÀÌ´Â ¿¬Ãâ
+    /// ì¹´ë©”ë¼ê°€ ë¶€ë“œëŸ½ê²Œ ì›€ì§ì´ëŠ” ì—°ì¶œ
     /// </summary>
     private void LateUpdate()
     {
@@ -27,13 +27,13 @@ public class FollowCamera : MonoBehaviour
         Vector3 desiredPosition = new Vector3(target.position.x + offsetX, target.position.y + offsetY, transform.position.z);
         float distance = Vector3.Distance(transform.position, desiredPosition);
 
-        if (distance > followThreshold) // target°ú Ä«¸Ş¶ó Áß½ÉÀÇ °Å¸®°¡ ¸Ö¾îÁö¸é
+        if (distance > followThreshold) // targetê³¼ ì¹´ë©”ë¼ ì¤‘ì‹¬ì˜ ê±°ë¦¬ê°€ ë©€ì–´ì§€ë©´
         {
-            float dynamicSmoothSpeed = smoothSpeed * (distance / followThreshold); // °Å¸® ºñ·Ê ¼Óµµ Á¶Àı(¸Ö¼ö·Ï »¡¶óÁø´Ù)
+            float dynamicSmoothSpeed = smoothSpeed * (distance / followThreshold); // ê±°ë¦¬ ë¹„ë¡€ ì†ë„ ì¡°ì ˆ(ë©€ìˆ˜ë¡ ë¹¨ë¼ì§„ë‹¤)
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, dynamicSmoothSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
         }
-        else // µÎ °³Ã¼ °£ÀÇ °Å¸®°¡ °¡±î¿ï ¶§ (º¸Åë ÇÃ·¹ÀÌ¾î°¡ ¸ØÃç ÀÖÀ» ¶§)
+        else // ë‘ ê°œì²´ ê°„ì˜ ê±°ë¦¬ê°€ ê°€ê¹Œìš¸ ë•Œ (ë³´í†µ í”Œë ˆì´ì–´ê°€ ë©ˆì¶° ìˆì„ ë•Œ)
         {
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
