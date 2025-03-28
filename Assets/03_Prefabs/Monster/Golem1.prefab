@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 8873891674550234000}
   - component: {fileID: 4519705267185327964}
   m_Layer: 0
-  m_Name: Golem
+  m_Name: Golem1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2040847393, guid: d360226b122de0d47b486ea7a037e2a0, type: 3}
+  m_Sprite: {fileID: 552906876, guid: c57e06fcc0f9eee40a65cde275b29842, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -206,7 +206,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6167022531585226619}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -235,7 +235,7 @@ Animator:
   m_GameObject: {fileID: 6167022531585226619}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bca49295b8ea1454fb5cfa85d0558375, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -260,14 +260,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   attackPower: 1
+  attackSpeed: 1.5
   monsterState: 0
-  detectRange: 5
+  detectRange: 7.5
   moveSpeed: 2
   target: {fileID: 0}
   anim: {fileID: 0}
   rb: {fileID: 0}
-  maxSearchDistance: 5
-  attackRange: 1
+  monsterData: {fileID: 11400000, guid: c8b15cb5518873d45b79604f3bfe7d10, type: 2}
+  isLookRight: 1
+  attackRange: 1.5
 --- !u!58 &4519705267185327964
 CircleCollider2D:
   m_ObjectHideFlags: 0
