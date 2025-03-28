@@ -14,7 +14,7 @@ public class SceneHandler : MonoBehaviour
         if (targetButton != null)
             targetButton.onClick.AddListener(() => StartCoroutine(ChangeScene()));
     }
- IEnumerator ChangeScene()
+    IEnumerator ChangeScene()
     {
         if(audioSource != null && clickSound != null)
         {
