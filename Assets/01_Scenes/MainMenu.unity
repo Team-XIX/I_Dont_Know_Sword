@@ -399,7 +399,7 @@ RectTransform:
   m_Father: {fileID: 2132310464}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -847,7 +847,7 @@ MonoBehaviour:
   targetButton: {fileID: 610289693}
   buttonText: {fileID: 550461619}
   clickedColor: {r: 0.46226418, g: 0.45572272, b: 0.45572272, a: 1}
-  cursorSound: {fileID: 0}
+  cursorSound: {fileID: 8300000, guid: f3190dc7efe05bb4eab33f442fb19251, type: 3}
 --- !u!114 &610289697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,7 +1197,7 @@ RectTransform:
   m_Father: {fileID: 70401762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1512,7 +1512,7 @@ RectTransform:
   m_Father: {fileID: 1043386624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1778,7 +1778,7 @@ RectTransform:
   m_Father: {fileID: 1844072922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2286,7 +2286,7 @@ MonoBehaviour:
   targetButton: {fileID: 1806064547}
   buttonText: {fileID: 775646620}
   clickedColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
-  cursorSound: {fileID: 0}
+  cursorSound: {fileID: 8300000, guid: f3190dc7efe05bb4eab33f442fb19251, type: 3}
 --- !u!82 &1806064551
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2632,7 +2632,7 @@ MonoBehaviour:
   targetButton: {fileID: 1853164949}
   buttonText: {fileID: 578145411}
   clickedColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
-  cursorSound: {fileID: 0}
+  cursorSound: {fileID: 8300000, guid: f3190dc7efe05bb4eab33f442fb19251, type: 3}
 --- !u!82 &1853164953
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2787,7 +2787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3920896388820249245, guid: eedc3f724949a7b47a1ff8b734879624, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4688370589346720301, guid: eedc3f724949a7b47a1ff8b734879624, type: 3}
       propertyPath: m_Pivot.x
