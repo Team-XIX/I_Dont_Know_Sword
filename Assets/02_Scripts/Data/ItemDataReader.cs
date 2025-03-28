@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using GoogleSheetsToUnity;
 using System.Collections.Generic;
 using System;
@@ -9,13 +9,13 @@ using UnityEditor;
 #endif
 
 [Serializable]
-public struct ItemData
+public struct sItemData
 {
     public int id;
     public string name;
     [TextArea] public string description;
 
-    public ItemData(int id, string name, string description)
+    public sItemData(int id, string name, string description)
     {
         this.id = id;
         this.name = name;
@@ -28,7 +28,7 @@ public struct ItemData
 public class ItemDataReader : DataReaderBase
 {
     //시트에서 데이터를 읽으면 이 리스트에 저장됩니다.
-    [Header("스프레드시트에서 읽혀져 직렬화 된 오브젝트")][SerializeField] public List<ItemData> DataList = new List<ItemData>();
+    [Header("스프레드시트에서 읽혀져 직렬화 된 오브젝트")][SerializeField] public List<sItemData> DataList = new List<sItemData>();
 
     //가장 핵심이 되는 코드로, 각 행을 읽을때마다 데이터를 저장하기위해 구조체를 생성하고, 리스트에 삽입합니다.
     //case "id"는 스프레드 시트의 열이름이 되며, 해당 열 이름이 "id"인경우 구조체의 id의 변수에 삽입되도록 하는 구조입니다.
@@ -59,7 +59,7 @@ public class ItemDataReader : DataReaderBase
             }
         }
 
-        DataList.Add(new ItemData(id, name, description));
+        DataList.Add(new sItemData(id, name, description));
     }
 }
 

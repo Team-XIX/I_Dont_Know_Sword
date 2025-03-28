@@ -28,8 +28,8 @@ public class ItemList
 
 public class GoogleSheetToJson : MonoBehaviour
 {
-    // ±¸±Û ½ºÇÁ·¹µå½ÃÆ® CSV ¸µÅ© ("½ºÇÁ·¹µå½ÃÆ®ID"¸¦ º»ÀÎÀÇ ID·Î º¯°æ)
-    private string googleSheetUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=2005723570";
+    // êµ¬ê¸€ ìŠ¤í”„ë ˆë“œì‹œíŠ¸ CSV ë§í¬ ("ìŠ¤í”„ë ˆë“œì‹œíŠ¸ID"ë¥¼ ë³¸ì¸ì˜ IDë¡œ ë³€ê²½)
+    private string googleSheetUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1249418767";
 
     void Start()
     {
@@ -44,22 +44,22 @@ public class GoogleSheetToJson : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("µ¥ÀÌÅÍ °¡Á®¿À±â ¼º°ø!");
+            Debug.Log("ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ì„±ê³µ!");
             string csvData = request.downloadHandler.text;
             Debug.Log(csvData);
             csvData = csvData.Replace("\"","");
             //"\"0\""
             string jsonData = ConvertCsvToJson(csvData);
 
-            // JSON ÀúÀå
+            // JSON ì €ì¥
             string path = Path.Combine(Application.persistentDataPath, "data.json");
             File.WriteAllText(path, jsonData);
 
-            Debug.Log("JSON ÀúÀå ¿Ï·á: " + path);
+            Debug.Log("JSON ì €ì¥ ì™„ë£Œ: " + path);
         }
         else
         {
-            Debug.LogError("¿¡·¯: " + request.error);
+            Debug.LogError("ì—ëŸ¬: " + request.error);
         }
     }
 
@@ -68,17 +68,17 @@ public class GoogleSheetToJson : MonoBehaviour
         string[] lines = csv.Split('\n');
         if (lines.Length <= 1) return "{}";
 
-        // Çì´õ ÃßÃâ
+        // í—¤ë” ì¶”ì¶œ
         string[] headers = lines[0].Trim().Split(',');
 
-        // ¾ÆÀÌÅÛ ¸®½ºÆ® »ı¼º
+        // ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ ìƒì„±
         ItemList itemList = new ItemList();
         
-        // µ¥ÀÌÅÍ ÆÄ½Ì
+        // ë°ì´í„° íŒŒì‹±
         for (int i = 1; i < lines.Length; i++)
         {
             string[] values = lines[i].Trim().Split(',');
-            //Çì´õ¿Í µ¥ÀÌÅÍÀÇ ±æÀÌ°¡ °°ÀºÁö °Ë»ç
+            //í—¤ë”ì™€ ë°ì´í„°ì˜ ê¸¸ì´ê°€ ê°™ì€ì§€ ê²€ì‚¬
             if (values.Length != headers.Length) continue;
 
             Item item = new(int.Parse(values[0]), values[1], int.Parse(values[2]));
@@ -86,6 +86,6 @@ public class GoogleSheetToJson : MonoBehaviour
             itemList.items.Add(item);
         }
 
-        return JsonUtility.ToJson(itemList, true); // Æ÷¸ËÆÃµÈ JSON ¹İÈ¯
+        return JsonUtility.ToJson(itemList, true); // í¬ë§·íŒ…ëœ JSON ë°˜í™˜
     }
 }
