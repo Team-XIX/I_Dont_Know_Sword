@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class MonsterBase : MonoBehaviour
+public abstract class MonsterBase : MonoBehaviour, IDamageable
 {
     [Header("Monster Stats")]
     [SerializeField] int hp;
@@ -16,7 +16,7 @@ public abstract class MonsterBase : MonoBehaviour
         set
         {
             hp = value;
-            if (hp <= 0)
+            if (hp <= 0)// set을 호출해주는 시점에 체킹.
             {
                 StopAllCoroutines();
                 ChangeState(MonsterState.Dead); // 체력이 0 이하가 되면 즉시 Dead로 변경
@@ -44,6 +44,17 @@ public abstract class MonsterBase : MonoBehaviour
     public Rigidbody2D rb;
     private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM 패턴의 코루틴을 실행하기 위한 딕셔너리.
 
+    [Header("Monster etc")]
+    SpriteRenderer spriteRenderer;
+    Color originalColor;
+    bool isBlinking = false;// 피격시 깜빡임
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.N))
+            TakeDamage(2);
+    }
+
     private void OnEnable()
     {
         monsterState = MonsterState.Idle;// 상태 초기화.
@@ -52,6 +63,8 @@ public abstract class MonsterBase : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
         distanceToWall = GetComponent<CircleCollider2D>().radius + 0.2f; // 벽까지 다가갈 수 있는 최소 거리는 몬스터의 콜라이더보다 조금 더 길게.
         stateHandlers = new Dictionary<MonsterState, Func<IEnumerator>>()
         {
@@ -86,9 +99,13 @@ public abstract class MonsterBase : MonoBehaviour
     protected abstract IEnumerator Dead();
 
 
-    protected virtual void TakeDamage(int damage)// 데미지를 받는 함수
+    public virtual void TakeDamage(int damage)// 데미지를 받는 함수
     {
-
+        Hp -= damage;
+        if(!isBlinking)
+        {
+            StartCoroutine(BlinkEffect());
+        }
     }
     protected virtual void MeleeAttack()// 근접 공격 (보스 몬스터를 제외한 모든 몬스터가 가지고 있는 패턴)
     {
@@ -103,5 +120,17 @@ public abstract class MonsterBase : MonoBehaviour
     public void SetTargetNull()// 플레이어가 다른 방으로 이동시 호출.
     {
         target = null;
+    }
+    private IEnumerator BlinkEffect()// 피격시 깜빡임 효과
+    {
+        isBlinking = true;
+        for (int i = 0; i < 2; i++)
+        {
+            spriteRenderer.color = new Color(1f, 0.5f, 0.5f, 1f);// 피격시 연한 빨강색 2회 점멸.
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(0.1f);
+        }
+        isBlinking = false;
     }
 }
