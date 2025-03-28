@@ -17,6 +17,9 @@ public class Room : MonoBehaviour
     [Header("방의 입구들 봉쇄벽 => 상 하 좌 우 순서")]
     public List<GameObject> roomBlock;
 
+    [Header("방의 스폰포인트")]
+    public Transform spawnPoint;
+
     //방 생성시 입구 관리
     public void ControlEnterance(Direction dir)
     {
@@ -54,6 +57,4 @@ public class Room : MonoBehaviour
             block.SetActive(false);
         }
     }
-
-
 }

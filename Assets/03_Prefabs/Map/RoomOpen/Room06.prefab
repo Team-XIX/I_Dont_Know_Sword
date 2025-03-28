@@ -9364,6 +9364,7 @@ GameObject:
   - component: {fileID: 3287850683300174392}
   - component: {fileID: 5182318493009676419}
   - component: {fileID: 8294099614025444326}
+  - component: {fileID: 7265763892851103453}
   m_Layer: 6
   m_Name: Enterance_U
   m_TagString: Untagged
@@ -9635,6 +9636,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &7265763892851103453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041169224475727271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 0
 --- !u!1 &2087571494909259484
 GameObject:
   m_ObjectHideFlags: 0
@@ -9966,6 +9980,7 @@ GameObject:
   - component: {fileID: 1159590201634194800}
   - component: {fileID: 3541677822959349449}
   - component: {fileID: 1111805537774550054}
+  - component: {fileID: 5127159654963132797}
   m_Layer: 6
   m_Name: Enterance_D
   m_TagString: Untagged
@@ -10237,6 +10252,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &5127159654963132797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755921952938177165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 1
 --- !u!1 &4019705059339839959
 GameObject:
   m_ObjectHideFlags: 0
@@ -12717,6 +12745,7 @@ MonoBehaviour:
   - {fileID: 2681380380879408480}
   - {fileID: 6115766332056228444}
   - {fileID: 5314177435059426902}
+  spawnPoint: {fileID: 3284137067451010767}
 --- !u!1 &5779001769939032990
 GameObject:
   m_ObjectHideFlags: 0
@@ -13078,6 +13107,7 @@ GameObject:
   - component: {fileID: 8934063910748605063}
   - component: {fileID: 8662758909694954738}
   - component: {fileID: 6453391245349453409}
+  - component: {fileID: 1583599422493311451}
   m_Layer: 6
   m_Name: Enterance_R
   m_TagString: Untagged
@@ -13349,6 +13379,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &1583599422493311451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6427697700463941581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 3
 --- !u!1 &7510870212718026758
 GameObject:
   m_ObjectHideFlags: 0
@@ -15209,6 +15252,7 @@ GameObject:
   - component: {fileID: 1972571763611660732}
   - component: {fileID: 6564276922786976568}
   - component: {fileID: 7702529865170254571}
+  - component: {fileID: 6466083925981960646}
   m_Layer: 6
   m_Name: Enterance_L
   m_TagString: Untagged
@@ -15480,3 +15524,16 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &6466083925981960646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9184991881246418162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 2

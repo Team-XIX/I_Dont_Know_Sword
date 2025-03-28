@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapCreator : MonoBehaviour
 {
     [Header("맵 안에서 쓰일 방 리스트")]
     public List<Room> roomPrefabs;
+
+    [Header("맵 생성 후 맵으로 구성된 방들")]
+    public List<Room> roomMap;
 
     [Header("맵의 가로/세로 길이")]
     public int mapWidth;
@@ -15,11 +18,25 @@ public class MapCreator : MonoBehaviour
     [SerializeField]
     private int roomInterval;
 
+    [Header("현재 있는 방의 번호")]
+    [SerializeField]
+    private int currentRoomNum;
+
+    //플레이어 이동시키는 Action
+    public static Action<Direction> teleportAction;
+
+    //GameManager에 Player가 없는 관계로 임시로 만든 플레이어
+    public PlayerController playerController;
+
     private void Start()
     {
         //임시로 대입하여 작업
         mapWidth = 6; mapHeight = 6;
         roomInterval = 3;
+
+        //초기 시작
+        currentRoomNum = 0;
+        teleportAction += Teleport;
 
         CreateMap();
     }
@@ -30,15 +47,20 @@ public class MapCreator : MonoBehaviour
         {
             for (int j = 0; j < mapWidth; j++)
             {
-                Room room = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
+                Room room = roomPrefabs[UnityEngine.Random.Range(0, roomPrefabs.Count)];
+
                 CheckEnterance(room, i, j);
-                Instantiate(room, this.transform.position + new Vector3((room.roomLength + roomInterval) * j,
+
+                var now = Instantiate(room, this.transform.position + new Vector3((room.roomLength + roomInterval) * j,
                     (room.roomLength + roomInterval) * i, 0), Quaternion.identity, this.transform);
-                room.InitailEnterance();
+
+                now.InitailEnterance();
+
+                roomMap.Add(now);
             }
         }
     }
-    
+
     void CheckEnterance(Room room, int height, int width)
     {
         //위쪽 출구 봉쇄
@@ -62,6 +84,23 @@ public class MapCreator : MonoBehaviour
         {
             room.ControlEnterance(Direction.Right);
         }
+    }
+
+    public void Teleport(Direction dir)
+    {
+        switch (dir)
+        {
+            case Direction.Up:
+                currentRoomNum += mapWidth; break;
+            case Direction.Down:
+                currentRoomNum -= mapWidth; break;
+            case Direction.Left:
+                currentRoomNum -= 1; break;
+            case Direction.Right:
+                currentRoomNum += 1; break;
+            default: break;
+        }
+        playerController.transform.position = roomMap[currentRoomNum].spawnPoint.position;
     }
 
 }
