@@ -257,6 +257,7 @@ public class NormalMonster : MonsterBase
     }
     public void AnimEventAttack()// 애니메이션 이벤트를 통해 호출할 실제 공격 함수.
     {
+        if(target == null) return;// 타겟이 없으면 리턴
         if(Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
             Debug.Log("Attack");
     }
