@@ -276,7 +276,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: -10}
   useFixedUpdate: 1
   instantFollow: 0
-  smoothSpeed: 5
+  smoothSpeed: 12
   mouseInfluence: 1
   maxMouseDistance: 1
   mouseSmoothSpeed: 3
@@ -338,6 +338,22 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1019717945}
+    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7811795166722742393, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: m_Name
       value: Player
