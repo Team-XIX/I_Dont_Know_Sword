@@ -9,8 +9,7 @@ public abstract class MonsterBase : MonoBehaviour
     [Header("Monster Stats")]
     [SerializeField] int hp;
     [SerializeField] int attackPower;
-    [SerializeField] float attackSpeed = 1.5f;
-
+    [SerializeField] float attackSpeed = 1.5f;  
     public int Hp 
     { 
         get => hp;
@@ -19,7 +18,9 @@ public abstract class MonsterBase : MonoBehaviour
             hp = value;
             if (hp <= 0)
             {
+                StopAllCoroutines();
                 ChangeState(MonsterState.Dead); // 체력이 0 이하가 되면 즉시 Dead로 변경
+                StartCoroutine(Dead());
             }
         }
     }
@@ -43,6 +44,10 @@ public abstract class MonsterBase : MonoBehaviour
     public Rigidbody2D rb;
     private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM 패턴의 코루틴을 실행하기 위한 딕셔너리.
 
+    private void OnEnable()
+    {
+        monsterState = MonsterState.Idle;// 상태 초기화.
+    }
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
@@ -93,8 +98,8 @@ public abstract class MonsterBase : MonoBehaviour
     {
         // 각 몬스터 마다 개별 클라스에서 구현한 여러가지 원거리 공격 패턴을 랜덤으로 실행
     }
-
-    //
+    protected abstract void MonsterDead();// 몬스터가 죽었을 때 실행되는 함수
+    
     public void SetTargetNull()// 플레이어가 다른 방으로 이동시 호출.
     {
         target = null;
