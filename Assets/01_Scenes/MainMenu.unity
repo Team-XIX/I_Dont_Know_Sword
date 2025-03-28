@@ -544,6 +544,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ddcaba3c62fddc4db06912ffc6f2a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetButton: {fileID: 610289693}
+  audioSource: {fileID: 610289698}
+  clickSound: {fileID: 8300000, guid: ca259701fcf529a458df95348982602c, type: 3}
 --- !u!82 &610289698
 AudioSource:
   m_ObjectHideFlags: 0
@@ -555,14 +558,14 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f3190dc7efe05bb4eab33f442fb19251, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1463,7 +1466,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f3190dc7efe05bb4eab33f442fb19251, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
