@@ -1,13 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneHandler : MonoBehaviour
 {
-    private void Update()
+    public Button targetButton;
+    public AudioSource audioSource;
+    public  AudioClip clickSound;
+
+    private void Start()
     {
-        if (Input.GetMouseButton(0))
+        if (targetButton != null)
+            targetButton.onClick.AddListener(() => StartCoroutine(ChangeScene()));
+    }
+ IEnumerator ChangeScene()
+    {
+        if(audioSource != null && clickSound != null)
         {
-            SceneManager.LoadScene("UIScene");
+            audioSource.PlayOneShot(clickSound);
+            yield return new WaitForSeconds(clickSound.length);
         }
+
+        SceneManager.LoadScene("UIScene");
     }
 }
