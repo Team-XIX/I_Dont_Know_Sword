@@ -34,6 +34,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         Idle,
         Move,// 이동시(일반몬스터 : 무조건 추적형식 + 거리되면 공격, 엘리트+보스몬스터 : 특정 거리 내의 이동할 위치를 찍고 만약 사이에 벽에 없다면 이동 실행 => 이후 공격, 벽이 있다면 재귀로 다시 실행) 
         Attack,// 근접 + 원거리
+        Skill,
         Dead
     }
     public float detectRange;// 플레이어를 감지하는 범위, 거리 밖으로 나가면 target을 null로
@@ -61,9 +62,10 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     {
         monsterState = MonsterState.Idle;// 상태 초기화.
     }
-    protected virtual void Start()
+
+    private void Awake()
     {
-        if(monsterData != null)
+        if (monsterData != null)
         {
             Hp = monsterData.maxHp;
             attackPower = monsterData.attackPower;
@@ -71,6 +73,9 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             detectRange = monsterData.detectRange;
             moveSpeed = monsterData.moveSpeed;
         }   // 데이터 초기화.
+    }
+    protected virtual void Start()
+    {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -81,6 +86,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             {MonsterState.Idle, Idle},
             {MonsterState.Move, Move},
             {MonsterState.Attack, Attack},
+            {MonsterState.Skill,  Skill},
             {MonsterState.Dead, Dead}
         };
         StartCoroutine(StateMachine());
@@ -106,6 +112,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     protected abstract IEnumerator Idle();
     protected abstract IEnumerator Move();
     protected abstract IEnumerator Attack();
+    protected virtual IEnumerator Skill() { yield break; }
     protected abstract IEnumerator Dead();
 
 
@@ -116,14 +123,6 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         {
             StartCoroutine(BlinkEffect());
         }
-    }
-    protected virtual void MeleeAttack()// 근접 공격 (보스 몬스터를 제외한 모든 몬스터가 가지고 있는 패턴)
-    {
-
-    }
-    protected virtual void RangePattern()// 원거리 공격 (엘리트 몬스터와 보스 몬스터가 가지고 있는 패턴)
-    {
-        // 각 몬스터 마다 개별 클라스에서 구현한 여러가지 원거리 공격 패턴을 랜덤으로 실행
     }
     protected abstract void MonsterDead();// 몬스터가 죽었을 때 실행되는 함수
     
