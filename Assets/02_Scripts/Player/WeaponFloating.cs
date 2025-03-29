@@ -8,7 +8,6 @@ public class WeaponFloating : MonoBehaviour
 {
     [Header("참조")]
     [SerializeField] private PlayerController player;
-    // weaponObject 변수 제거 - 불필요한 변수 (gameObject로 직접 참조) 
     [SerializeField] private Camera mainCamera;
 
     [Header("위치 설정")]
@@ -32,6 +31,10 @@ public class WeaponFloating : MonoBehaviour
     private Sequence floatSequence;
     private Transform parentTransform;
     private Transform cachedTransform;
+
+    // 외부에서 접근 가능한 속성들
+    public bool IsInFireState => isInFireState;
+    public Vector2 FireDirection => fireDirection;
 
     void Start()
     {
@@ -66,17 +69,14 @@ public class WeaponFloating : MonoBehaviour
         {
             HandleNormalState();
         }
+        else
+        {
+            HandleFireState();
+        }
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             OnFireInput();
-        }
-    }
-    void FixedUpdate()
-    {
-        if (isInFireState)
-        {
-            HandleFireState();
         }
     }
 
@@ -92,7 +92,6 @@ public class WeaponFloating : MonoBehaviour
     /// <summary>
     /// 초기 위치 설정
     /// </summary>
-    // UpdateLocalPosition 메서드 이름 변경 및 용도 명확화
     private void SetInitialPosition()
     {
         if (player == null) return;
@@ -102,16 +101,11 @@ public class WeaponFloating : MonoBehaviour
     }
 
     /// <summary>
-    /// 일반 상태 처리 메서드
+    /// 일반 상태 처리
     /// </summary>
     private void HandleNormalState()
     {
         if (player == null) return;
-
-        if (cachedTransform.parent != parentTransform)
-        {
-            cachedTransform.SetParent(parentTransform);
-        }
 
         Vector2 playerDirection = player.MoveDirection;
 
@@ -144,7 +138,7 @@ public class WeaponFloating : MonoBehaviour
     }
 
     /// <summary>
-    /// 발사 상태 처리 메서드
+    /// 발사 상태 처리
     /// </summary>
     private void HandleFireState()
     {
@@ -155,27 +149,25 @@ public class WeaponFloating : MonoBehaviour
             floatSequence.Pause();
         }
 
-        if (cachedTransform.parent != null)
-        {
-            cachedTransform.SetParent(null);
-        }
-
+        // 마우스 방향 계산
         Vector2 playerPos = player.transform.position;
-        Vector2 dirToMouse = (mousePosition - playerPos).normalized;
+        fireDirection = (mousePosition - playerPos).normalized;
 
-        Vector3 targetWorldPosition = new Vector3(
-            playerPos.x + dirToMouse.x * fixedFireDistance,
-            playerPos.y + dirToMouse.y * fixedFireDistance,
-            cachedTransform.position.z
+        // 로컬 좌표에서 처리하여 플레이어의 자식으로 유지
+        Vector3 targetLocalPosition = new Vector3(
+            fireDirection.x * fixedFireDistance,
+            fireDirection.y * fixedFireDistance + verticalOffset,
+            0
         );
 
-        cachedTransform.position = Vector3.Lerp(
-            cachedTransform.position,
-            targetWorldPosition,
+        cachedTransform.localPosition = Vector3.Lerp(
+            cachedTransform.localPosition,
+            targetLocalPosition,
             positionLerpSpeed * Time.deltaTime
         );
 
-        float angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg;
+        // 회전 적용
+        float angle = Mathf.Atan2(fireDirection.y, fireDirection.x) * Mathf.Rad2Deg;
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
         cachedTransform.rotation = Quaternion.Slerp(
             cachedTransform.rotation,
@@ -183,7 +175,8 @@ public class WeaponFloating : MonoBehaviour
             rotationLerpSpeed * Time.deltaTime
         );
 
-        bool mouseIsRight = dirToMouse.x >= 0;
+        // 스프라이트 방향 설정
+        bool mouseIsRight = fireDirection.x >= 0;
         if (weaponSpriteRenderer != null)
         {
             weaponSpriteRenderer.flipX = false;
@@ -198,6 +191,7 @@ public class WeaponFloating : MonoBehaviour
     {
         if (player == null) return;
 
+        // 마우스-플레이어 방향 계산
         fireDirection = (mousePosition - (Vector2)player.transform.position).normalized;
 
         if (fireStateCoroutine != null)
@@ -286,5 +280,33 @@ public class WeaponFloating : MonoBehaviour
         {
             floatSequence.Play();
         }
+    }
+
+    /// <summary>
+    /// 현재 마우스 위치 반환 (월드 좌표)
+    /// </summary>
+    public Vector2 GetMousePosition()
+    {
+        return mousePosition;
+    }
+
+    /// <summary>
+    /// 플레이어로부터 무기까지의 방향과 거리 계산
+    /// </summary>
+    public Vector2 GetWeaponDirection()
+    {
+        if (player == null) return Vector2.right;
+
+        return ((Vector2)transform.position - (Vector2)player.transform.position).normalized;
+    }
+
+    /// <summary>
+    /// 플레이어로부터 무기까지의 거리 반환
+    /// </summary>
+    public float GetWeaponDistance()
+    {
+        if (player == null) return fixedFireDistance;
+
+        return Vector2.Distance(transform.position, player.transform.position);
     }
 }

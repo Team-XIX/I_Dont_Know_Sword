@@ -167,6 +167,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &611314538 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7121044079538843751, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+  m_PrefabInstance: {fileID: 2205411825643489379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1019717943
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +286,55 @@ MonoBehaviour:
   maxMouseDistance: 1
   mouseSmoothSpeed: 3
   maxDistanceFromTarget: 3
+--- !u!1 &1745890142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745890144}
+  - component: {fileID: 1745890143}
+  m_Layer: 0
+  m_Name: ProjectileSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1745890143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745890142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a64ad5292358dc64e80230a35af404cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 5174562027564019322, guid: 220dc751104aa0548b9b4add73b2e18f, type: 3}
+  projectileParent: {fileID: 1745890144}
+  initialPoolSize: 20
+  maxPoolSize: 100
+  expandPoolIfNeeded: 1
+--- !u!4 &1745890144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745890142}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2064793292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 419269854390199679, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
@@ -354,6 +408,50 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4681502186866469974, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _spreadAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseMultiAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseAttackSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseSpreadAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _projectileRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _projectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseProjectileSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseProjectileCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseProjectileRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7026741663344885889, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: weaponTransform
+      value: 
+      objectReference: {fileID: 611314538}
     - target: {fileID: 7811795166722742393, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: m_Name
       value: Player
@@ -370,3 +468,4 @@ SceneRoots:
   - {fileID: 1019717946}
   - {fileID: 345793572}
   - {fileID: 2205411825643489379}
+  - {fileID: 1745890144}
