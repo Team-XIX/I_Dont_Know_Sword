@@ -639,7 +639,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c321d7442ba041040bcc80cbe7050a12, type: 2}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: dashCoolTime
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: deathHandPrefab
@@ -647,7 +647,7 @@ PrefabInstance:
       objectReference: {fileID: 8957885515735248791, guid: ddfcbfb446e4b1c45a1f2ee99c110753, type: 3}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: deathHandCoolTime
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5574486922506083561, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_Radius

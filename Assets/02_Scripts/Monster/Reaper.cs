@@ -109,7 +109,6 @@ public class Reaper : MonsterBase
                 // 벽이 없으면 다시 Move 상태로 전환
                 if (!isNearWall)
                 {
-                    Debug.Log("Move1");
                     ChangeState(MonsterState.Move);
                 }
             }
@@ -128,7 +127,6 @@ public class Reaper : MonsterBase
 
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        Debug.Log("Move2");
         if (curAnimStateInfo.IsName("Move") == false)
         {
             anim.Play("Move", 0, 0);
@@ -201,10 +199,8 @@ public class Reaper : MonsterBase
     protected override IEnumerator Skill()
     {
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
-        Debug.Log("Skill");
         if (curAnimStateInfo.IsName("DeathHand") == false)
         {
-            Debug.Log("DeathHand");
             anim.Play("DeathHand", 0, 0);
             yield return null;
             curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
@@ -252,7 +248,7 @@ public class Reaper : MonsterBase
     {
         if (target == null) return;// 타겟이 없으면 리턴
         if (Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
-            Debug.Log("Attack");
+            Debug.Log("Attack");//idamageable 인터페이스를 구현한 플레이어에게 데미지를 입히는 코드로 추후 변경.
     }
     void SkillUse()
     {

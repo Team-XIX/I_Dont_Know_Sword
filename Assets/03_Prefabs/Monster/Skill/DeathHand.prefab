@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7384990132548825888}
   - component: {fileID: 3782543389956778942}
   - component: {fileID: 2420598000068528495}
+  - component: {fileID: 5722019686353004784}
   m_Layer: 0
   m_Name: Bringer-of-Death_Spell_1
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 38ec81c24021f094da4e00944a8f9d62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -114,7 +115,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4439910053216801304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -152,6 +153,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0883396, y: 1.5371507}
   m_EdgeRadius: 0
+--- !u!114 &5722019686353004784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439910053216801304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6969fea58190d4241bedd5069b06bb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &8957885515735248791
 GameObject:
   m_ObjectHideFlags: 0
