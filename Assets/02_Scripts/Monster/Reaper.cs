@@ -9,9 +9,15 @@ public class Reaper : MonsterBase
     [SerializeField] private float dashRange = 10f; // 대쉬 범위
     [SerializeField] private float dashCoolTime = 8f; // 대쉬 쿨타임
     [SerializeField] private float deathHandCoolTime = 15f; // 데스핸드 쿨타임
-    [SerializeField] private GameObject deathHandPrefab; // 데스핸드 프리팹
     bool isNearWall = false;
     int wallLayerMask;
+
+    [Header("Skill FX")]
+    [SerializeField] private GameObject deathHandPrefab; // 데스핸드 프리팹
+    [SerializeField] private ParticleSystem sandevistanParticle; // 산데비스탄 파티클
+    [SerializeField] private Material sandeMaterial;
+    [SerializeField] private Sprite sandeRight;
+    [SerializeField] private Sprite sandeLeft;
 
     protected override void Start()
     {
@@ -143,9 +149,15 @@ public class Reaper : MonsterBase
             }
             // 플레이어의 위치에 따른 스프라이트 x flip 조정 (오리지널 스프라이트 기준 if else 처리)
             if (isLookRight)
+            {
                 this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x < transform.position.x;
+                sandeMaterial.mainTexture = sandeLeft.texture;
+            }
             else
+            {
                 this.GetComponent<SpriteRenderer>().flipX = target.transform.position.x > transform.position.x;
+                sandeMaterial.mainTexture = sandeRight.texture;
+            }
 
             // 공격 범위 내에 들어오면 Attack 상태로 변경
             if (Vector2.Distance(transform.position, target.transform.position) < attackRange)
@@ -271,7 +283,13 @@ public class Reaper : MonsterBase
             dashCoolTime = 8f;
             Debug.Log("Dash");
             monsterState = MonsterState.Idle;
-            transform.DOMove(target.transform.position, 1f).OnComplete(() => monsterState = MonsterState.Move);
+            transform.DOMove(target.transform.position, 0.5f)
+                .OnStart(() => sandevistanParticle.gameObject.SetActive(true))
+                .OnComplete(() =>
+                {
+                    sandevistanParticle.gameObject.SetActive(false);
+                    monsterState = MonsterState.Move;
+                });
         }
     }
     void DeathHand()

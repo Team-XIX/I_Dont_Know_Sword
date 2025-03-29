@@ -215,6 +215,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &888082192 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1704523545261013660, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+  m_PrefabInstance: {fileID: 4579946563909528049}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1963288504
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,69 +603,29 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 373237168229314748, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: sandeLeft
       value: 
       objectReference: {fileID: 21300000, guid: 98992b3931c11cc4b9e04543769dfb76, type: 3}
-    - target: {fileID: 373237168229314748, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4538576488586057270, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_Controller
+    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: sandeRight
       value: 
-      objectReference: {fileID: 9100000, guid: 95ccac74a3a62b446a4415426f54f9e7, type: 2}
-    - target: {fileID: 4732810668744293595, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_BodyType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732810668744293595, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: a3322b397aefea3469db8fe80444b7f1, type: 3}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: hp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: dashRange
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: attackPower
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: attackRange
-      value: 2.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: monsterData
+      propertyPath: sandeMaterial
       value: 
-      objectReference: {fileID: 11400000, guid: c321d7442ba041040bcc80cbe7050a12, type: 2}
+      objectReference: {fileID: 2100000, guid: 1028bacc5a4df1b41bbd2a66b36cecbe, type: 2}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: dashCoolTime
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: deathHandPrefab
+      propertyPath: sandevistanParticle
       value: 
-      objectReference: {fileID: 8957885515735248791, guid: ddfcbfb446e4b1c45a1f2ee99c110753, type: 3}
-    - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: deathHandCoolTime
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5574486922506083561, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: m_Radius
-      value: 0.7
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 888082192}
     - target: {fileID: 6445192420496021667, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_Name
       value: Reaper
       objectReference: {fileID: 0}
-    - target: {fileID: 6539778702772956479, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-      propertyPath: monsterBase
-      value: 
-      objectReference: {fileID: 5404410384803808171}
     - target: {fileID: 8832900523967065144, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.76
@@ -880,17 +845,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 963a9dfb30fa4d54dacbb7ff6a951624, type: 3}
---- !u!114 &5404410384803808171 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
-  m_PrefabInstance: {fileID: 4579946563909528049}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a779ac9b120df3438daafce17eb6a6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5665146545296436264
 GameObject:
   m_ObjectHideFlags: 0
