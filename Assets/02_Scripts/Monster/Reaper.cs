@@ -10,6 +10,7 @@ public class Reaper : MonsterBase
     [SerializeField] private float dashCoolTime = 8f; // 대쉬 쿨타임
     [SerializeField] private float deathHandCoolTime = 15f; // 데스핸드 쿨타임
     [SerializeField] private GameObject deathHandPrefab; // 데스핸드 프리팹
+    bool isNearWall = false;
     int wallLayerMask;
 
     protected override void Start()
@@ -20,10 +21,13 @@ public class Reaper : MonsterBase
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
         InvokeRepeating(nameof(SkillUse), 0f, 3f); // 3초마다 스킬 사용 시도
+        InvokeRepeating(nameof(IsNearWall), 0f, 0.1f); // 0.1초마다 벽 감지
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N))
+            TakeDamage(2);
         dashCoolTime -= Time.deltaTime;
         deathHandCoolTime -= Time.deltaTime;
     }
@@ -37,7 +41,7 @@ public class Reaper : MonsterBase
         }
 
         // 벽이 너무 가까우면 이동 중지
-        if (IsNearWall())
+        if (isNearWall)
         {
             ChangeState(MonsterState.Idle);
             return;
@@ -46,23 +50,23 @@ public class Reaper : MonsterBase
         // 플레이어를 향해 이동
         MoveTo(target.transform.position);
     }
-    private bool IsNearWall()
+    private void IsNearWall()
     {
         Vector2 monsterPos = transform.position;
         Vector2 targetPos = target.transform.position;
 
         // 몬스터와 플레이어 사이에 벽이 있는지 확인
-        if (Physics2D.Linecast(monsterPos, targetPos, wallLayerMask))
+        RaycastHit2D hit = Physics2D.Linecast(monsterPos, targetPos, wallLayerMask);
+        if (hit.collider != null) // 벽이 감지되었을 경우
         {
-            // 벽과의 거리 계산
-            RaycastHit2D wallHit = Physics2D.Raycast(monsterPos, (targetPos - monsterPos).normalized, detectRange, wallLayerMask);
-            if (wallHit.collider != null && Vector2.Distance(monsterPos, wallHit.point) <= distanceToWall)
-            {
-                return true; // 벽에 너무 가까워지면 true
-            }
+            Debug.Log("Wall");
+            isNearWall = Vector2.Distance(monsterPos, hit.point) <= distanceToWall;
         }
-
-        return false; // 벽이 없거나, 벽과 충분한 거리가 있다면 false
+        else
+        {
+            Debug.Log("No Wall");
+            isNearWall = false; // 벽이 없거나, 벽과 충분한 거리가 있다면 false
+        }
     }
     private void MoveTo(Vector2 targetPos)
     {
@@ -71,11 +75,11 @@ public class Reaper : MonsterBase
         Vector2 nextPosition = (Vector2)transform.position + direction * moveDistance;
 
         // 벽과의 거리 계산
-        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, direction, moveDistance + 0.6f, wallLayerMask);
+        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, direction, moveDistance + distanceToWall, wallLayerMask);
 
         if (wallHit.collider != null)
         {
-            // 벽과의 거리가 0.6 이하이면 이동하지 않음
+            // 벽과의 거리가 일정 이하이면 이동하지 않음
             if (Vector2.Distance(transform.position, wallHit.point) <= distanceToWall)
             {
                 return; // 이동하지 않음
@@ -103,8 +107,9 @@ public class Reaper : MonsterBase
             if (target != null && Vector2.Distance(transform.position, target.transform.position) < detectRange)
             {
                 // 벽이 없으면 다시 Move 상태로 전환
-                if (!IsNearWall())
+                if (!isNearWall)
                 {
+                    Debug.Log("Move1");
                     ChangeState(MonsterState.Move);
                 }
             }
@@ -113,8 +118,17 @@ public class Reaper : MonsterBase
     }
     protected override IEnumerator Move()// 플레이어 추적 + 거리가 되면 Attack 상태로 변경
     {
+        // 상태 변경전 한번더 체크.
+        yield return null;
+        if (isNearWall)
+        {
+            ChangeState(MonsterState.Idle);
+            yield break;
+        }
+
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
+        Debug.Log("Move2");
         if (curAnimStateInfo.IsName("Move") == false)
         {
             anim.Play("Move", 0, 0);
@@ -143,7 +157,7 @@ public class Reaper : MonsterBase
             }
 
             // 벽에 너무 가까워졌다면 멈추고 Idle 상태로 변경
-            if (IsNearWall())
+            if (isNearWall)
             {
                 ChangeState(MonsterState.Idle);
                 yield break;

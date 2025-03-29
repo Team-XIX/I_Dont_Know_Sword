@@ -80,7 +80,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
-        distanceToWall = GetComponent<CircleCollider2D>().radius + 0.2f; // 벽까지 다가갈 수 있는 최소 거리는 몬스터의 콜라이더보다 조금 더 길게.
+        distanceToWall = GetComponent<CircleCollider2D>().radius * 1.4f; // 벽까지 다가갈 수 있는 최소 거리는 몬스터의 콜라이더보다 조금 더 길게.
         stateHandlers = new Dictionary<MonsterState, Func<IEnumerator>>()
         {
             {MonsterState.Idle, Idle},

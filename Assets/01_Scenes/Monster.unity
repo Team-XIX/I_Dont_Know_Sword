@@ -318,7 +318,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
   m_FlipX: 0
@@ -601,10 +601,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 98992b3931c11cc4b9e04543769dfb76, type: 3}
+    - target: {fileID: 373237168229314748, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4538576488586057270, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 95ccac74a3a62b446a4415426f54f9e7, type: 2}
+    - target: {fileID: 4732810668744293595, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732810668744293595, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5509379350906961370, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: hp
       value: 100
