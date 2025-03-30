@@ -18,7 +18,7 @@ public class Room : MonoBehaviour
     public List<GameObject> roomBlock;
 
     [Header("방의 스폰포인트")]
-    public Transform spawnPoint;
+    public List<Transform> spawnPoint;
 
     //방 생성시 입구 관리
     public void ControlEnterance(Direction dir)

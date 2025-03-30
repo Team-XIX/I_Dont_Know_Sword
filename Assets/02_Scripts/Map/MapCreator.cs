@@ -49,13 +49,9 @@ public class MapCreator : MonoBehaviour
             {
                 Room room = roomPrefabs[UnityEngine.Random.Range(0, roomPrefabs.Count)];
 
-                CheckEnterance(room, i, j);
-
                 var now = Instantiate(room, this.transform.position + new Vector3((room.roomLength + roomInterval) * j,
                     (room.roomLength + roomInterval) * i, 0), Quaternion.identity, this.transform);
-
-                now.InitailEnterance();
-
+                CheckEnterance(now, i, j);
                 roomMap.Add(now);
             }
         }
@@ -91,16 +87,23 @@ public class MapCreator : MonoBehaviour
         switch (dir)
         {
             case Direction.Up:
-                currentRoomNum += mapWidth; break;
+                currentRoomNum += mapWidth; 
+                playerController.transform.position = roomMap[currentRoomNum].spawnPoint[1].position;
+                break;
             case Direction.Down:
-                currentRoomNum -= mapWidth; break;
+                currentRoomNum -= mapWidth;
+                playerController.transform.position = roomMap[currentRoomNum].spawnPoint[0].position; 
+                break;
             case Direction.Left:
-                currentRoomNum -= 1; break;
+                currentRoomNum -= 1;
+                playerController.transform.position = roomMap[currentRoomNum].spawnPoint[3].position; 
+                break;
             case Direction.Right:
-                currentRoomNum += 1; break;
+                currentRoomNum += 1;
+                playerController.transform.position = roomMap[currentRoomNum].spawnPoint[2].position; 
+                break;
             default: break;
         }
-        playerController.transform.position = roomMap[currentRoomNum].spawnPoint.position;
     }
 
 }

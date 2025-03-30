@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Enterance : MonoBehaviour
 {
+    [Header("입구의 방향")]
     [SerializeField]
     private Direction dir;
 
