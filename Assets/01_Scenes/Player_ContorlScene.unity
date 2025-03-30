@@ -417,12 +417,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: _baseAutoFire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: _baseMultiAngle
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: _baseAttackSpeed
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: _baseSpreadAngle

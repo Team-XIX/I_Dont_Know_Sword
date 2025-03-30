@@ -7,11 +7,14 @@ public class Projectile : MonoBehaviour
 {
     // 투사체가 비활성화될 때 호출되는 이벤트 (오브젝트 풀로 반환)
     public event Action<Projectile> OnDeactivate;
+
     private int wallLayer;
     private int obstacleLayer;
+    private int enemyLayer;
 
     [Header("투사체 속성")]
     private float damage;
+    private int roundedDamage;
     private float speed;
     private float lifetime;
     private int penetrationCount;
@@ -28,6 +31,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         wallLayer = LayerMask.NameToLayer("Wall");
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
+        enemyLayer = LayerMask.NameToLayer("Enemy"); // Enemy 레이어 캐싱
     }
 
     private void OnEnable()
@@ -42,6 +46,7 @@ public class Projectile : MonoBehaviour
     public void Initialize(float damage, Vector2 direction, float speed, float lifetime, float size, int penetrationCount, int reflectionCount)
     {
         this.damage = damage;
+        this.roundedDamage = Mathf.RoundToInt(damage); // 데미지 정수형으로 변환(필요 없어지면 없애야지)
         this.direction = direction.normalized;
         this.speed = speed;
         this.lifetime = lifetime;
@@ -87,15 +92,19 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        // IDamageable 인터페이스를 가진 오브젝트와 충돌 처리
-        IDamageable damageable = other.GetComponent<IDamageable>();
-        if (damageable != null && !hitTargets.Contains(other))
+        // Enemy 레이어를 가진 IDamageable 오브젝트와의 충돌 처리
+        if (other.gameObject.layer == enemyLayer)
         {
-            // 데미지 적용
-            damageable.TakeDamage(Mathf.RoundToInt(damage));
-            hitTargets.Add(other);
-            // 관통 처리
-            HandlePenetration();
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            if (damageable != null && !hitTargets.Contains(other))
+            {
+                // 데미지 적용 (정수형 데미지 사용)
+                damageable.TakeDamage(roundedDamage);
+                hitTargets.Add(other);
+
+                // 관통 처리
+                HandlePenetration();
+            }
         }
     }
 
