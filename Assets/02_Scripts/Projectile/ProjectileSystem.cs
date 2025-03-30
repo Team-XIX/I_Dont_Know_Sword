@@ -20,6 +20,14 @@ public class ProjectileSystem : MonoBehaviour
         // 오브젝트 풀 초기화
         InitializeObjectPool();
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
     #endregion
 
     [Header("투사체 설정")]
@@ -33,6 +41,13 @@ public class ProjectileSystem : MonoBehaviour
 
     private Queue<Projectile> projectilePool = new Queue<Projectile>();
     private List<Projectile> activeProjectiles = new List<Projectile>();
+    private StatHandler cachedStatHandler;
+    private ProjectileOptions cachedOptions = new ProjectileOptions();
+
+    private void Start()
+    {
+        cachedStatHandler = StatHandler.Instance;
+    }
 
     /// <summary>
     /// 오브젝트 풀 초기화
@@ -130,11 +145,16 @@ public class ProjectileSystem : MonoBehaviour
     /// <param name="customOptions">커스텀 투사체 옵션 (null이면 StatHandler의 설정 사용)</param>
     public void FireProjectile(Vector2 position, Vector2 direction, float? customDamage = null, ProjectileOptions customOptions = null)
     {
+        if (cachedStatHandler == null)
+        {
+            cachedStatHandler = StatHandler.Instance;
+        }
+
         // StatHandler에서 투사체 속성 가져오기
-        float damage = customDamage ?? (StatHandler.Instance != null ? StatHandler.Instance.AttackPower : 10f);
+        float damage = customDamage ?? (cachedStatHandler != null ? cachedStatHandler.AttackPower : 10f);
         ProjectileOptions options = customOptions ?? GetProjectileOptionsFromStatHandler();
 
-        int projectileCount = StatHandler.Instance != null ? StatHandler.Instance.ProjectileCount : 1;
+        int projectileCount = cachedStatHandler != null ? cachedStatHandler.ProjectileCount : 1;
 
         if (projectileCount == 1)
         {
@@ -146,11 +166,10 @@ public class ProjectileSystem : MonoBehaviour
         float totalAngle = options.MultiAngle;
         if (totalAngle <= 0)
         {
-            totalAngle = 5f;
+            totalAngle = 5f; // 최소 각도 설정
         }
 
         float angleStep = totalAngle / (projectileCount - 1);
-
         float startAngle = -totalAngle / 2;
 
         for (int i = 0; i < projectileCount; i++)
@@ -162,26 +181,40 @@ public class ProjectileSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// StatHandler에서 투사체 옵션 참조
+    /// StatHandler에서 투사체 옵션 참조 (캐싱 적용)
     /// </summary>
     private ProjectileOptions GetProjectileOptionsFromStatHandler()
     {
-        ProjectileOptions options = new ProjectileOptions();
-
-        if (StatHandler.Instance != null)
+        if (cachedStatHandler == null)
         {
-            options.Speed = StatHandler.Instance.ProjectileSpeed > 0 ?
-                           StatHandler.Instance.ProjectileSpeed : 10f;
-            options.Lifetime = StatHandler.Instance.ProjectileRange > 0 ?
-                              StatHandler.Instance.ProjectileRange : 5f;
-            options.Size = StatHandler.Instance.ProjectileSize;
-            options.PenetrationCount = StatHandler.Instance.PenetrationCount;
-            options.ReflectionCount = StatHandler.Instance.ReflectionCount;
-            options.SpreadAngle = StatHandler.Instance.SpreadAngle;
-            options.MultiAngle = StatHandler.Instance.MultiAngle;
+            cachedStatHandler = StatHandler.Instance;
         }
 
-        return options;
+        if (cachedStatHandler != null)
+        {
+            cachedOptions.Speed = cachedStatHandler.ProjectileSpeed > 0 ?
+                                 cachedStatHandler.ProjectileSpeed : 10f;
+            cachedOptions.Lifetime = cachedStatHandler.ProjectileRange > 0 ?
+                                    cachedStatHandler.ProjectileRange : 5f;
+            cachedOptions.Size = cachedStatHandler.ProjectileSize;
+            cachedOptions.PenetrationCount = cachedStatHandler.PenetrationCount;
+            cachedOptions.ReflectionCount = cachedStatHandler.ReflectionCount;
+            cachedOptions.SpreadAngle = cachedStatHandler.SpreadAngle;
+            cachedOptions.MultiAngle = cachedStatHandler.MultiAngle;
+        }
+        else
+        {
+            // 기본값 설정
+            cachedOptions.Speed = 10f;
+            cachedOptions.Lifetime = 5f;
+            cachedOptions.Size = 1f;
+            cachedOptions.PenetrationCount = 0;
+            cachedOptions.ReflectionCount = 0;
+            cachedOptions.SpreadAngle = 0f;
+            cachedOptions.MultiAngle = 0f;
+        }
+
+        return cachedOptions;
     }
 
     /// <summary>
@@ -192,7 +225,7 @@ public class ProjectileSystem : MonoBehaviour
         // 옵션이 없으면 기본값 생성
         if (options == null)
         {
-            options = new ProjectileOptions();
+            options = cachedOptions;
         }
 
         // 탄퍼짐(SpreadAngle) 계산

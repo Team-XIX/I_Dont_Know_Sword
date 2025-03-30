@@ -19,13 +19,20 @@ public class PlayerController : MonoBehaviour, IDamageable
     private bool isDashing = false;
     private bool isInvincible = false;
 
+    [Header("발사 설정")]
+    private float fireTimer = 0f;
+    private float fireInterval = 1f; // 기본값 (StatHandler에서 AttackSpeed 값으로 대체됨)
+    private bool canFire = true;
+    private bool isFireButtonPressed = false; // 발사 버튼 누름 상태 추적
+
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
     [SerializeField] private Transform weaponTransform;
 
-    private Collider2D playerCollider;
+    private Collider2D playerCollider; // 나중에 사용 예정(아마도)
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private StatHandler statHandler;
 
     private WaitForSeconds dashDurationWait;
     private WaitForSeconds dashCooldownWait;
@@ -57,6 +64,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         isMovingHash = Animator.StringToHash("isMoving");
         isDashingHash = Animator.StringToHash("isDashing");
+
         if (weaponTransform == null)
         {
             weaponTransform = transform.Find("Weapon");
@@ -65,15 +73,25 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     void Start()
     {
-        if (StatHandler.Instance != null)
+        statHandler = StatHandler.Instance;
+        if (statHandler != null)
         {
-            moveSpeed = StatHandler.Instance.MoveSpeed;
+            moveSpeed = statHandler.MoveSpeed;
+            UpdateFireInterval();
         }
     }
 
     void Update()
     {
         UpdateAnimationState();
+        UpdateFireTimer();
+
+        // 연사 모드이고 발사 버튼이 눌려있으면 자동 발사
+        if (statHandler != null && statHandler.AutoFire && isFireButtonPressed && canFire && !isDashing)
+        {
+            FireProjectile();
+            canFire = false; // 발사 후 쿨다운 시작
+        }
     }
 
     void FixedUpdate()
@@ -106,21 +124,66 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.performed && !isDashing)
+        // 버튼이 눌렸을 때
+        if (context.performed)
         {
-            FireProjectile();
+            isFireButtonPressed = true;
+
+            // 대시 중이 아니고 발사 가능한 상태라면 즉시 발사
+            if (!isDashing && canFire)
+            {
+                FireProjectile();
+                canFire = false; // 발사 후 쿨다운 시작
+            }
+        }
+        // 버튼이 떼어졌을 때
+        else if (context.canceled)
+        {
+            isFireButtonPressed = false;
         }
     }
 
     #endregion
 
+    /// <summary>
+    /// 발사 시간 업데이트 및 쿨다운 관리
+    /// </summary>
+    private void UpdateFireTimer()
+    {
+        if (!canFire)
+        {
+            fireTimer += Time.deltaTime;
+            if (fireTimer >= fireInterval)
+            {
+                fireTimer = 0f;
+                canFire = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// StatHandler의 AttackSpeed 값에 따라 발사 간격 업데이트
+    /// </summary>
+    private void UpdateFireInterval()
+    {
+        if (statHandler != null)
+        {
+            // AttackSpeed 값이 클수록 발사 간격이 짧아짐
+            // AttackSpeed 1 = 1초당 1번 발사, AttackSpeed 2 = 1초당 2번 발사, AttackSpeed 3 = 1초당 3번 발사
+            fireInterval = 1f / statHandler.AttackSpeed;
+        }
+        else
+        {
+            fireInterval = 1f; // 기본값
+        }
+    }
 
     /// <summary>
     /// 플레이어 이동 실행
     /// </summary>
     private void ApplyMovement()
     {
-        float currentMoveSpeed = StatHandler.Instance != null ? StatHandler.Instance.MoveSpeed : moveSpeed;
+        float currentMoveSpeed = statHandler != null ? statHandler.MoveSpeed : moveSpeed;
 
         if (moveInput != Vector2.zero)
         {
@@ -148,7 +211,15 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         Vector2 dashDirection = moveInput != Vector2.zero ? moveInput.normalized : lastMoveDirection;
 
-        dashForce = StatHandler.Instance != null ? StatHandler.Instance.MoveSpeed * 1.5f : moveSpeed * 1.5f;
+        if (statHandler != null)
+        {
+            dashForce = statHandler.MoveSpeed * 1.5f;
+        }
+        else
+        {
+            dashForce = moveSpeed * 1.5f;
+        }
+
         rb.velocity = dashDirection * dashForce;
         StartCoroutine(ApplyInvincibility());
         yield return dashDurationWait;
@@ -182,6 +253,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void FireProjectile()
     {
         if (ProjectileSystem.Instance == null) return;
+
+        // 발사 간격 업데이트 - StatHandler의 값이 변경되었을 수 있으므로 발사 시마다 확인
+        UpdateFireInterval();
 
         Vector2 mousePosition = Vector2.zero;
         Vector2 fireDirection = lastMoveDirection;
@@ -252,9 +326,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         if (isInvincible) return;
-        if (StatHandler.Instance != null)
+        if (statHandler != null)
         {
-            StatHandler.Instance.CurrentHealth -= damage;
+            statHandler.CurrentHealth -= damage;
         }
     }
 }

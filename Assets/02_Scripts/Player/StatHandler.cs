@@ -18,12 +18,23 @@ public class StatHandler : MonoBehaviour
         }
 
         Instance = this;
-        CurrentHealth = MaxHealth;
+        UpdateCurrentHealthToMax();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
     #endregion
 
     // 어떤 스탯이 변경되더라도 이 이벤트가 호출해서 UI 업데이트 해야함!
-    public event Action OnStatsChanged; // 실제 기능이 없음. UpdateUI()
+    public event Action OnStatsChanged;
+
+    // 이벤트 호출을 최소화하기 위한 플래그
+    private bool _suppressEvents = false;
 
     #region 기본 스탯 속성
     [Header("기본 스탯 설정")]
@@ -38,6 +49,11 @@ public class StatHandler : MonoBehaviour
     private int _additionalMaxHealth = 0;
     private float _additionalAttackPower = 0f;
     private float _additionalMoveSpeed = 0f;
+
+    // 계산된 최종 능력치 속성
+    public int MaxHealth { get; private set; }
+    public float AttackPower { get; private set; }
+    public float MoveSpeed { get; private set; }
 
     // 기본 스탯 속성 (get/set)
     public int BaseMaxHealth
@@ -101,22 +117,20 @@ public class StatHandler : MonoBehaviour
         }
     }
 
-    // 최종 능력치 속성 (외부에서 사용하는 속성)
-    public int MaxHealth { get; private set; }
-
     public int CurrentHealth
     {
         get => _currentHealth;
         set
         {
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-            // 이벤트 발생
-            OnStatsChanged?.Invoke();
+
+            // 이벤트 발생 (이벤트 억제가 아닐 때만)
+            if (!_suppressEvents)
+            {
+                OnStatsChanged?.Invoke();
+            }
         }
     }
-
-    public float AttackPower { get; private set; }
-    public float MoveSpeed { get; private set; }
 
     // 최종 능력치 재계산 메서드
     private void RecalculateMaxHealth()
@@ -135,31 +149,44 @@ public class StatHandler : MonoBehaviour
         {
             _currentHealth = Mathf.Min(_currentHealth, MaxHealth);
         }
-        // 초기화 케이스
-        else if (oldMaxHealth <= 0)
-        {
-            _currentHealth = MaxHealth;
-        }
 
-        OnStatsChanged?.Invoke();
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateAttackPower()
     {
         AttackPower = _baseAttackPower + _additionalAttackPower;
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateMoveSpeed()
     {
         MoveSpeed = _baseMoveSpeed + _additionalMoveSpeed;
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
+    }
+
+    private void UpdateCurrentHealthToMax()
+    {
+        MaxHealth = _baseMaxHealth + _additionalMaxHealth;
+        _currentHealth = MaxHealth;
     }
     #endregion
 
     #region 투사체 스탯 속성
     [Header("투사체 기본 스탯")]
     [SerializeField] private float _baseAttackSpeed = 1f;
+    [SerializeField] private bool _baseAutoFire = false;  // 연사 가능 여부
     [SerializeField] private float _baseSpreadAngle = 0f;  // 탄퍼짐 (랜덤 각도의 최대값)
     [SerializeField] private float _baseMultiAngle = 0f;  // 확산각 (여러 발 발사 시 퍼지는 각도)
     [SerializeField] private int _baseProjectileCount = 1;  // 한 번에 발사되는 투사체 개수
@@ -171,6 +198,7 @@ public class StatHandler : MonoBehaviour
 
     // 투사체 추가 스탯
     private float _additionalAttackSpeed = 0f;
+    private bool _additionalAutoFire = false;
     private float _additionalSpreadAngle = 0f;
     private float _additionalMultiAngle = 0f;
     private int _additionalProjectileCount = 0;
@@ -180,6 +208,18 @@ public class StatHandler : MonoBehaviour
     private int _additionalReflectionCount = 0;
     private int _additionalPenetrationCount = 0;
 
+    // 최종 투사체 스탯
+    public float AttackSpeed { get; private set; }
+    public bool AutoFire { get; private set; }
+    public float SpreadAngle { get; private set; }
+    public float MultiAngle { get; private set; }
+    public int ProjectileCount { get; private set; }
+    public float ProjectileSize { get; private set; }
+    public float ProjectileSpeed { get; private set; }
+    public float ProjectileRange { get; private set; }
+    public int ReflectionCount { get; private set; }
+    public int PenetrationCount { get; private set; }
+
     // 기본 투사체 스탯 속성 (get/set)
     public float BaseAttackSpeed
     {
@@ -188,6 +228,16 @@ public class StatHandler : MonoBehaviour
         {
             _baseAttackSpeed = Mathf.Max(0.1f, value);
             RecalculateAttackSpeed();
+        }
+    }
+
+    public bool BaseAutoFire
+    {
+        get => _baseAutoFire;
+        set
+        {
+            _baseAutoFire = value;
+            RecalculateAutoFire();
         }
     }
 
@@ -282,6 +332,16 @@ public class StatHandler : MonoBehaviour
         }
     }
 
+    public bool AdditionalAutoFire
+    {
+        get => _additionalAutoFire;
+        set
+        {
+            _additionalAutoFire = value;
+            RecalculateAutoFire();
+        }
+    }
+
     public float AdditionalSpreadAngle
     {
         get => _additionalSpreadAngle;
@@ -362,81 +422,121 @@ public class StatHandler : MonoBehaviour
         }
     }
 
-    // 최종 투사체 속성 (외부에서 사용하는 속성)
-    public float AttackSpeed { get; private set; }
-    public float SpreadAngle { get; private set; }
-    public float MultiAngle { get; private set; }
-    public int ProjectileCount { get; private set; }
-    public float ProjectileSize { get; private set; }
-    public float ProjectileSpeed { get; private set; }
-    public float ProjectileRange { get; private set; }
-    public int ReflectionCount { get; private set; }
-    public int PenetrationCount { get; private set; }
-
     // 투사체 스탯 재계산 메서드
     private void RecalculateAttackSpeed()
     {
         AttackSpeed = Mathf.Max(0.1f, _baseAttackSpeed + _additionalAttackSpeed);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
+    }
+
+    private void RecalculateAutoFire()
+    {
+        // 기본값이나 추가값 중 하나라도 true이면 연사 가능
+        AutoFire = _baseAutoFire || _additionalAutoFire;
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateSpreadAngle()
     {
         SpreadAngle = Mathf.Max(0f, _baseSpreadAngle + _additionalSpreadAngle);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateMultiAngle()
     {
         MultiAngle = Mathf.Max(0f, _baseMultiAngle + _additionalMultiAngle);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateProjectileCount()
     {
         ProjectileCount = Mathf.Max(1, _baseProjectileCount + _additionalProjectileCount);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateProjectileSize()
     {
         ProjectileSize = Mathf.Max(0.1f, _baseProjectileSize + _additionalProjectileSize);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateProjectileSpeed()
     {
         ProjectileSpeed = Mathf.Max(0.1f, _baseProjectileSpeed + _additionalProjectileSpeed);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateProjectileRange()
     {
         ProjectileRange = Mathf.Max(0.1f, _baseProjectileRange + _additionalProjectileRange);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculateReflectionCount()
     {
         ReflectionCount = Mathf.Max(0, _baseReflectionCount + _additionalReflectionCount);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
 
     private void RecalculatePenetrationCount()
     {
         PenetrationCount = Mathf.Max(0, _basePenetrationCount + _additionalPenetrationCount);
-        OnStatsChanged?.Invoke();
+
+        if (!_suppressEvents)
+        {
+            OnStatsChanged?.Invoke();
+        }
     }
     #endregion
 
-    // Start 메서드에서 모든 스탯 초기화
-    private void Start()
+    /// <summary>
+    /// 모든 스탯을 한 번에 재계산하는 메서드
+    /// </summary>
+    private void RecalculateAllStats()
     {
-        // 모든 스탯 초기화
+        _suppressEvents = true;  // 이벤트 발생 억제 시작
+
         RecalculateMaxHealth();
         RecalculateAttackPower();
         RecalculateMoveSpeed();
         RecalculateAttackSpeed();
+        RecalculateAutoFire();
         RecalculateSpreadAngle();
         RecalculateMultiAngle();
         RecalculateProjectileCount();
@@ -445,15 +545,45 @@ public class StatHandler : MonoBehaviour
         RecalculateProjectileRange();
         RecalculateReflectionCount();
         RecalculatePenetrationCount();
+
+        _suppressEvents = false;  // 이벤트 발생 억제 해제
+        OnStatsChanged?.Invoke();  // 모든 계산이 끝난 후 한 번만 이벤트 발생
     }
 
-    // 모든 추가 스탯 초기화 메서드
+    private void Start()
+    {
+        RecalculateAllStats();
+    }
+
+    /// <summary>
+    /// 에디터 상에서 스탯이 변경될 때 호출(테스트용)
+    /// </summary>
+    private void OnValidate()
+    {
+        // 에디터 모드에서만 처리
+        if (!Application.isPlaying)
+            return;
+
+        // 현재 인스턴스가 정상적으로 초기화되었는지 확인
+        if (Instance != this)
+            return;
+
+        // 모든 스탯 재계산 (이벤트 발생 최소화)
+        RecalculateAllStats();
+    }
+
+    /// <summary>
+    /// 모든 추가 스탯 초기화 메서드
+    /// </summary>
     public void ResetAdditionalStats()
     {
+        _suppressEvents = true;
+
         _additionalMaxHealth = 0;
         _additionalAttackPower = 0f;
         _additionalMoveSpeed = 0f;
         _additionalAttackSpeed = 0f;
+        _additionalAutoFire = false;
         _additionalSpreadAngle = 0f;
         _additionalMultiAngle = 0f;
         _additionalProjectileCount = 0;
@@ -463,19 +593,23 @@ public class StatHandler : MonoBehaviour
         _additionalReflectionCount = 0;
         _additionalPenetrationCount = 0;
 
-        // 모든 스탯 재계산
-        RecalculateMaxHealth();
-        RecalculateAttackPower();
-        RecalculateMoveSpeed();
-        RecalculateAttackSpeed();
-        RecalculateSpreadAngle();
-        RecalculateMultiAngle();
-        RecalculateProjectileCount();
-        RecalculateProjectileSize();
-        RecalculateProjectileSpeed();
-        RecalculateProjectileRange();
-        RecalculateReflectionCount();
-        RecalculatePenetrationCount();
+        _suppressEvents = false;
+
+        RecalculateAllStats();
     }
 
+    /// <summary>
+    /// 여러 스탯을 한꺼번에 변경할 때 사용하는 메서드
+    /// </summary>
+    public void ModifyMultipleStats(Action modifyAction)
+    {
+        if (modifyAction == null) return;
+
+        _suppressEvents = true;
+
+        modifyAction.Invoke();
+
+        _suppressEvents = false;
+        OnStatsChanged?.Invoke();
+    }
 }

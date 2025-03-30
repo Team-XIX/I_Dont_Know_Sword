@@ -29,8 +29,8 @@ public class WeaponFloating : MonoBehaviour
     private bool isFacingRight = true;
     private SpriteRenderer weaponSpriteRenderer;
     private Sequence floatSequence;
-    private Transform parentTransform;
     private Transform cachedTransform;
+    private bool isFireButtonPressed = false;     // 발사 버튼 누름 상태 추적
 
     // 외부에서 접근 가능한 속성들
     public bool IsInFireState => isInFireState;
@@ -55,7 +55,6 @@ public class WeaponFloating : MonoBehaviour
         }
 
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-        parentTransform = cachedTransform.parent;
 
         SetInitialPosition();
         SetupFloatAnimation();
@@ -65,6 +64,21 @@ public class WeaponFloating : MonoBehaviour
     {
         UpdateMousePosition();
 
+        // 연사 상태에서 발사 버튼이 계속 눌려있는지 확인
+        if (StatHandler.Instance != null && StatHandler.Instance.AutoFire && Mouse.current.leftButton.isPressed)
+        {
+            isFireButtonPressed = true;
+            if (!isInFireState)
+            {
+                // 연사 모드에서 눌려있는데 발사 상태가 아니면 발사 상태로 전환
+                OnFireInput();
+            }
+        }
+        else if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            isFireButtonPressed = false;
+        }
+
         if (!isInFireState)
         {
             HandleNormalState();
@@ -72,9 +86,21 @@ public class WeaponFloating : MonoBehaviour
         else
         {
             HandleFireState();
+
+            // 발사 상태이지만 버튼이 더 이상 눌려있지 않고, 연사 모드라면 발사 상태 종료
+            if (!isFireButtonPressed && StatHandler.Instance != null && StatHandler.Instance.AutoFire)
+            {
+                if (fireStateCoroutine != null)
+                {
+                    StopCoroutine(fireStateCoroutine);
+                    fireStateCoroutine = null;
+                }
+                isInFireState = false;
+            }
         }
 
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        // 단발 모드에서 좌클릭 시 발사
+        if (Mouse.current.leftButton.wasPressedThisFrame && (StatHandler.Instance == null || !StatHandler.Instance.AutoFire))
         {
             OnFireInput();
         }
@@ -194,16 +220,29 @@ public class WeaponFloating : MonoBehaviour
         // 마우스-플레이어 방향 계산
         fireDirection = (mousePosition - (Vector2)player.transform.position).normalized;
 
-        if (fireStateCoroutine != null)
+        // 연사 모드에서는 코루틴을 사용하지 않고 직접 isInFireState 상태 설정
+        if (StatHandler.Instance != null && StatHandler.Instance.AutoFire)
         {
-            StopCoroutine(fireStateCoroutine);
+            if (fireStateCoroutine != null)
+            {
+                StopCoroutine(fireStateCoroutine);
+                fireStateCoroutine = null;
+            }
+            isInFireState = true;
         }
-
-        fireStateCoroutine = StartCoroutine(FireStateCoroutine());
+        else
+        {
+            // 단발 모드에서는 기존 코루틴 방식 사용
+            if (fireStateCoroutine != null)
+            {
+                StopCoroutine(fireStateCoroutine);
+            }
+            fireStateCoroutine = StartCoroutine(FireStateCoroutine());
+        }
     }
 
     /// <summary>
-    /// Fire 상태 처리 코루틴
+    /// Fire 상태 처리 코루틴 (단발 모드에서 사용)
     /// </summary>
     private IEnumerator FireStateCoroutine()
     {
@@ -245,7 +284,18 @@ public class WeaponFloating : MonoBehaviour
     {
         if (context.performed)
         {
+            isFireButtonPressed = true;
             OnFireInput();
+        }
+        else if (context.canceled)
+        {
+            isFireButtonPressed = false;
+
+            // 연사 모드에서 버튼을 떼면 발사 상태 종료
+            if (StatHandler.Instance != null && StatHandler.Instance.AutoFire && isInFireState)
+            {
+                isInFireState = false;
+            }
         }
     }
 
