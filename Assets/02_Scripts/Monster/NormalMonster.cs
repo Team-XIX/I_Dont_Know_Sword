@@ -264,6 +264,6 @@ public class NormalMonster : MonsterBase
     {
         if(target == null) return;// 타겟이 없으면 리턴
         if(Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
-            Debug.Log("Attack");
+            Debug.Log("Attack");//idamageable 인터페이스를 구현한 플레이어에게 데미지를 입히는 코드로 추후 변경.
     }
 }

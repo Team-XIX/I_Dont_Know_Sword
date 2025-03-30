@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
     [Header("이동 설정")]
     [SerializeField] private float moveSpeed = 5f;
@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
+    [SerializeField] private Transform weaponTransform;
 
     private Collider2D playerCollider;
     private Animator animator;
@@ -56,6 +57,10 @@ public class PlayerController : MonoBehaviour
 
         isMovingHash = Animator.StringToHash("isMoving");
         isDashingHash = Animator.StringToHash("isDashing");
+        if (weaponTransform == null)
+        {
+            weaponTransform = transform.Find("Weapon");
+        }
     }
 
     void Start()
@@ -131,7 +136,6 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 대시 실행
     /// </summary>
-    /// <returns></returns>
     private IEnumerator PerformDash()
     {
         canDash = false;
@@ -168,9 +172,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ApplyInvincibility()
     {
         isInvincible = true;
-        playerCollider.enabled = false;
         yield return invincibilityDurationWait;
-        playerCollider.enabled = true;
         isInvincible = false;
     }
 
@@ -179,8 +181,33 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void FireProjectile()
     {
-        // 구현 예정
-        // ProjectileSystem.Instance.FireProjectile(transform.position, lastMoveDirection);
+        if (ProjectileSystem.Instance == null) return;
+
+        Vector2 mousePosition = Vector2.zero;
+        Vector2 fireDirection = lastMoveDirection;
+
+        WeaponFloating weaponFloating = weaponTransform != null ?
+            weaponTransform.GetComponent<WeaponFloating>() : null;
+
+        if (weaponFloating != null)
+        {
+            mousePosition = weaponFloating.GetMousePosition();
+            fireDirection = (mousePosition - (Vector2)transform.position).normalized;
+        }
+
+        Vector2 firePosition;
+        float weaponOffset = 1.0f;
+
+        if (weaponTransform != null)
+        {
+            firePosition = weaponTransform.position;
+        }
+        else
+        {
+            firePosition = (Vector2)transform.position + fireDirection * weaponOffset;
+        }
+
+        ProjectileSystem.Instance.FireProjectile(firePosition, fireDirection);
     }
 
     /// <summary>
@@ -219,6 +246,15 @@ public class PlayerController : MonoBehaviour
                 scale.y,
                 scale.z
             );
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isInvincible) return;
+        if (StatHandler.Instance != null)
+        {
+            StatHandler.Instance.CurrentHealth -= damage;
         }
     }
 }
