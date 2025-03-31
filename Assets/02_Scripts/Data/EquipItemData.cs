@@ -1,17 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using System.IO;
-using System;
 
-// 아이템 데이터 클래스
 [System.Serializable]
-public class ItemData : BaseData
+public class EquipItemData : BaseData
 {
-    public int value;
-    public bool isPermanent;
-    public float time;
+    public float value;
+    public int type;
+    public bool canStack;
+    public int maxStackAmount;
     public string spritePath;
 
     public Sprite GetSprite()
@@ -38,13 +35,16 @@ public class ItemData : BaseData
                     description = values[i];
                     break;
                 case "value":
-                    value = int.Parse(values[i]);
+                    value = float.Parse(values[i]);
                     break;
-                case "isPermanent":
-                    isPermanent = bool.Parse(values[i]);
+                case "type":
+                    type = int.Parse(values[i]);
                     break;
-                case "time":
-                    time = float.Parse(values[i]);
+                case "canStack":
+                    canStack = bool.Parse(values[i]);
+                    break;
+                case "maxStackAmount":
+                    maxStackAmount = int.Parse(values[i]);
                     break;
                 case "spritePath":
                     spritePath = values[i];
@@ -54,6 +54,3 @@ public class ItemData : BaseData
         }
     }
 }
-
-
-
