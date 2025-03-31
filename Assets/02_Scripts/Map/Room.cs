@@ -43,6 +43,9 @@ public class Room : MonoBehaviour
                 break;
             default: break;
         }
+
+        //조건을 달성하기 전 다른 방으로 이동 못하게 막기
+        CloseEnterance();
     }
 
     //입구 초기화
@@ -55,6 +58,24 @@ public class Room : MonoBehaviour
         foreach (GameObject block in roomBlock)
         {
             block.SetActive(false);
+        }
+    }
+
+    //모든 입구 오픈
+    public void OpenEnterance()
+    {
+        foreach (GameObject re in roomEnterance)
+        {
+            re.GetComponent<Collider2D>().isTrigger = true;
+        }
+    }
+
+    //모든 입구 봉쇄
+    public void CloseEnterance()
+    {
+        foreach (GameObject re in roomEnterance)
+        {
+            re.GetComponent<Collider2D>().isTrigger = false;
         }
     }
 }

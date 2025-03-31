@@ -22,6 +22,10 @@ public class MapCreator : MonoBehaviour
     [SerializeField]
     private int currentRoomNum;
 
+    [Header("현재 있는 방의 클리어 여부")]
+    [SerializeField]
+    private bool isCleared;
+
     //플레이어 이동시키는 Action
     public static Action<Direction> teleportAction;
 
@@ -35,12 +39,14 @@ public class MapCreator : MonoBehaviour
         roomInterval = 3;
 
         //초기 시작
+        isCleared = false;
         currentRoomNum = 0;
         teleportAction += Teleport;
 
         CreateMap();
     }
 
+    //맵 생성
     void CreateMap()
     {
         for (int i = 0; i < mapHeight; i++)
@@ -57,33 +63,39 @@ public class MapCreator : MonoBehaviour
         }
     }
 
+    //입구 관리
     void CheckEnterance(Room room, int height, int width)
     {
-        //위쪽 출구 봉쇄
+        //위쪽 입구 봉쇄
         if (height == mapHeight - 1)
         {
             room.ControlEnterance(Direction.Up);
         }
-        //밑쪽 출구 봉쇄
+        //밑쪽 입구 봉쇄
         else if (height == 0)
         {
             room.ControlEnterance(Direction.Down);
         }
 
-        //왼쪽 출구 봉쇄
+        //왼쪽 입구 봉쇄
         if (width == 0)
         {
             room.ControlEnterance(Direction.Left);
         }
-        //오른쪽 출구 봉쇄
+        //오른쪽 입구 봉쇄
         else if (width == mapWidth - 1)
         {
             room.ControlEnterance(Direction.Right);
         }
     }
 
+    //방간의 이동 구현
     public void Teleport(Direction dir)
     {
+        if(!isCleared)
+        {
+            return;
+        }
         switch (dir)
         {
             case Direction.Up:
@@ -103,6 +115,24 @@ public class MapCreator : MonoBehaviour
                 playerController.transform.position = roomMap[currentRoomNum].spawnPoint[2].position; 
                 break;
             default: break;
+        }
+    }
+
+    //모든 방의 입구 봉쇄
+    public void OpenAllRooms()
+    {
+        foreach (Room room in roomMap)
+        {
+            room.OpenEnterance();
+        }
+    }
+
+    //모든 방의 입구 봉쇄
+    public void BlockAllRooms()
+    {
+        foreach (Room room in roomMap)
+        {
+            room.CloseEnterance();
         }
     }
 
