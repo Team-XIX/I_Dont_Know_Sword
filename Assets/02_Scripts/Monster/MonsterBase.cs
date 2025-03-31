@@ -46,6 +46,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     private Dictionary<MonsterState, Func<IEnumerator>> stateHandlers;// FSM 패턴의 코루틴을 실행하기 위한 딕셔너리.
 
     [Header("Monster etc")]
+    public static Action<GameObject> OnMonsterDied;
     [SerializeField] protected MonsterData monsterData;
     SpriteRenderer spriteRenderer;
     Color originalColor;
@@ -91,7 +92,10 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         };
         StartCoroutine(StateMachine());
     }
-
+    private void OnDisable()
+    {
+        OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
+    }
     protected IEnumerator StateMachine()
     {
         while (true)
