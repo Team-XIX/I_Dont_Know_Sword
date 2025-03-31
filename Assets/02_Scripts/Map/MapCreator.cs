@@ -124,6 +124,7 @@ public class MapCreator : MonoBehaviour
         foreach (Room room in roomMap)
         {
             room.OpenEnterance();
+            isCleared = true;
         }
     }
 
@@ -133,6 +134,7 @@ public class MapCreator : MonoBehaviour
         foreach (Room room in roomMap)
         {
             room.CloseEnterance();
+            isCleared = false;
         }
     }
 
