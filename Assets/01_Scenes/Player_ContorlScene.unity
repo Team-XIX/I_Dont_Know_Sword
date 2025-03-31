@@ -392,6 +392,14 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1019717945}
+    - target: {fileID: 1582148312394575312, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: positionLerpSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582148312394575312, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
+      propertyPath: rotationLerpSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: m_BodyType
       value: 0

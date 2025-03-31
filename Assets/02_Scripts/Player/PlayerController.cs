@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// 플레이어가 발사체를 발사
+    /// 플레이어가 투사체 발사
     /// </summary>
     private void FireProjectile()
     {
@@ -267,21 +267,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             mousePosition = weaponFloating.GetMousePosition();
             fireDirection = (mousePosition - (Vector2)transform.position).normalized;
-        }
 
-        Vector2 firePosition;
-        float weaponOffset = 1.0f;
+            // 수정: 무기의 최종 목표 위치 계산 (무기가 향하게 될 위치)
+            Vector2 targetWeaponPosition = (Vector2)transform.position +
+                fireDirection * weaponFloating.GetFireDistance();
 
-        if (weaponTransform != null)
-        {
-            firePosition = weaponTransform.position;
+            // 투사체 시스템을 통해 무기의 목표 위치에서 발사
+            ProjectileSystem.Instance.FireProjectile(targetWeaponPosition, fireDirection);
         }
-        else
-        {
-            firePosition = (Vector2)transform.position + fireDirection * weaponOffset;
-        }
-
-        ProjectileSystem.Instance.FireProjectile(firePosition, fireDirection);
     }
 
     /// <summary>
