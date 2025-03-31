@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using Unity.VisualScripting;
 
 public class DataManager : SingleTon<DataManager>
 {  
@@ -49,6 +50,9 @@ public class DataManager : SingleTon<DataManager>
         equipItemDataJsonPath = Path.Combine(Application.persistentDataPath, "equipItemData.json");
         monsterJsonPath = Path.Combine(Application.persistentDataPath, "monsterData.json");
         weaponJsonPath = Path.Combine(Application.persistentDataPath, "weaponData.json");
+
+        if (transform.root != null || transform.parent != null)
+            DontDestroyOnLoad(transform.root);
     }
 
     void Start()

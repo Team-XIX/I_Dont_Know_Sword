@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 1836466049364160516}
   - component: {fileID: 4206271153996008205}
   - component: {fileID: 5791667763987321725}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dark Mage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

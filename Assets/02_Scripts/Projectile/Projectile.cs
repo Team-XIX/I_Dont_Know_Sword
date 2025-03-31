@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         wallLayer = LayerMask.NameToLayer("Wall");
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
-        enemyLayer = LayerMask.NameToLayer("Enemy"); // Enemy 레이어 캐싱
+        enemyLayer = LayerMask.NameToLayer("Monster"); // Enemy 레이어 캐싱
     }
 
     private void OnEnable()

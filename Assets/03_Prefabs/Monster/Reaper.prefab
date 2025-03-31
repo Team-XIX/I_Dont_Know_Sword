@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 4538576488586057270}
   - component: {fileID: 5574486922506083561}
   - component: {fileID: 5509379350906961370}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Reaper
   m_TagString: Untagged
   m_Icon: {fileID: 0}

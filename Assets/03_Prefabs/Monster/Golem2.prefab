@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2380952502744587555}
   - component: {fileID: 3422166432753352795}
   - component: {fileID: 5568594336752619909}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Golem2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
