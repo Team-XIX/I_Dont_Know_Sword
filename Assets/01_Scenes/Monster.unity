@@ -668,10 +668,6 @@ PrefabInstance:
       propertyPath: shootRight
       value: 
       objectReference: {fileID: 1848065913}
-    - target: {fileID: 5791667763987321725, guid: 8f0f3ded9aae3f44b94571e627a0d1c1, type: 3}
-      propertyPath: projectileSpeed
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 8946901293489629059, guid: 8f0f3ded9aae3f44b94571e627a0d1c1, type: 3}
       propertyPath: m_Name
       value: Dark Mage

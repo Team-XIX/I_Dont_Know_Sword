@@ -6,6 +6,8 @@ using UnityEngine;
 public class DarkMage : MonsterBase
 {
     [SerializeField] private float projectileSpeed = 7f; // 투사체 속도
+    [SerializeField] private int samplePoints = 8; // 샘플링할 점의 개수 (몬스터의 콜라이더가 벽 콜라이더와 겹침을 확인하기 위한 샘플 포인트)
+    CircleCollider2D circleCollider;
     bool isNearWall = false;
     int wallLayerMask;
 
@@ -18,13 +20,14 @@ public class DarkMage : MonsterBase
     protected override void Start()
     {
         base.Start();
+        circleCollider = GetComponent<CircleCollider2D>();
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
         InvokeRepeating(nameof(IsNearWall), 0f, 0.1f); // 0.1초마다 벽 감지
         InvokeRepeating(nameof(SetMove), 0f, 3f); // 4초마다 이동시작 (이동 시작후 2초후 스킬 사용)
     }
 
-    // 몬스터 행동 패턴
+    // 몬스터 이동 패턴
     private void UpdatePath()
     {
         if (target == null || Vector2.Distance(transform.position, target.transform.position) > detectRange)
@@ -62,7 +65,7 @@ public class DarkMage : MonsterBase
             isNearWall = false; // 벽이 없거나, 벽과 충분한 거리가 있다면 false
         }
     }
-    private void MoveTo(Vector2 targetPos)
+    private void MoveTo(Vector2 targetPos)// direction에 단위벡터를 받고 deltatime과 이동 속도를 통해 프레임당 이동할 거리를 받아 transform의 위치를 매 프레임마다 이동 시켜주는 메서드.
     {
         Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
         float moveDistance = moveSpeed * Time.deltaTime;
@@ -82,6 +85,59 @@ public class DarkMage : MonsterBase
 
         // 벽이 없거나 충분한 거리가 있으면 이동
         transform.position = nextPosition;
+    }
+
+    // 몬스터 행동 패턴
+    void SetMove()// 일정 시간마다 2초간 움직임.
+    {
+        // 벽에 끼인 상태면 강제로 플레이어를 향해 이동.
+        if (IsStuckInWall())
+            StartCoroutine(ForceMoveFromWall());
+
+        monsterState = MonsterState.Move;
+        StartCoroutine(MoveAttack());
+    }
+    bool IsStuckInWall()// 몬스터가 벽에 끼였는지 확인. (비상 탈출용)
+    {
+        if (circleCollider == null) return false;
+
+        Vector2 center = circleCollider.bounds.center;
+        float radius = circleCollider.radius * transform.localScale.x; // 실제 반지름 고려
+        int wallCount = 0;
+
+        // 원 주변을 샘플링해서 Wall과 겹치는 부분 체크
+        for (int i = 0; i < samplePoints; i++)
+        {
+            float angle = (i / (float)samplePoints) * 2 * Mathf.PI;
+            Vector2 samplePoint = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+
+            if (Physics2D.OverlapPoint(samplePoint, wallLayerMask))
+            {
+                wallCount++;
+            }
+        }
+
+        // 겹친 비율이 설정값을 넘으면 true 반환
+        return (wallCount / (float)samplePoints) >= 0.3f;// 30% 이상이면 벽에 끼인 것으로 판단.
+    }
+    IEnumerator ForceMoveFromWall()// 1.5초 동안 강제로 플레이어의 위치로 이동.
+    {
+        if (target == null) yield break;
+
+        float time = 0f;
+        Vector2 targetPos = target.transform.position;
+        Vector2 startPos = transform.position;
+        while (time < 1.5f)
+        {
+            time += Time.deltaTime;
+            transform.position = Vector2.Lerp(startPos, targetPos, time);
+            yield return null;
+        }
+    }
+    IEnumerator MoveAttack()
+    {
+        yield return new WaitForSeconds(2f);
+        monsterState = MonsterState.Skill;
     }
 
     // 몬스터 상태 머신
@@ -165,9 +221,9 @@ public class DarkMage : MonsterBase
     {
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        int random = Random.Range(0, 2);
+        int random = Random.Range(0, 3);
 
-        if (random == 0)
+        if (random == 0)// 1/3 확률로 플레이어의 위치로 투사체 연속 발사.
         {
             if (curAnimStateInfo.IsName("BloodShot") == false)
             {
@@ -176,7 +232,7 @@ public class DarkMage : MonsterBase
                 curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
             }
         }
-        else
+        else// 2/3 확률로 원형으로 투사체 24개 발사.
         {
             if (curAnimStateInfo.IsName("BloodExplode") == false)
             {
@@ -222,16 +278,6 @@ public class DarkMage : MonsterBase
     protected override void MonsterDead()
     {
         gameObject.SetActive(false);
-    }
-    void SetMove()// 일정 시간마다 2초간 움직임.
-    {
-        monsterState = MonsterState.Move;
-        StartCoroutine(MoveAttack());
-    }
-    IEnumerator MoveAttack()
-    {
-        yield return new WaitForSeconds(2f);
-        monsterState = MonsterState.Skill;
     }
 
     // 애니메이션 이벤트
