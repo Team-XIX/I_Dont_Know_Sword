@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -461594295, guid: 56f90d4649757d74291acccf32595682, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -104,8 +104,8 @@ MonoBehaviour:
   verticalOffset: 0
   floatDuration: 1
   floatDistance: 0.1
-  positionLerpSpeed: 12
-  rotationLerpSpeed: 12
+  positionLerpSpeed: 50
+  rotationLerpSpeed: 50
   fireStateDuration: 0.75
 --- !u!1 &6060907635323760927
 GameObject:
@@ -259,14 +259,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7811795166722742393}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -277,7 +277,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1894662130002764224
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -419,6 +419,7 @@ MonoBehaviour:
   dashInvincibilityDuration: 0.15
   dashCooldown: 0.45
   mainSprite: {fileID: 6060907635323760927}
+  weaponTransform: {fileID: 7121044079538843751}
 --- !u!114 &6627434036239352626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,15 +432,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a402e94bd351c4d828b8d41492d3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 3
-  _attackPower: 10
-  _moveSpeed: 5
+  _baseMaxHealth: 3
+  _baseAttackPower: 10
+  _baseMoveSpeed: 5
   _currentHealth: 0
-  _attackSpeed: 1
-  _spreadAngle: 0
-  _multiAngle: 0
-  _projectileSize: 1
-  _projectileSpeed: 0
-  _projectileRange: 0
-  _reflectionCount: 0
-  _penetrationCount: 0
+  _baseAttackSpeed: 2
+  _baseAutoFire: 0
+  _baseSpreadAngle: 0
+  _baseMultiAngle: 0
+  _baseProjectileCount: 1
+  _baseProjectileSize: 3
+  _baseProjectileSpeed: 10
+  _baseProjectileRange: 2
+  _baseReflectionCount: 0
+  _basePenetrationCount: 0
