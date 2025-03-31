@@ -1726,6 +1726,7 @@ GameObject:
   - component: {fileID: 5181007394051099498}
   - component: {fileID: 8046283399537293400}
   - component: {fileID: 2128100348859257597}
+  - component: {fileID: 1894969395150280335}
   m_Layer: 6
   m_Name: Enterance_D
   m_TagString: Untagged
@@ -1997,6 +1998,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &1894969395150280335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2698256305062824707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 1
 --- !u!1 &3265421415740730245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,6 +2023,7 @@ GameObject:
   - component: {fileID: 543929729130286979}
   - component: {fileID: 6313223712116268038}
   - component: {fileID: 595171656161973803}
+  - component: {fileID: 3155322257060286520}
   m_Layer: 6
   m_Name: Enterance_R
   m_TagString: Untagged
@@ -2280,6 +2295,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &3155322257060286520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265421415740730245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 3
 --- !u!1 &3602615821539699223
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,6 +2383,11 @@ MonoBehaviour:
   - {fileID: 4896827135532813348}
   - {fileID: 4816350949863025699}
   - {fileID: 4773245430082352244}
+  spawnPoint:
+  - {fileID: 5917363049559456320}
+  - {fileID: 7682517942273539892}
+  - {fileID: 7348131008012428140}
+  - {fileID: 930660257833327136}
 --- !u!1 &3749404875762186255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2666,7 +2699,7 @@ TilemapCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -2685,6 +2718,7 @@ GameObject:
   - component: {fileID: 4588174808103772394}
   - component: {fileID: 1212312915328701430}
   - component: {fileID: 4502585955589008775}
+  - component: {fileID: 7362856149096941224}
   m_Layer: 6
   m_Name: Enterance_L
   m_TagString: Untagged
@@ -2956,6 +2990,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &7362856149096941224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4796425633466956673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 2
 --- !u!1 &4816350949863025699
 GameObject:
   m_ObjectHideFlags: 0
@@ -3232,7 +3279,7 @@ TilemapCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -3515,7 +3562,7 @@ TilemapCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -4892,6 +4939,7 @@ GameObject:
   - component: {fileID: 3495415262558301735}
   - component: {fileID: 793938832435225518}
   - component: {fileID: 4737502498535888490}
+  - component: {fileID: 6730680410328792611}
   m_Layer: 6
   m_Name: Enterance_U
   m_TagString: Untagged
@@ -5163,6 +5211,19 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &6730680410328792611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618628074485149726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc554734d3a79ca46986d0750c6b2af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dir: 0
 --- !u!1 &7427297496855369382
 GameObject:
   m_ObjectHideFlags: 0
@@ -14814,7 +14875,7 @@ TilemapCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
