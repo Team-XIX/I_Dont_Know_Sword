@@ -47,7 +47,7 @@ public class ItemSlot : MonoBehaviour
         AmmoText.text = string.Empty;
     }
 
-    public void OnClick()
+    public void SwapWeapon()
     {
         onItemSelected?.Invoke(index); // 해당 슬롯 선택
     }
