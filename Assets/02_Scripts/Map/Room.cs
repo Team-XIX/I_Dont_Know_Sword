@@ -31,7 +31,7 @@ public class Room : MonoBehaviour
     private void Start()
     {
         //몬스터가 죽었을때의 이벤트 구독 예정
-
+        MonsterBase.OnMonsterDied += CheckClear;
     }
 
     //방 생성시 입구 관리
@@ -96,11 +96,10 @@ public class Room : MonoBehaviour
     //방 내 모든 몬스터 죽이기
     public void KillAllMonstersInRoom()
     {
-        foreach (GameObject monsters in monsterList)
+        for(int i = monsterList.Count - 1; i >= 0; i--)
         {
-            monsters.SetActive(false);
+            monsterList[i].SetActive(false);
         }
-        RoomClear();
     }
 
     //클리어 여부 체크
@@ -110,6 +109,7 @@ public class Room : MonoBehaviour
         if(monsterList.Count == 0)
         {
             RoomClear();
+            MonsterBase.OnMonsterDied -= CheckClear;
         }
     }
 
@@ -119,7 +119,4 @@ public class Room : MonoBehaviour
         isCleared = true;
         OpenEnterance();
     }
-
-    //이벤트 할당 해제 예정
-    private void OnDestroy() { }
 }

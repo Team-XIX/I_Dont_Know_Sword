@@ -51,7 +51,7 @@ public class MapCreator : MonoBehaviour
         {
             for (int j = 0; j < mapLength; j++)
             {
-                Room room = new Room();
+                Room room;
                 if (i + j == mapLength - 1)
                 {
                     room = roomElitePrefabs[UnityEngine.Random.Range(0, roomElitePrefabs.Count)];
