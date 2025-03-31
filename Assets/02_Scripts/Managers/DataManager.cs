@@ -19,7 +19,7 @@ public class DataManager : SingleTon<DataManager>
     }
 
     public List<ItemData> itemDataList = new List<ItemData>();
-    public List<MonsterData> monsterDataList = new List<MonsterData>();
+    public List<MonsterDataBase> monsterDataList = new List<MonsterDataBase>();
 
 
     private string itemJsonPath;
@@ -110,7 +110,7 @@ public class DataManager : SingleTon<DataManager>
         return itemDataList.Find(item => item.id == id);
     }
 
-    public MonsterData GetMonsterById(int id)
+    public MonsterDataBase GetMonsterById(int id)
     {
         return monsterDataList.Find(monster => monster.id == id);
     }
