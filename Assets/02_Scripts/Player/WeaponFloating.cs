@@ -359,4 +359,12 @@ public class WeaponFloating : MonoBehaviour
 
         return Vector2.Distance(transform.position, player.transform.position);
     }
+
+    /// <summary>
+    /// 발사 시 무기가 플레이어로부터 떨어져야 하는 거리 반환
+    /// </summary>
+    public float GetFireDistance()
+    {
+        return fixedFireDistance;
+    }
 }
