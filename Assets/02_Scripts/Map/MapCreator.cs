@@ -22,10 +22,6 @@ public class MapCreator : MonoBehaviour
     [SerializeField]
     private int currentRoomNum;
 
-    [Header("현재 있는 방의 클리어 여부")]
-    [SerializeField]
-    private bool isCleared;
-
     //플레이어 이동시키는 Action
     public static Action<Direction> teleportAction;
 
@@ -39,11 +35,12 @@ public class MapCreator : MonoBehaviour
         roomInterval = 3;
 
         //초기 시작
-        isCleared = false;
         currentRoomNum = 0;
         teleportAction += Teleport;
 
         CreateMap();
+
+        playerController.transform.position = roomMap[0].spawnPoint[1].position;
     }
 
     //맵 생성
@@ -92,7 +89,7 @@ public class MapCreator : MonoBehaviour
     //방간의 이동 구현
     public void Teleport(Direction dir)
     {
-        if(!isCleared)
+        if (!roomMap[currentRoomNum].isCleared)
         {
             return;
         }
@@ -118,13 +115,39 @@ public class MapCreator : MonoBehaviour
         }
     }
 
-    //모든 방의 입구 봉쇄
+    //현재 방에 있는 모든 몬스터 죽이기
+    public void KillMostersInCurrentRoom()
+    {
+        roomMap[currentRoomNum].KillAllMonstersInRoom();
+    }
+
+    //현재 방에 있는 입구 개방 
+    public void OpenEnteranceInCurrentRoom()
+    {
+        roomMap[currentRoomNum].OpenEnterance();
+    }
+
+    //현재 방에 있는 입구 봉쇄
+    public void BlockEnteranceInCurrentRoom()
+    {
+        roomMap[currentRoomNum].CloseEnterance();
+    }
+
+    //현재 맵에 있는 모든 몬스터 죽이기
+    public void KillMosters()
+    {
+        foreach (Room room in roomMap)
+        {
+            room.KillAllMonstersInRoom();
+        }
+    }
+
+    //모든 방의 입구 개방
     public void OpenAllRooms()
     {
         foreach (Room room in roomMap)
         {
-            room.OpenEnterance();
-            isCleared = true;
+            room.RoomClear();
         }
     }
 
@@ -134,8 +157,10 @@ public class MapCreator : MonoBehaviour
         foreach (Room room in roomMap)
         {
             room.CloseEnterance();
-            isCleared = false;
+            room.isCleared = false;
         }
     }
+
+
 
 }
