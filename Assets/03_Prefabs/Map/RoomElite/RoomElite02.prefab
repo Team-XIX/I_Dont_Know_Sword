@@ -13802,6 +13802,8 @@ MonoBehaviour:
   - {fileID: 7222941436295095089}
   - {fileID: 5171300775050949426}
   spawnPoint: []
+  monsterList: []
+  isCleared: 0
 --- !u!1 &7790181231632117535
 GameObject:
   m_ObjectHideFlags: 0
@@ -14035,6 +14037,10 @@ PrefabInstance:
     - target: {fileID: 6445192420496021667, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_Name
       value: Reaper
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445192420496021667, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8832900523967065144, guid: 6a00bda5973c4ed478f0308c3c4a8063, type: 3}
       propertyPath: m_LocalPosition.x

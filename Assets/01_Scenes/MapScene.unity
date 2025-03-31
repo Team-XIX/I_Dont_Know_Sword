@@ -161,12 +161,14 @@ MonoBehaviour:
   - {fileID: 1088475255423639471, guid: 58ba7f4cd2a62804bb868eafb4322d4e, type: 3}
   - {fileID: 4811734962414366277, guid: 905fbe4ff24187746b15ddaa40e4c422, type: 3}
   - {fileID: 2167247731363965117, guid: fe916f7221d05f449a61054ba0278875, type: 3}
+  roomElitePrefabs:
+  - {fileID: 3867434031198124936, guid: 53400152c6b3890498edd67bb7a1206f, type: 3}
+  - {fileID: 7871490552352601862, guid: 9651bd946f3dc9847befd56af9cd39ee, type: 3}
   roomMap: []
   mapWidth: 0
   mapHeight: 0
   roomInterval: 0
   currentRoomNum: 0
-  isCleared: 0
   playerController: {fileID: 8150347106428795478}
 --- !u!4 &1619189295
 Transform:
