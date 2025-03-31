@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dark Mage
   m_EditorClassIdentifier: 
   maxHp: 80
-  attackPower: 3
+  attackPower: 1
   attackSpeed: 3
   attackRange: 0
-  detectRange: 20
-  moveSpeed: 3.5
+  detectRange: 12
+  moveSpeed: 4

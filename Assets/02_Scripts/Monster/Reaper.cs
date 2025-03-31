@@ -32,8 +32,6 @@ public class Reaper : MonsterBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-            TakeDamage(2);
         dashCoolTime -= Time.deltaTime;
         deathHandCoolTime -= Time.deltaTime;
     }
@@ -58,6 +56,7 @@ public class Reaper : MonsterBase
     }
     private void IsNearWall()
     {
+        if(target == null) return;
         Vector2 monsterPos = transform.position;
         Vector2 targetPos = target.transform.position;
 

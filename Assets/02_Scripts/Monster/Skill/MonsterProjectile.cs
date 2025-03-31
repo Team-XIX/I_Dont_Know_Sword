@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class MonsterProjectile : MonoBehaviour
 {
-    public int damage;
     [SerializeField] LayerMask wallLayer;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.TryGetComponent(out PlayerController player))
         {
-            player.TakeDamage(damage);
+            player.TakeDamage(1);
             this.gameObject.SetActive(false);
         }
 

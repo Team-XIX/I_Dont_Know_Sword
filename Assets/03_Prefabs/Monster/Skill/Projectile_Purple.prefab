@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2578113836549197118}
   - component: {fileID: 1981700384692281489}
   - component: {fileID: 103220917847714510}
+  - component: {fileID: 1341034547330148687}
   m_Layer: 0
   m_Name: Projectile_Purple
   m_TagString: Untagged
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -648381341, guid: 70e734cd3b5ead54fbac8b38cea23a0d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -155,4 +156,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a2863f2b4eb7942ba8ae4196f7a4a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!50 &1341034547330148687
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994859307863215092}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
