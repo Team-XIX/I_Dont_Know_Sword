@@ -19,25 +19,31 @@ public class DataManager : SingleTon<DataManager>
     }
 
     public List<ItemData> itemDataList = new List<ItemData>();
-    public List<MonsterDataBase> monsterDataList = new List<MonsterDataBase>();
+    public List<EquipItemData> equipItemDataList = new List<EquipItemData>();
+    public List<EnemyData> enemyDataList = new List<EnemyData>();
 
 
     private string itemJsonPath;
+    private string equipItemDataJsonPath;
     private string monsterJsonPath;
 
     private string itemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1249418767";
-    private string monsterUrl = "https://docs.google.com/spreadsheets/d/스프레드시트ID/gviz/tq?tqx=out:csv&gid=1";
+    private string equipItemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1091773342";
+    private string monsterUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1227733515";
+
     private void Awake()
     {
         //불러올 경로 설정
         itemJsonPath = Path.Combine(Application.persistentDataPath, "itemData.json");
-        //monsterJsonPath = Path.Combine(Application.persistentDataPath, "monsterData.json");
+        equipItemDataJsonPath = Path.Combine(Application.persistentDataPath, "equipItemData.json");
+        monsterJsonPath = Path.Combine(Application.persistentDataPath, "monsterData.json");
     }
 
     void Start()
     {
         StartCoroutine(DownloadAndSaveData<ItemData>(itemUrl, itemJsonPath, itemDataList));
-        //StartCoroutine(DownloadAndSaveData<MonsterData>(monsterUrl, monsterJsonPath, monsterDataList));
+        StartCoroutine(DownloadAndSaveData<EquipItemData>(equipItemUrl, equipItemDataJsonPath, equipItemDataList));
+        StartCoroutine(DownloadAndSaveData<EnemyData>(monsterUrl, monsterJsonPath, enemyDataList));
     }
 
     // 데이터 다운로드 후 JSON으로 저장
@@ -109,10 +115,15 @@ public class DataManager : SingleTon<DataManager>
         //Dictionary
         return itemDataList.Find(item => item.id == id);
     }
-
-    public MonsterDataBase GetMonsterById(int id)
+    public EquipItemData GetEquipItemById(int id)
     {
-        return monsterDataList.Find(monster => monster.id == id);
+        //Dictionary
+        return equipItemDataList.Find(item => item.id == id);
+    }
+
+    public EnemyData GetMonsterById(int id)
+    {
+        return enemyDataList.Find(monster => monster.id == id);
     }
 
   

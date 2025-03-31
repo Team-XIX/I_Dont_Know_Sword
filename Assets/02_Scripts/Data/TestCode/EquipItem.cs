@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test_Item : MonoBehaviour
+public class EquipItem : MonoBehaviour
 {
     public int getId;
 
-    public ItemData itemData;
+    public EquipItemData equipItemData;
     SpriteRenderer _spriteRenderer;
 
     public void Start()
     {
-        Invoke("init",3f);
+        Invoke("init", 3f);
     }
 
     void init()
     {
-        itemData = DataManager.Instance.GetItemById(getId);
+        equipItemData = DataManager.Instance.GetEquipItemById(getId);
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _spriteRenderer.sprite = itemData.GetSprite();
+        _spriteRenderer.sprite = equipItemData.GetSprite();
     }
 }
