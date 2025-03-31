@@ -167,11 +167,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &611314538 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7121044079538843751, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-  m_PrefabInstance: {fileID: 2205411825643489379}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1019717943
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,78 +387,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1019717945}
-    - target: {fileID: 1582148312394575312, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: positionLerpSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1582148312394575312, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: rotationLerpSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: m_AngularDrag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3146412242309649631, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681502186866469974, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _spreadAngle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseAutoFire
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseMultiAngle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseAttackSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseSpreadAngle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _projectileRange
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _projectileSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseProjectileSize
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseProjectileCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6627434036239352626, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: _baseProjectileRange
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7026741663344885889, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
-      propertyPath: weaponTransform
-      value: 
-      objectReference: {fileID: 611314538}
     - target: {fileID: 7811795166722742393, guid: bec0a23864d44c744b6b75d160df9e12, type: 3}
       propertyPath: m_Name
       value: Player
