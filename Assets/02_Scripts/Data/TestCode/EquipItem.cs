@@ -11,7 +11,8 @@ public class EquipItem : MonoBehaviour
 
     public void Start()
     {
-        Invoke("init", 3f);
+        getId = Random.Range(1, DataManager.Instance.equipItemCount);
+        init();
     }
 
     void init()

@@ -21,15 +21,26 @@ public class DataManager : SingleTon<DataManager>
     public List<ItemData> itemDataList = new List<ItemData>();
     public List<EquipItemData> equipItemDataList = new List<EquipItemData>();
     public List<EnemyData> enemyDataList = new List<EnemyData>();
+    public List<WeaponData> weaponDataList = new List<WeaponData>();
 
+    public GameObject item;
+    public GameObject equipItem;
+    public GameObject enemy;
 
     private string itemJsonPath;
     private string equipItemDataJsonPath;
     private string monsterJsonPath;
+    private string weaponJsonPath;
 
     private string itemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1249418767";
     private string equipItemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1091773342";
     private string monsterUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1227733515";
+    private string weaponUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=430856127";
+
+    public int itemCount { get; private set; }
+    public int equipItemCount { get; private set; }
+    public int enemyCount { get; private set; }
+    public int weaponCount { get; private set; }
 
     private void Awake()
     {
@@ -37,12 +48,14 @@ public class DataManager : SingleTon<DataManager>
         itemJsonPath = Path.Combine(Application.persistentDataPath, "itemData.json");
         equipItemDataJsonPath = Path.Combine(Application.persistentDataPath, "equipItemData.json");
         monsterJsonPath = Path.Combine(Application.persistentDataPath, "monsterData.json");
+        weaponJsonPath = Path.Combine(Application.persistentDataPath, "weaponData.json");
     }
 
     void Start()
     {
         StartCoroutine(DownloadAndSaveData<ItemData>(itemUrl, itemJsonPath, itemDataList));
         StartCoroutine(DownloadAndSaveData<EquipItemData>(equipItemUrl, equipItemDataJsonPath, equipItemDataList));
+        StartCoroutine(DownloadAndSaveData<WeaponData>(weaponUrl, weaponJsonPath, weaponDataList));
         StartCoroutine(DownloadAndSaveData<EnemyData>(monsterUrl, monsterJsonPath, enemyDataList));
     }
 
@@ -63,6 +76,7 @@ public class DataManager : SingleTon<DataManager>
             string json = JsonUtility.ToJson(new Wrapper<T>(dataList), true);
             File.WriteAllText(jsonPath, json);
             Debug.Log($"{typeof(T).Name} 데이터 저장 완료: {jsonPath}");
+
         }
         else
         {
@@ -106,6 +120,7 @@ public class DataManager : SingleTon<DataManager>
             T data = new T();
             data.SetData(headers, values);
             dataList.Add(data);
+            SetCount();
         }
     }
 
@@ -118,13 +133,30 @@ public class DataManager : SingleTon<DataManager>
     public EquipItemData GetEquipItemById(int id)
     {
         //Dictionary
-        return equipItemDataList.Find(item => item.id == id);
+        return equipItemDataList.Find(equipItem => equipItem.id == id);
     }
 
     public EnemyData GetMonsterById(int id)
     {
         return enemyDataList.Find(monster => monster.id == id);
     }
+    public WeaponData GetWeaponById(int id)
+    {
+        return weaponDataList.Find(weapon => weapon.id == id);
+    }
+    public void CreateItem() // called at button
+    {
+        Instantiate(item,transform);
+        Instantiate(equipItem,transform);
+    }
 
+    private void SetCount()
+    {
+        //+1 for Random.Range
+        itemCount = itemDataList.Count +1;
+        equipItemCount = equipItemDataList.Count +1;
+        enemyCount = enemyDataList.Count +1;
+        weaponCount = weaponDataList.Count +1;
+    }
   
 }

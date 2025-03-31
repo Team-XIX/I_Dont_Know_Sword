@@ -5,13 +5,13 @@ using UnityEngine.Networking;
 using System.IO;
 
 [System.Serializable]
-public class Item
+public class test_Item
 {
     public int id;
     public string name;
     public int value;
 
-    public Item(int _id, string _name, int _value)
+    public test_Item(int _id, string _name, int _value)
     {
         id = _id;
         name = _name;
@@ -23,7 +23,7 @@ public class Item
 [System.Serializable]
 public class ItemList
 {
-    public List<Item> items = new List<Item>();
+    public List<test_Item> items = new List<test_Item>();
 }
 
 public class GoogleSheetToJson : MonoBehaviour
@@ -81,7 +81,7 @@ public class GoogleSheetToJson : MonoBehaviour
             //헤더와 데이터의 길이가 같은지 검사
             if (values.Length != headers.Length) continue;
 
-            Item item = new(int.Parse(values[0]), values[1], int.Parse(values[2]));
+            test_Item item = new(int.Parse(values[0]), values[1], int.Parse(values[2]));
 
             itemList.items.Add(item);
         }

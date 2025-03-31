@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test_Item : MonoBehaviour
+public class Item : MonoBehaviour
 {
     public int getId;
 
@@ -11,7 +11,8 @@ public class test_Item : MonoBehaviour
 
     public void Start()
     {
-        Invoke("init",3f);
+        getId = Random.Range(1, DataManager.Instance.itemCount);
+        init();
     }
 
     void init()
