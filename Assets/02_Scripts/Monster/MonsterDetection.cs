@@ -14,7 +14,6 @@ public class MonsterDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision");
         if (collision.gameObject.layer == playerLayerMask)
         {
             monsterBase.target = collision.gameObject.GetComponent<PlayerController>();

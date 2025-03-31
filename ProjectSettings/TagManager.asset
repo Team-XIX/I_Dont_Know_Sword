@@ -15,8 +15,8 @@ TagManager:
   - Monster
   - Projectile
   - Item
-  - 
-  - 
+  - EnemyProjectile
+  - Obstacle
   - 
   - 
   - 
