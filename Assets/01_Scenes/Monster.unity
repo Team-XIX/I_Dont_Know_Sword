@@ -1000,6 +1000,7 @@ MonoBehaviour:
   dashInvincibilityDuration: 0.15
   dashCooldown: 0.45
   mainSprite: {fileID: 5665146545296436264}
+  weaponTransform: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
