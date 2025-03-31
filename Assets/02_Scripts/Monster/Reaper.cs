@@ -35,7 +35,7 @@ public class Reaper : MonsterBase
         dashCoolTime -= Time.deltaTime;
         deathHandCoolTime -= Time.deltaTime;
     }
-    // 몬스터 행동 패턴
+    // 몬스터 이동 패턴
     private void UpdatePath()
     {
         if (target == null || Vector2.Distance(transform.position, target.transform.position) > detectRange)
@@ -249,18 +249,20 @@ public class Reaper : MonsterBase
         MonsterDead();// 몬스터 사망 처리
         yield return null;
     }
-
     protected override void MonsterDead()
     {
         Debug.Log("Monster Dead");
         gameObject.SetActive(false);
     }
+    // 애니메이션 이벤트
     public void AnimEventAttack()// 애니메이션 이벤트를 통해 호출할 근접 공격 함수.
     {
         if (target == null) return;// 타겟이 없으면 리턴
         if (Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
             Debug.Log("Attack");//idamageable 인터페이스를 구현한 플레이어에게 데미지를 입히는 코드로 추후 변경.
     }
+
+    // 몬스터 행동 패턴
     void SkillUse()
     {
         if(dashCoolTime <= 0)
@@ -280,7 +282,6 @@ public class Reaper : MonsterBase
         if(monsterState == MonsterState.Move && Vector2.Distance(transform.position,target.transform.position) <= dashRange)// 이동 상태에서만 대쉬 가능.
         {
             dashCoolTime = 8f;
-            Debug.Log("Dash");
             monsterState = MonsterState.Idle;
             transform.DOMove(target.transform.position, 0.5f)
                 .OnStart(() => sandevistanParticle.gameObject.SetActive(true))
