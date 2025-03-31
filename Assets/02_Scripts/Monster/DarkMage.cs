@@ -304,23 +304,32 @@ public class DarkMage : MonsterBase
         if (target == null) return;// 타겟이 없으면 리턴
         
         int count = 0;
-        foreach(var projectile in projectilePool)
+        // 풀에 사용 가능한 투사체가 있는지 확인 후 발사
+        foreach (var projectile in projectilePool)
         {
-            if (projectile.activeSelf == false && count < 24)
+            if (!projectile.activeSelf)
             {
-                projectile.transform.position = transform.position;
-                projectile.SetActive(true);
-                projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(Mathf.PI * 2 / 24 * count), Mathf.Sin(Mathf.PI * 2 / 24 * count)) * projectileSpeed;
+                FireProjectile(projectile, count);
                 count++;
+                if (count >= 24) break;
             }
         }
-        // 만약 24개 이상의 여분 투사체를 만족 못하면 생성후 발사.
-        while(count < 24)
+
+        // 부족한 투사체 생성
+        while (count < 24)
         {
             GameObject newProjectile = Instantiate(monsterProjectile, transform.position, Quaternion.identity);
             projectilePool.Add(newProjectile);
-            newProjectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(Mathf.PI * 2 / 24 * count), Mathf.Sin(Mathf.PI * 2 / 24 * count)) * projectileSpeed;
+            FireProjectile(newProjectile, count);
             count++;
         }
+    }
+    void FireProjectile(GameObject projectile, int index)// 투사체 발사(코드 재사용성을 위한 분리)
+    {
+        projectile.transform.position = transform.position;
+        projectile.SetActive(true);
+
+        float angle = 360f / 24f * index * Mathf.Deg2Rad; // 각도를 360도로 나누어 계산
+        projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * projectileSpeed;
     }
 }
