@@ -465,8 +465,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         else if (collision.gameObject.TryGetComponent<Weapon>(out Weapon weapon))
         {
-            //weapon바꿔야함.
-            //weaponManager.AddWeapon(weapon);
+            // 무기 추가 로직 변경
+            if (weaponManager != null)
+            {
+                // Weapon 객체 자체를 WeaponManager에 전달
+                weaponManager.AddWeapon(weapon);
+            }
             Destroy(collision.gameObject);
         }
     }

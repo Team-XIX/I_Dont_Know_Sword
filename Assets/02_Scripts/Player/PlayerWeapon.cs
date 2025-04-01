@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -19,9 +20,17 @@ public class PlayerWeapon : MonoBehaviour
     }
 
     /// <summary>
-    /// 새 무기 장착
+    /// 새 무기 장착 (데이터만)
     /// </summary>
     public void EquipWeapon(WeaponData weaponData)
+    {
+        EquipWeapon(weaponData, null);
+    }
+
+    /// <summary>
+    /// 새 무기 장착 (데이터와 스프라이트)
+    /// </summary>
+    public void EquipWeapon(WeaponData weaponData, Sprite weaponSprite)
     {
         Debug.Log($"EquipWeapon: 무기 데이터={weaponData?.name}, StatHandler={StatHandler.Instance != null}");
 
@@ -37,8 +46,8 @@ public class PlayerWeapon : MonoBehaviour
             ApplyWeaponStats();
             isWeaponEquipped = true;
 
-            // 무기 스프라이트 업데이트 (스프라이트가 있다면)
-            UpdateWeaponVisuals();
+            // 무기 스프라이트 업데이트
+            UpdateWeaponVisuals(weaponSprite);
         }
     }
 
@@ -56,6 +65,7 @@ public class PlayerWeapon : MonoBehaviour
             if (weaponSpriteRenderer != null)
             {
                 // 기본 스프라이트 설정
+                weaponSpriteRenderer.sprite = null;
             }
         }
     }
@@ -147,14 +157,31 @@ public class PlayerWeapon : MonoBehaviour
     /// <summary>
     /// 무기 시각적 요소(스프라이트) 업데이트
     /// </summary>
-    private void UpdateWeaponVisuals()
+    private void UpdateWeaponVisuals(Sprite weaponSprite = null)
     {
-        // 무기 스프라이트를 로드하는 코드 추가(아마도)
-        // Sprite weaponSprite = ResourceManager.Instance.GetWeaponSprite(currentWeaponData.id);
-        // if (weaponSprite != null && weaponSpriteRenderer != null)
-        // {
-        //     weaponSpriteRenderer.sprite = weaponSprite;
-        // }
+        if (weaponSpriteRenderer != null)
+        {
+            if (weaponSprite != null)
+            {
+                // 전달받은 스프라이트 사용
+                weaponSpriteRenderer.sprite = weaponSprite;
+                Debug.Log($"Weapon sprite updated: {weaponSprite.name}");
+            }
+            else if (currentWeaponData != null)
+            {
+                // 스프라이트가 없다면 아틀라스에서 로드 시도
+                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("WeaponSprite/Weapon");
+                if (atlas != null)
+                {
+                    Sprite sprite = atlas.GetSprite($"{currentWeaponData.id}");
+                    if (sprite != null)
+                    {
+                        weaponSpriteRenderer.sprite = sprite;
+                        Debug.Log($"Weapon sprite loaded from atlas: {sprite.name}");
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
