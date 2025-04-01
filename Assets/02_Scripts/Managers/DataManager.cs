@@ -21,7 +21,6 @@ public class DataManager : SingleTon<DataManager>
 
     public List<ItemData> itemDataList = new List<ItemData>();
     public List<EquipItemData> equipItemDataList = new List<EquipItemData>();
-    public List<EnemyData> enemyDataList = new List<EnemyData>();
     public List<WeaponData> weaponDataList = new List<WeaponData>();
 
     public GameObject item;
@@ -35,7 +34,7 @@ public class DataManager : SingleTon<DataManager>
 
     private string itemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1249418767";
     private string equipItemUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1091773342";
-    private string monsterUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1227733515";
+    //private string monsterUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=1227733515";
     private string weaponUrl = "https://docs.google.com/spreadsheets/d/13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08/gviz/tq?tqx=out:csv&gid=430856127";
 
     public int itemCount { get; private set; }
@@ -60,7 +59,7 @@ public class DataManager : SingleTon<DataManager>
         StartCoroutine(DownloadAndSaveData<ItemData>(itemUrl, itemJsonPath, itemDataList));
         StartCoroutine(DownloadAndSaveData<EquipItemData>(equipItemUrl, equipItemDataJsonPath, equipItemDataList));
         StartCoroutine(DownloadAndSaveData<WeaponData>(weaponUrl, weaponJsonPath, weaponDataList));
-        StartCoroutine(DownloadAndSaveData<EnemyData>(monsterUrl, monsterJsonPath, enemyDataList));
+        //StartCoroutine(DownloadAndSaveData<EnemyData>(monsterUrl, monsterJsonPath, enemyDataList));
     }
 
     // 데이터 다운로드 후 JSON으로 저장
@@ -140,10 +139,10 @@ public class DataManager : SingleTon<DataManager>
         return equipItemDataList.Find(equipItem => equipItem.id == id);
     }
 
-    public EnemyData GetMonsterById(int id)
-    {
-        return enemyDataList.Find(monster => monster.id == id);
-    }
+    //public EnemyData GetMonsterById(int id)
+    //{
+    //    return enemyDataList.Find(monster => monster.id == id);
+    //}
     public WeaponData GetWeaponById(int id)
     {
         return weaponDataList.Find(weapon => weapon.id == id);
@@ -159,8 +158,8 @@ public class DataManager : SingleTon<DataManager>
         //+1 for Random.Range
         itemCount = itemDataList.Count +1;
         equipItemCount = equipItemDataList.Count +1;
-        enemyCount = enemyDataList.Count +1;
         weaponCount = weaponDataList.Count +1;
+        //enemyCount = enemyDataList.Count +1;
     }
   
 }
