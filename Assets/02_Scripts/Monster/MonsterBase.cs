@@ -9,7 +9,8 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     [Header("Monster Stats")]
     [SerializeField] int hp;
     [SerializeField] int attackPower;
-    [SerializeField] float attackSpeed = 1.5f;  
+    [SerializeField] float attackSpeed = 1.5f;
+    public GameObject[] dropItems;
     public int Hp 
     { 
         get => hp;
@@ -90,11 +91,16 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             {MonsterState.Skill,  Skill},
             {MonsterState.Dead, Dead}
         };
+
+        if (dropItems == null)
+            dropItems = Resources.LoadAll<GameObject>("PrefabItem");
+
         StartCoroutine(StateMachine());
     }
     private void OnDisable()
     {
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
+        RandomDrop();
     }
     protected IEnumerator StateMachine()
     {
@@ -145,5 +151,11 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(0.1f);
         }
         isBlinking = false;
+    }
+
+    public void RandomDrop()
+    {
+        int randNum = UnityEngine.Random.Range(0, dropItems.Length);
+        Instantiate(dropItems[randNum], transform.position, Quaternion.identity);
     }
 }
