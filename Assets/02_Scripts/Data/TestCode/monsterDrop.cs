@@ -7,18 +7,15 @@ public class monsterDrop : MonoBehaviour
 
     private void Start()
     {
-        if(dropItems == null)
+        if(dropItems.Length == 0)
             dropItems = Resources.LoadAll<GameObject>("PrefabItem");
-    }
-    private void OnDisable()
-    {
-        //RandomDrop();
     }
 
     public void RandomDrop()
     {
-        int randNum = Random.Range(0, 101);
-        if(70 < randNum)
+        int randNum = Random.Range(0, dropItems.Length);
+        Instantiate(dropItems[randNum], transform.position, Quaternion.identity);
+        if (70 < randNum)
         {
             //Item
             Instantiate(dropItems[1], transform.position, Quaternion.identity);
@@ -33,6 +30,6 @@ public class monsterDrop : MonoBehaviour
             //weapon
             Instantiate(dropItems[2], transform.position, Quaternion.identity);
         }
-
+     
     }
 }
