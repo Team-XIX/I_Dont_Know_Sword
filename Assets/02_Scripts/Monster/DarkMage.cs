@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DarkMage : MonsterBase
 {
+    [Header("Monster Value")]
     [SerializeField] private float projectileSpeed = 7f; // 투사체 속도
     [SerializeField] private int samplePoints = 8; // 샘플링할 점의 개수 (몬스터의 콜라이더가 벽 콜라이더와 겹침을 확인하기 위한 샘플 포인트)
     CircleCollider2D circleCollider;
