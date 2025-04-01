@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873023e19aa4f2948bc878f772acfd6d, type: 3}
   m_Name: Agias
   m_EditorClassIdentifier: 
-  maxHp: 300
+  maxHp: 666
   attackPower: 1
   attackSpeed: 0.2
   attackRange: 0
