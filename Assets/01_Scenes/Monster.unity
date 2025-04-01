@@ -833,30 +833,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4630176236729426923, guid: c98788efce2d43e479382da5922bc670, type: 3}
-      propertyPath: monsterBase
-      value: 
-      objectReference: {fileID: 2380372935994475731}
-    - target: {fileID: 7706993601412820858, guid: c98788efce2d43e479382da5922bc670, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: c2398085c38644744bca2ce545d13540, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c98788efce2d43e479382da5922bc670, type: 3}
---- !u!114 &2380372935994475731 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7706993601412820858, guid: c98788efce2d43e479382da5922bc670, type: 3}
-  m_PrefabInstance: {fileID: 2380372935994475730}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd01d16551456d541b98870d6ec173a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2736859343483091220
 PrefabInstance:
   m_ObjectHideFlags: 0

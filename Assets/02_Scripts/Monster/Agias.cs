@@ -90,6 +90,7 @@ public class Agias : MonsterBase
     // 몬스터 행동 패턴
     void SetMove()// 일정 시간마다 2초간 움직임.
     {
+        if(target == null) return;
         // 벽에 끼인 상태면 강제로 플레이어를 향해 이동.
         if (IsStuckInWall())
             StartCoroutine(ForceMoveFromWall());
@@ -213,9 +214,9 @@ public class Agias : MonsterBase
     {
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        int random = Random.Range(0, 8);
+        int random = Random.Range(0, 9);
 
-        if (random <= 1)// 2/8 확률로 몬스터 소환.
+        if (random <= 2)// 1/3 확률로 몬스터 소환.
         {
             if (curAnimStateInfo.IsName("SummonEye") == false)
             {
@@ -224,7 +225,7 @@ public class Agias : MonsterBase
                 curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
             }
         }
-        else if(random <= 4)// 3/8 확률로 5줄기 광선 발사.
+        else if(random <= 4)//  1/3 확률로 5줄기 광선 발사.
         {
             if (curAnimStateInfo.IsName("DeathRay") == false)
             {
@@ -233,7 +234,7 @@ public class Agias : MonsterBase
                 curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
             }
         }
-        else// 3/8 확률로 전범위 투사체 대량 분사.
+        else// 1/3 확률로 전범위 투사체 대량 분사.
         {
             if (curAnimStateInfo.IsName("VoidBall") == false)
             {
