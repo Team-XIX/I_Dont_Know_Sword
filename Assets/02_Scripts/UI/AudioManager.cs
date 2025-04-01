@@ -29,7 +29,7 @@ public class AudioManager : SingleTon<AudioManager>
             SFXaudioSources.Add(source);
         }
 
-        SceneManager.sceneLoaded += PlayBGMOnSceneChange;
+        SceneManager.sceneLoaded += PlayBGMOnSceneChange; // 인덱스 순서대로 저장되어있는 클립 재생
         LoadVolume();
     }
 
@@ -37,7 +37,7 @@ public class AudioManager : SingleTon<AudioManager>
     {
         int sceneIndex = scene.buildIndex;
 
-        if (sceneIndex >= 0 && sceneIndex < bgmClips.Count) // 씬 인덱스가 리스트 범위 안에 있는지 확인
+        if (sceneIndex >= 0 && sceneIndex < bgmClips.Count) // 씬 인덱스가 리스트 범위 안에 있는지 확인 빌드 세팅 확인
         {
             PlayBGM(bgmClips[sceneIndex]);
         }
@@ -50,7 +50,7 @@ public class AudioManager : SingleTon<AudioManager>
         if (clip != null && BGMaudioSource != null)
         {
             BGMaudioSource.clip = clip;
-            BGMaudioSource.outputAudioMixerGroup = bgmMixerGroup;
+            BGMaudioSource.outputAudioMixerGroup = bgmMixerGroup; // 믹서 그룹을 통해 BGM볼륨 조절
             BGMaudioSource.loop = true;
             BGMaudioSource.Play();
         }
@@ -87,7 +87,7 @@ public class AudioManager : SingleTon<AudioManager>
 
     public void SetBGMVolume(float volume)
     {
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20); // 데시벨 공식을 적용하여, 믹서를 통하여 볼륨 전달
     }
 
     public void SetSFXVolume(float volume)

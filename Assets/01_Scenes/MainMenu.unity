@@ -1645,21 +1645,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 1554824016}
     m_Modifications:
     - target: {fileID: 237101235172972156, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 237101235172972156, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1398390746}
-    - target: {fileID: 237101235172972156, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetSFXVolume
-      objectReference: {fileID: 0}
-    - target: {fileID: 237101235172972156, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AudioManager, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 2264350093241975010, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1740,69 +1728,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2451025603011449846, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2451025603011449846, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2515026488402102915, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2515026488402102915, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1398390746}
-    - target: {fileID: 2515026488402102915, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetBGMVolume
-      objectReference: {fileID: 0}
-    - target: {fileID: 2515026488402102915, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AudioManager, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 4453930499739176733, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_Name
       value: SettingMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 4453930499739176733, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631596523139432954, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631596523139432954, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
