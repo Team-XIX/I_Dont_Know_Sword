@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private int currentWeaponIndex = 0;
     [SerializeField] private PlayerWeapon playerWeaponComponent;
     [SerializeField] private int startingWeaponId = 1; // 시작 무기 ID
+
+    // 무기 스프라이트를 저장하는 딕셔너리 추가
+    private Dictionary<int, Sprite> weaponSprites = new Dictionary<int, Sprite>();
 
     // UI 연결을 위한 이벤트
     public delegate void WeaponChangedHandler(int index, int total, WeaponData currentWeapon);
@@ -58,6 +62,9 @@ public class WeaponManager : MonoBehaviour
             if (startingWeapon != null)
             {
                 AddWeapon(startingWeapon);
+                AddWeapon(DataManager.Instance.GetWeaponById(2));
+                AddWeapon(DataManager.Instance.GetWeaponById(3));
+                AddWeapon(DataManager.Instance.GetWeaponById(4));
             }
         }
         else if (weaponDataList.Count > 0)
@@ -143,7 +150,39 @@ public class WeaponManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 무기 목록에 새 무기 추가
+    /// 무기 객체로부터 데이터와 스프라이트를 추출하여 무기 추가
+    /// </summary>
+    public void AddWeapon(Weapon weapon)
+    {
+        if (weapon == null)
+        {
+            Debug.LogError("AddWeapon: weapon is null");
+            return;
+        }
+
+        WeaponData weaponData = weapon.weaponData;
+        if (weaponData == null)
+        {
+            Debug.LogError("AddWeapon: weaponData is null");
+            return;
+        }
+
+        // 스프라이트 추출 및 저장
+        SpriteRenderer spriteRenderer = weapon.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && spriteRenderer.sprite != null)
+        {
+            // 기존 스프라이트가 있다면 대체
+            weaponSprites[weaponData.id] = spriteRenderer.sprite;
+            Debug.Log($"Weapon sprite saved for ID: {weaponData.id}");
+        }
+
+        AddWeapon(weaponData);
+
+        Debug.Log($"Weapon added: {weaponData.name} (ID: {weaponData.id})");
+    }
+
+    /// <summary>
+    /// 무기 데이터로 무기 추가
     /// </summary>
     public void AddWeapon(WeaponData weaponData)
     {
@@ -161,6 +200,18 @@ public class WeaponManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 특정 무기 ID에 대한 스프라이트 반환
+    /// </summary>
+    public Sprite GetWeaponSprite(int weaponId)
+    {
+        if (weaponSprites.TryGetValue(weaponId, out Sprite sprite))
+        {
+            return sprite;
+        }
+        return null;
+    }
+
+    /// <summary>
     /// 활성화된 무기 업데이트
     /// </summary>
     private void UpdateActiveWeapon()
@@ -169,8 +220,11 @@ public class WeaponManager : MonoBehaviour
 
         if (currentWeapon != null && playerWeaponComponent != null)
         {
-            // PlayerWeapon에 현재 무기 데이터 설정
-            playerWeaponComponent.EquipWeapon(currentWeapon);
+            // 현재 무기의 스프라이트 가져오기
+            Sprite weaponSprite = GetWeaponSprite(currentWeapon.id);
+
+            // PlayerWeapon에 현재 무기 데이터와 스프라이트 설정
+            playerWeaponComponent.EquipWeapon(currentWeapon, weaponSprite);
 
             // 무기 변경 이벤트 발생 (UI 업데이트용)
             if (OnWeaponChanged != null)

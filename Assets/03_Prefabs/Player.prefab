@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 1582148312394575312}
   - component: {fileID: 5411384659441711984}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: PlayerWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -455,11 +455,35 @@ MonoBehaviour:
     m_ActionId: e8f0fb14-5842-4e53-8a94-5e546d492c20
     m_ActionName: Player/Shoot[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7026741663344885889}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSwitchWeaponPrevious
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 60bd3012-b6b9-41b5-9e31-4a8090a29a43
     m_ActionName: Player/SwitchWeaponPrevious[/Keyboard/q]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7026741663344885889}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSwitchWeaponNext
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 51ff974d-8013-42f6-a650-6e464b787a35
     m_ActionName: Player/SwitchWeaponNext[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
@@ -505,6 +529,12 @@ MonoBehaviour:
   _baseAttackPower: 0
   _baseMoveSpeed: 5
   _currentHealth: 0
+  _additionalMaxHealth: 0
+  _additionalAttackPower: 0
+  _additionalMoveSpeed: 0
+  _maxHealth: 0
+  _attackPower: 0
+  _moveSpeed: 0
   _baseAttackSpeed: 0
   _baseAutoFire: 0
   _baseSpreadAngle: 0
@@ -515,3 +545,23 @@ MonoBehaviour:
   _baseProjectileRange: 0
   _baseReflectionCount: 0
   _basePenetrationCount: 0
+  _additionalAttackSpeed: 0
+  _additionalAutoFire: 0
+  _additionalSpreadAngle: 0
+  _additionalMultiAngle: 0
+  _additionalProjectileCount: 0
+  _additionalProjectileSize: 0
+  _additionalProjectileSpeed: 0
+  _additionalProjectileRange: 0
+  _additionalReflectionCount: 0
+  _additionalPenetrationCount: 0
+  _attackSpeed: 0
+  _autoFire: 0
+  _spreadAngle: 0
+  _multiAngle: 0
+  _projectileCount: 0
+  _projectileSize: 0
+  _projectileSpeed: 0
+  _projectileRange: 0
+  _reflectionCount: 0
+  _penetrationCount: 0
