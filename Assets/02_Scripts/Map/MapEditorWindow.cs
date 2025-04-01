@@ -53,6 +53,10 @@ public class MapEditorWindow : EditorWindow
             MapManager.Instance.mapCreator.BlockAllRooms();
         }
 
+        if (GUILayout.Button("바로 보스방으로 입장하기"))
+        {
+            MapManager.Instance.mapCreator.TeleportToBossRoom();
+        }
 
     }
 
