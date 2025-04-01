@@ -15,6 +15,7 @@ public class Agias : MonsterBase
     [Header("Skill FX")]
     [SerializeField] private List<GameObject> projectilePool; // 투사체 풀
     [SerializeField] private GameObject monsterProjectile; // 몬스터 투사체
+    [SerializeField] private GameObject summonMonster; // 소환 몬스터 프리팹
 
     protected override void Start()
     {
@@ -216,7 +217,7 @@ public class Agias : MonsterBase
 
         int random = Random.Range(0, 9);
 
-        if (random <= 2)// 1/3 확률로 몬스터 소환.
+        if (random <= 8)// 1/3 확률로 몬스터 소환. (테스트로 8 만들어둠 이후 2로 수정)
         {
             if (curAnimStateInfo.IsName("SummonEye") == false)
             {
@@ -290,7 +291,8 @@ public class Agias : MonsterBase
     // 애니메이션 이벤트
     public void SummonEyeOfDeath()
     {
-        Debug.Log("SummonEyeOfDeath");
+        GameObject summon = Instantiate(summonMonster, target.transform.position + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0), Quaternion.identity);
+        summon.GetComponent<SummonMonster>().playerController = target.GetComponent<PlayerController>();
     }
     public void AnimEventDeathRay()
     {

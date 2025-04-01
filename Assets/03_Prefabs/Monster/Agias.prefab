@@ -199,6 +199,7 @@ MonoBehaviour:
   samplePoints: 8
   projectilePool: []
   monsterProjectile: {fileID: 4994859307863215092, guid: cb2c47dc9b2637547848d08e24c09727, type: 3}
+  summonMonster: {fileID: 3114429102703970486, guid: 3b2a6eb737c8d4e45a349eebf85a159b, type: 3}
 --- !u!1 &4434448994640746140
 GameObject:
   m_ObjectHideFlags: 0
