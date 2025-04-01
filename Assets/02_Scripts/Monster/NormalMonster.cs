@@ -254,16 +254,16 @@ public class NormalMonster : MonsterBase
         MonsterDead();// 몬스터 사망 처리
         yield return null;
     }
-
     protected override void MonsterDead()
     {
-        Debug.Log("Monster Dead");
         gameObject.SetActive(false);
     }
     public void AnimEventAttack()// 애니메이션 이벤트를 통해 호출할 실제 공격 함수.
     {
         if(target == null) return;// 타겟이 없으면 리턴
         if(Vector2.Distance(transform.position, target.transform.position) < attackRange * 1.5f)// 실제 공격 애니메이션 시점에서 공격범위 1.5배내를 벗어나지 않았다면 데미지 연산.
-            Debug.Log("Attack");//idamageable 인터페이스를 구현한 플레이어에게 데미지를 입히는 코드로 추후 변경.
+        {
+            target.GetComponent<PlayerController>().TakeDamage(1);
+        }
     }
 }
