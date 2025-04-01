@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class Player_Item : MonoBehaviour
 {
-    
+    public PlayerController player;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void Start()
     {
-        if(collision.gameObject.layer == 9)
-        {
-            ItemData item = DataManager.Instance.GetItemById(1);
-            Debug.Log(item.value);
-        }
+        player = GetComponent<PlayerController>();
     }
+
 }
