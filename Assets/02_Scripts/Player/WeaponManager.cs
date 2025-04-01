@@ -5,21 +5,66 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     [Header("무기 설정")]
-    [SerializeField] private List<GameObject> weapons = new List<GameObject>();
+    [SerializeField] private List<WeaponData> weaponDataList = new List<WeaponData>();
     [SerializeField] private int currentWeaponIndex = 0;
+    [SerializeField] private PlayerWeapon playerWeaponComponent;
+    [SerializeField] private int startingWeaponId = 1; // 시작 무기 ID
 
     // UI 연결을 위한 이벤트
-    public delegate void WeaponChangedHandler(int index, int total, PlayerWeapon currentWeapon);
+    public delegate void WeaponChangedHandler(int index, int total, WeaponData currentWeapon);
     public event WeaponChangedHandler OnWeaponChanged;
-
-    // 이전의 무기 변경 이벤트(호환성 유지)
-    public delegate void WeaponChangedLegacyHandler(int index, int total);
-    public event WeaponChangedLegacyHandler OnWeaponChangedLegacy;
 
     private void Start()
     {
-        // 시작할 때 올바른 무기만 활성화
-        UpdateActiveWeapon();
+        if (playerWeaponComponent == null)
+        {
+            playerWeaponComponent = GetComponentInChildren<PlayerWeapon>();
+            if (playerWeaponComponent == null)
+            {
+                Debug.LogError("PlayerWeapon 컴포넌트 미싱");
+            }
+        }
+
+        StartCoroutine(InitializeStartingWeapon());
+    }
+
+    /// <summary>
+    /// DataManager가 데이터를 로드할 때까지 기다린 후 시작 무기 설정
+    /// </summary>
+    private IEnumerator InitializeStartingWeapon()
+    {
+        // DataManager가 무기 데이터를 로드할 때까지 대기
+        // weaponCount가 0보다 크면 데이터가 로드된 것으로 간주
+        while (DataManager.Instance == null || DataManager.Instance.weaponCount <= 1)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // 시작 무기가 이미 리스트에 있는지 확인
+        bool hasStartingWeapon = false;
+        foreach (WeaponData weapon in weaponDataList)
+        {
+            if (weapon != null && weapon.id == startingWeaponId)
+            {
+                hasStartingWeapon = true;
+                break;
+            }
+        }
+
+        // 시작 무기가 없으면 추가
+        if (!hasStartingWeapon)
+        {
+            WeaponData startingWeapon = DataManager.Instance.GetWeaponById(startingWeaponId);
+            if (startingWeapon != null)
+            {
+                AddWeapon(startingWeapon);
+            }
+        }
+        else if (weaponDataList.Count > 0)
+        {
+            // 이미 무기가 있다면 첫 번째 무기 장착
+            UpdateActiveWeapon();
+        }
     }
 
     /// <summary>
@@ -31,23 +76,22 @@ public class WeaponManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 활성화된 무기 GameObject 반환
+    /// 현재 활성화된 무기 데이터 반환
     /// </summary>
-    public GameObject GetCurrentWeapon()
+    public WeaponData GetCurrentWeaponData()
     {
-        if (weapons.Count == 0) return null;
-        return weapons[currentWeaponIndex];
+        if (weaponDataList.Count == 0 || currentWeaponIndex < 0 || currentWeaponIndex >= weaponDataList.Count)
+            return null;
+
+        return weaponDataList[currentWeaponIndex];
     }
 
     /// <summary>
-    /// 현재 활성화된 무기의 PlayerWeapon 컴포넌트 반환
+    /// 총 무기 개수 반환
     /// </summary>
-    public PlayerWeapon GetCurrentWeaponComponent()
+    public int GetWeaponCount()
     {
-        GameObject currentWeapon = GetCurrentWeapon();
-        if (currentWeapon == null) return null;
-
-        return currentWeapon.GetComponent<PlayerWeapon>();
+        return weaponDataList.Count;
     }
 
     /// <summary>
@@ -55,12 +99,12 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     public void SwitchToPreviousWeapon()
     {
-        if (weapons.Count <= 1) return;
+        if (weaponDataList.Count <= 1) return;
 
         currentWeaponIndex--;
         if (currentWeaponIndex < 0)
         {
-            currentWeaponIndex = weapons.Count - 1;
+            currentWeaponIndex = weaponDataList.Count - 1;
         }
 
         UpdateActiveWeapon();
@@ -71,10 +115,10 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     public void SwitchToNextWeapon()
     {
-        if (weapons.Count <= 1) return;
+        if (weaponDataList.Count <= 1) return;
 
         currentWeaponIndex++;
-        if (currentWeaponIndex >= weapons.Count)
+        if (currentWeaponIndex >= weaponDataList.Count)
         {
             currentWeaponIndex = 0;
         }
@@ -87,10 +131,10 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     public void SwitchToWeapon(int index)
     {
-        if (weapons.Count == 0) return;
+        if (weaponDataList.Count == 0) return;
 
         // 유효한 인덱스 범위로 제한
-        index = Mathf.Clamp(index, 0, weapons.Count - 1);
+        index = Mathf.Clamp(index, 0, weaponDataList.Count - 1);
 
         if (currentWeaponIndex == index) return;
 
@@ -101,19 +145,18 @@ public class WeaponManager : MonoBehaviour
     /// <summary>
     /// 무기 목록에 새 무기 추가
     /// </summary>
-    public void AddWeapon(GameObject weapon)
+    public void AddWeapon(WeaponData weaponData)
     {
-        if (weapon != null && !weapons.Contains(weapon))
+        if (weaponData != null && !weaponDataList.Contains(weaponData))
         {
-            // 무기에 PlayerWeapon 컴포넌트가 있는지 확인
-            if (weapon.GetComponent<PlayerWeapon>() == null)
-            {
-                Debug.LogWarning("PlayerWeapon 못찾음");
-            }
+            weaponDataList.Add(weaponData);
 
-            weapons.Add(weapon);
-            weapon.SetActive(false); // 처음에는 비활성화
-            UpdateActiveWeapon();
+            // 처음 추가된 무기라면 자동으로 장착
+            if (weaponDataList.Count == 1)
+            {
+                currentWeaponIndex = 0;
+                UpdateActiveWeapon();
+            }
         }
     }
 
@@ -122,33 +165,17 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     private void UpdateActiveWeapon()
     {
-        // 모든 무기 비활성화 (OnDisable이 호출되어 자동으로 스탯 제거)
-        foreach (GameObject weapon in weapons)
+        WeaponData currentWeapon = GetCurrentWeaponData();
+
+        if (currentWeapon != null && playerWeaponComponent != null)
         {
-            if (weapon != null)
+            // PlayerWeapon에 현재 무기 데이터 설정
+            playerWeaponComponent.EquipWeapon(currentWeapon);
+
+            // 무기 변경 이벤트 발생 (UI 업데이트용)
+            if (OnWeaponChanged != null)
             {
-                weapon.SetActive(false);
-            }
-        }
-
-        // 현재 선택된 무기만 활성화 (OnEnable이 호출되어 자동으로 스탯 적용)
-        if (weapons.Count > 0 && currentWeaponIndex >= 0 && currentWeaponIndex < weapons.Count)
-        {
-            GameObject currentWeapon = weapons[currentWeaponIndex];
-            if (currentWeapon != null)
-            {
-                currentWeapon.SetActive(true);
-
-                // 무기 컴포넌트 가져오기
-                PlayerWeapon weaponComponent = currentWeapon.GetComponent<PlayerWeapon>();
-
-                // 무기 변경 이벤트 발생 (UI 업데이트용)
-                OnWeaponChangedLegacy?.Invoke(currentWeaponIndex, weapons.Count);
-                OnWeaponChanged?.Invoke(currentWeaponIndex, weapons.Count, weaponComponent);
-
-                // 디버그 로그
-                string weaponName = weaponComponent != null ? weaponComponent.GetWeaponName() : "Unknown";
-                Debug.Log($"무기 전환: {weaponName} (인덱스: {currentWeaponIndex})");
+                OnWeaponChanged.Invoke(currentWeaponIndex, weaponDataList.Count, currentWeapon);
             }
         }
     }

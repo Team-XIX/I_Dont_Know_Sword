@@ -4,123 +4,164 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [Header("무기 기본 정보")]
-    [SerializeField] private string weaponName = "기본 무기";
-    [SerializeField] private int weaponId = 0;
-    [SerializeField] private Sprite weaponSprite;
+    [Header("무기 참조")]
+    [SerializeField] private SpriteRenderer weaponSpriteRenderer;
 
-    [Header("추가 능력치")]
-    [SerializeField] private int additionalMaxHealth = 0;
-    [SerializeField] private float additionalAttackPower = 0f;
-    [SerializeField] private float additionalMoveSpeed = 0f;
-    [SerializeField] private float additionalAttackSpeed = 0f;
-    [SerializeField] private bool additionalAutoFire = false;
-    [SerializeField] private float additionalSpreadAngle = 0f;
-    [SerializeField] private float additionalMultiAngle = 0f;
-    [SerializeField] private int additionalProjectileCount = 0;
-    [SerializeField] private float additionalProjectileSize = 0f;
-    [SerializeField] private float additionalProjectileSpeed = 0f;
-    [SerializeField] private float additionalProjectileRange = 0f;
-    [SerializeField] private int additionalReflectionCount = 0;
-    [SerializeField] private int additionalPenetrationCount = 0;
-
-    private SpriteRenderer spriteRenderer;
-    private bool isEquipped = false;
+    private WeaponData currentWeaponData;
+    private bool isWeaponEquipped = false;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer && weaponSprite)
+        if (weaponSpriteRenderer == null)
         {
-            spriteRenderer.sprite = weaponSprite;
-        }
-    }
-
-    private void OnEnable()
-    {
-        // 무기가 활성화될 때 StatHandler에 능력치 적용
-        ApplyWeaponStats(true);
-        isEquipped = true;
-    }
-
-    private void OnDisable()
-    {
-        // 무기가 비활성화될 때 StatHandler에서 능력치 제거
-        if (isEquipped)
-        {
-            ApplyWeaponStats(false);
-            isEquipped = false;
+            weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         }
     }
 
     /// <summary>
-    /// 무기의 능력치를 StatHandler에 적용 또는 제거
+    /// 새 무기 장착
     /// </summary>
-    /// <param name="apply">true: 적용, false: 제거</param>
-    private void ApplyWeaponStats(bool apply)
+    public void EquipWeapon(WeaponData weaponData)
+    {
+        Debug.Log($"EquipWeapon: 무기 데이터={weaponData?.name}, StatHandler={StatHandler.Instance != null}");
+
+        if (isWeaponEquipped && currentWeaponData != null)
+        {
+            RemoveWeaponStats();
+        }
+
+        currentWeaponData = weaponData;
+
+        if (currentWeaponData != null)
+        {
+            ApplyWeaponStats();
+            isWeaponEquipped = true;
+
+            // 무기 스프라이트 업데이트 (스프라이트가 있다면)
+            UpdateWeaponVisuals();
+        }
+    }
+
+    /// <summary>
+    /// 무기 해제
+    /// </summary>
+    public void UnequipWeapon()
+    {
+        if (isWeaponEquipped && currentWeaponData != null)
+        {
+            RemoveWeaponStats();
+            currentWeaponData = null;
+            isWeaponEquipped = false;
+
+            if (weaponSpriteRenderer != null)
+            {
+                // 기본 스프라이트 설정
+            }
+        }
+    }
+
+    /// <summary>
+    /// 비활성화될 때 무기 스탯 제거
+    /// </summary>
+    private void OnDisable()
+    {
+        if (isWeaponEquipped && currentWeaponData != null)
+        {
+            RemoveWeaponStats();
+        }
+    }
+
+    /// <summary>
+    /// 활성화될 때 무기 스탯 적용
+    /// </summary>
+    private void OnEnable()
+    {
+        if (isWeaponEquipped && currentWeaponData != null)
+        {
+            ApplyWeaponStats();
+        }
+    }
+
+    /// <summary>
+    /// 무기의 능력치를 StatHandler에 적용
+    /// </summary>
+    private void ApplyWeaponStats()
     {
         StatHandler statHandler = StatHandler.Instance;
-        if (statHandler == null) return;
+        if (statHandler == null || currentWeaponData == null) return;
 
         // 여러 스탯을 한번에 변경하여 이벤트 발생 최소화
         statHandler.ModifyMultipleStats(() =>
         {
-            // 추가 능력치를 적용하거나 제거
-            int multiplier = apply ? 1 : -1;
+            statHandler.AdditionalAttackPower += currentWeaponData.atk;
+            statHandler.AdditionalMoveSpeed += currentWeaponData.moveSpeed;
+            statHandler.AdditionalAttackSpeed += currentWeaponData.atkSpeed;
+            statHandler.AdditionalSpreadAngle += currentWeaponData.spreadAngle;
+            statHandler.AdditionalMultiAngle += currentWeaponData.multiAngle;
+            statHandler.AdditionalProjectileCount += currentWeaponData.projectileCnt;
+            statHandler.AdditionalProjectileSize += currentWeaponData.projectilSize;
+            statHandler.AdditionalProjectileSpeed += currentWeaponData.projectileSpeed;
+            statHandler.AdditionalProjectileRange += currentWeaponData.projectileRange;
+            statHandler.AdditionalReflectionCount += currentWeaponData.reflectionCnt;
+            statHandler.AdditionalPenetrationCount += currentWeaponData.penetrationCnt;
 
-            statHandler.AdditionalMaxHealth += additionalMaxHealth * multiplier;
-            statHandler.AdditionalAttackPower += additionalAttackPower * multiplier;
-            statHandler.AdditionalMoveSpeed += additionalMoveSpeed * multiplier;
-            statHandler.AdditionalAttackSpeed += additionalAttackSpeed * multiplier;
-
-            // 불리언 값은 특별하게 처리
-            if (additionalAutoFire)
+            if (currentWeaponData.autoFire)
             {
-                statHandler.AdditionalAutoFire = apply ? true : false;
+                statHandler.AdditionalAutoFire = true;
             }
-
-            statHandler.AdditionalSpreadAngle += additionalSpreadAngle * multiplier;
-            statHandler.AdditionalMultiAngle += additionalMultiAngle * multiplier;
-            statHandler.AdditionalProjectileCount += additionalProjectileCount * multiplier;
-            statHandler.AdditionalProjectileSize += additionalProjectileSize * multiplier;
-            statHandler.AdditionalProjectileSpeed += additionalProjectileSpeed * multiplier;
-            statHandler.AdditionalProjectileRange += additionalProjectileRange * multiplier;
-            statHandler.AdditionalReflectionCount += additionalReflectionCount * multiplier;
-            statHandler.AdditionalPenetrationCount += additionalPenetrationCount * multiplier;
         });
 
         // 로그 출력 (디버깅용)
-        if (apply)
+        Debug.Log($"무기 [{currentWeaponData.name}] 능력치 적용됨");
+    }
+
+    /// <summary>
+    /// 무기의 능력치를 StatHandler에서 제거
+    /// </summary>
+    private void RemoveWeaponStats()
+    {
+        StatHandler statHandler = StatHandler.Instance;
+        if (statHandler == null || currentWeaponData == null) return;
+
+        statHandler.ModifyMultipleStats(() =>
         {
-            Debug.Log($"무기 [{weaponName}] 능력치 적용됨");
-        }
-        else
-        {
-            Debug.Log($"무기 [{weaponName}] 능력치 제거됨");
-        }
+            statHandler.AdditionalAttackPower -= currentWeaponData.atk;
+            statHandler.AdditionalMoveSpeed -= currentWeaponData.moveSpeed;
+            statHandler.AdditionalAttackSpeed -= currentWeaponData.atkSpeed;
+            statHandler.AdditionalSpreadAngle -= currentWeaponData.spreadAngle;
+            statHandler.AdditionalMultiAngle -= currentWeaponData.multiAngle;
+            statHandler.AdditionalProjectileCount -= currentWeaponData.projectileCnt;
+            statHandler.AdditionalProjectileSize -= currentWeaponData.projectilSize;
+            statHandler.AdditionalProjectileSpeed -= currentWeaponData.projectileSpeed;
+            statHandler.AdditionalProjectileRange -= currentWeaponData.projectileRange;
+            statHandler.AdditionalReflectionCount -= currentWeaponData.reflectionCnt;
+            statHandler.AdditionalPenetrationCount -= currentWeaponData.penetrationCnt;
+
+            if (currentWeaponData.autoFire)
+            {
+                statHandler.AdditionalAutoFire = false;
+            }
+        });
     }
 
     /// <summary>
-    /// 무기 ID 반환
+    /// 무기 시각적 요소(스프라이트) 업데이트
     /// </summary>
-    public int GetWeaponId()
+    private void UpdateWeaponVisuals()
     {
-        return weaponId;
+        // 무기 스프라이트를 로드하는 코드 추가(아마도)
+        // Sprite weaponSprite = ResourceManager.Instance.GetWeaponSprite(currentWeaponData.id);
+        // if (weaponSprite != null && weaponSpriteRenderer != null)
+        // {
+        //     weaponSpriteRenderer.sprite = weaponSprite;
+        // }
     }
 
     /// <summary>
-    /// 무기 이름 반환
+    /// 현재 장착된 무기 데이터 반환
     /// </summary>
-    public string GetWeaponName()
+    public WeaponData GetCurrentWeaponData()
     {
-        return weaponName;
-    }
-
-    /// <summary>
-    /// 무기 스프라이트 반환
-    /// </summary>
-    public Sprite GetWeaponSprite()
-    {
-        return weaponSprite;
+        return currentWeaponData;
     }
 }
