@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -85,6 +84,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             moveSpeed = statHandler.MoveSpeed;
             UpdateFireInterval();
+        }
+
+        // 무기 매니저 이벤트 구독
+        if (weaponManager != null)
+        {
+            weaponManager.OnWeaponChanged += OnWeaponChanged;
         }
     }
 
@@ -412,7 +417,26 @@ public class PlayerController : MonoBehaviour, IDamageable
             weaponManager.SwitchToNextWeapon();
         }
     }
-    public void UseItem(Item item)// Add Item
+
+    /// <summary>
+    /// 무기가 변경되었을 때 호출되는 콜백
+    /// </summary>
+    private void OnWeaponChanged(int index, int total, PlayerWeapon currentWeapon)
+    {
+        // 무기 변경에 따른 추가 처리
+        // 무기 변경 사운드 재생, 시각 효과 등
+
+        // 무기 정보 로그 출력 (디버깅용)
+        if (currentWeapon != null)
+        {
+            Debug.Log($"플레이어가 무기 '{currentWeapon.GetWeaponName()}'로 전환");
+        }
+
+        // StatHandler의 변경된 값에 따라 발사 간격 업데이트
+        UpdateFireInterval();
+    }
+
+    public void UseItem(Item item)// Add Item stat
     {
         ItemData data = item.itemData;
 
@@ -424,7 +448,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         statHandler.ModifyStat(data.type, data.value, data.time, data.isPermanent);
     }
 
-    public void AddItem(EquipItem equipItem) // Add EquipItem
+    public void AddItem(EquipItem equipItem) // Add EquipItem stat
     {
         EquipItemData data = equipItem.equipItemData;
 
@@ -449,6 +473,21 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             AddItem(equipItem);
             Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.TryGetComponent<Weapon>(out Weapon weapon))
+        {
+            //weapon바꿔야함.
+            //weaponManager.AddWeapon(weapon);
+            Destroy(collision.gameObject);
+        }
+    }
+
+    void OnDestroy()
+    {
+        // 무기 매니저 이벤트 구독 해제
+        if (weaponManager != null)
+        {
+            weaponManager.OnWeaponChanged -= OnWeaponChanged;
         }
     }
 }

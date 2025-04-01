@@ -9,7 +9,7 @@ public class DeathHand : MonoBehaviour
     {
         if((playerLayer.value & (1 << collision.gameObject.layer)) > 0)//플레이어 레이어에 닿았을 경우
         {
-            Debug.Log("Player attack");//idamageable 인터페이스를 구현한 플레이어에게 데미지를 입히는 코드로 추후 변경.
+            collision.GetComponent<PlayerController>().TakeDamage(1);//플레이어에게 데미지를 줌
         }
     }
 
