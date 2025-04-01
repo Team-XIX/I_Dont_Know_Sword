@@ -34,6 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 903180372350423763}
   - {fileID: 3512503837265272704}
   - {fileID: 2072660354335949264}
   m_Father: {fileID: 0}
@@ -201,7 +202,7 @@ MonoBehaviour:
   projectilePool: []
   monsterProjectile: {fileID: 4994859307863215092, guid: cb2c47dc9b2637547848d08e24c09727, type: 3}
   summonMonster: {fileID: 3114429102703970486, guid: 3b2a6eb737c8d4e45a349eebf85a159b, type: 3}
-  deathRay: {fileID: 0}
+  deathRay: {fileID: 4604893966033643862}
   voidCircle: {fileID: 5454135004437005188}
 --- !u!1 &4434448994640746140
 GameObject:
@@ -350,11 +351,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5767794173588227983, guid: d576cfb30710d2f44b73bfe76cd3566e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.026
       objectReference: {fileID: 0}
     - target: {fileID: 5767794173588227983, guid: d576cfb30710d2f44b73bfe76cd3566e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.482
+      value: 0.254
       objectReference: {fileID: 0}
     - target: {fileID: 5767794173588227983, guid: d576cfb30710d2f44b73bfe76cd3566e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -402,4 +403,79 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 538243111873955291, guid: d576cfb30710d2f44b73bfe76cd3566e, type: 3}
   m_PrefabInstance: {fileID: 5532887240737392223}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8935331345963355554
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 669226848573867690}
+    m_Modifications:
+    - target: {fileID: -3571100804207164660, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: rotationSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893005064660673780, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_Name
+      value: DeathRay
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893005064660673780, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.018
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1267981719e80874c935d690e4804661, type: 3}
+--- !u!4 &903180372350423763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8108750129554677617, guid: 1267981719e80874c935d690e4804661, type: 3}
+  m_PrefabInstance: {fileID: 8935331345963355554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4604893966033643862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4893005064660673780, guid: 1267981719e80874c935d690e4804661, type: 3}
+  m_PrefabInstance: {fileID: 8935331345963355554}
   m_PrefabAsset: {fileID: 0}

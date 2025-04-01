@@ -31,8 +31,8 @@ public class Agias : MonsterBase
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
         InvokeRepeating(nameof(IsNearWall), 0f, 0.1f); // 0.1초마다 벽 감지
-        InvokeRepeating(nameof(SetMove), 0f, 2.9f); // 2.9초마다 이동시작 (이동 시작후 2초후 스킬 사용)
-        InvokeRepeating(nameof(SkillUse), 0f, 4.1f); // 4.1초마다 스킬 사용
+        InvokeRepeating(nameof(SetMove), 0f, 2.4f); // 2.4초마다 이동시작 (이동 시작후 2초후 스킬 사용)
+        InvokeRepeating(nameof(SkillUse), 0f, 4.3f); // 4.3초마다 스킬 사용
     }
 
     // 몬스터 이동 패턴
@@ -307,12 +307,22 @@ public class Agias : MonsterBase
     }
     public void AnimEventDeathRay()
     {
-        Debug.Log("AnimEventDeathRay");
+        float rotationOffset = Random.Range(0, 360f);
+
+        StartCoroutine(DeathRayActivate(rotationOffset));
     }
     public void AnimEventVoidBall()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 분사 (0.5초 간격 4번)
     {
         StartCoroutine(CircleAlphaOn(0));
         StartCoroutine(MultiTimeProjectile(4));
+    }
+    IEnumerator DeathRayActivate(float rotationOffset)
+    {
+        deathRay.SetActive(true);
+        deathRay.transform.rotation = Quaternion.Euler(0, 0, rotationOffset);// 랜덤한 회전값 적용  
+
+        yield return new WaitForSeconds(2.6f);
+        deathRay.SetActive(false);
     }
     IEnumerator CircleAlphaOn(float a)
     {
