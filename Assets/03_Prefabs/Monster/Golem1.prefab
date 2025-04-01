@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 4739610035276844970}
   - component: {fileID: 8873891674550234000}
   - component: {fileID: 4519705267185327964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Golem1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

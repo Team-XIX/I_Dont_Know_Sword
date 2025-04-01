@@ -22,6 +22,6 @@ public class SceneHandler : MonoBehaviour
             yield return new WaitForSeconds(clickSound.length);
         }
 
-        SceneManager.LoadScene("UIScene");
+        SceneManager.LoadScene("GameScene");
     }
 }
