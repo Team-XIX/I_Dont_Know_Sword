@@ -24,4 +24,12 @@ public class SceneHandler : MonoBehaviour
 
         SceneManager.LoadScene("GameScene");
     }
+
+    public void GameOver()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

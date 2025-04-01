@@ -99,14 +99,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 7026741663344885889}
   mainCamera: {fileID: 0}
-  horizontalOffset: 1
-  fixedFireDistance: 1.2
-  verticalOffset: 0
-  floatDuration: 1
-  floatDistance: 0.1
+  fixedFireDistance: 1
   positionLerpSpeed: 50
   rotationLerpSpeed: 50
-  fireStateDuration: 0.75
 --- !u!1 &6060907635323760927
 GameObject:
   m_ObjectHideFlags: 0
