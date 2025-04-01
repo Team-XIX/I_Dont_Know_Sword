@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6152030798681586474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6899637699346858180}
+  - component: {fileID: 5943621309459102105}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6899637699346858180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152030798681586474}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5943621309459102105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152030798681586474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5ea76ce1b23894db0af526bc73efa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPrefabs:
+  - {fileID: 6110289259539674300, guid: 8337a0cc9429f8241875cfc3cc44863b, type: 3}
+  - {fileID: 26390612284930374, guid: 0ca2de434e05ee341a3cabf27bd9c280, type: 3}
+  - {fileID: 8946372863816396912, guid: 03553f0d55b9b3d429951ba9353e1d8a, type: 3}
+  - {fileID: 4016912486236820979, guid: 7a097fe6ae1375c4ba8ca78ccd112822, type: 3}
+  - {fileID: 6834600084534608878, guid: 9b8b17ceae6cea44d9933d19fd8bf572, type: 3}
+  - {fileID: 1088475255423639471, guid: 58ba7f4cd2a62804bb868eafb4322d4e, type: 3}
+  - {fileID: 4811734962414366277, guid: 905fbe4ff24187746b15ddaa40e4c422, type: 3}
+  - {fileID: 2167247731363965117, guid: fe916f7221d05f449a61054ba0278875, type: 3}
+  roomElitePrefabs:
+  - {fileID: 3867434031198124936, guid: 53400152c6b3890498edd67bb7a1206f, type: 3}
+  - {fileID: 7871490552352601862, guid: 9651bd946f3dc9847befd56af9cd39ee, type: 3}
+  - {fileID: 2053010059013056950, guid: 8ecbfa7669094004aa631f4497c02226, type: 3}
+  roomMap: []
+  mapLength: 0
+  roomInterval: 0
+  currentRoomNum: -1
+  playerController: {fileID: 0}
