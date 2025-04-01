@@ -9,7 +9,7 @@ public class WeaponData : BaseData
     public float spreadAngle;
     public float multiAngle;
     public int projectileCnt;
-    public float projectilSize;
+    public float projectileSize;
     public float projectileSpeed;
     public float projectileRange;
     public int reflectionCnt;
@@ -50,7 +50,7 @@ public class WeaponData : BaseData
                     projectileCnt = int.Parse(values[i]);
                     break;
                 case "projectileSize":
-                    projectilSize = float.Parse(values[i]);
+                    projectileSize = float.Parse(values[i]);
                     break;
                 case "projectileSpeed":
                     projectileSpeed = float.Parse(values[i]);

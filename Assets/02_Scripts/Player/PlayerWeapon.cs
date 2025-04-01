@@ -99,7 +99,7 @@ public class PlayerWeapon : MonoBehaviour
             statHandler.AdditionalSpreadAngle += currentWeaponData.spreadAngle;
             statHandler.AdditionalMultiAngle += currentWeaponData.multiAngle;
             statHandler.AdditionalProjectileCount += currentWeaponData.projectileCnt;
-            statHandler.AdditionalProjectileSize += currentWeaponData.projectilSize;
+            statHandler.AdditionalProjectileSize += currentWeaponData.projectileSize;
             statHandler.AdditionalProjectileSpeed += currentWeaponData.projectileSpeed;
             statHandler.AdditionalProjectileRange += currentWeaponData.projectileRange;
             statHandler.AdditionalReflectionCount += currentWeaponData.reflectionCnt;
@@ -131,7 +131,7 @@ public class PlayerWeapon : MonoBehaviour
             statHandler.AdditionalSpreadAngle -= currentWeaponData.spreadAngle;
             statHandler.AdditionalMultiAngle -= currentWeaponData.multiAngle;
             statHandler.AdditionalProjectileCount -= currentWeaponData.projectileCnt;
-            statHandler.AdditionalProjectileSize -= currentWeaponData.projectilSize;
+            statHandler.AdditionalProjectileSize -= currentWeaponData.projectileSize;
             statHandler.AdditionalProjectileSpeed -= currentWeaponData.projectileSpeed;
             statHandler.AdditionalProjectileRange -= currentWeaponData.projectileRange;
             statHandler.AdditionalReflectionCount -= currentWeaponData.reflectionCnt;
