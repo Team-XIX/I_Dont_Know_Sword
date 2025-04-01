@@ -10,6 +10,9 @@ public class MapCreator : MonoBehaviour
     [Header("맵 안에서 쓰일 방 리스트 : 엘리트 방")]
     public List<Room> roomElitePrefabs;
 
+    [Header("맵 안에서 쓰일 방 : 보스 방")]
+    public Room rooBossPrefab;
+
     [Header("맵 생성 후 맵으로 구성된 방들")]
     public List<Room> roomMap;
 
@@ -32,7 +35,7 @@ public class MapCreator : MonoBehaviour
     private void Start()
     {
         mapLength = 5; 
-        roomInterval = 3;
+        roomInterval = 30;
 
         //초기 시작
         currentRoomNum = 0;
@@ -55,6 +58,10 @@ public class MapCreator : MonoBehaviour
                 if (i + j == mapLength - 1)
                 {
                     room = roomElitePrefabs[UnityEngine.Random.Range(0, roomElitePrefabs.Count)];
+                }
+                else if(i == mapLength - 1 && j == mapLength - 1)
+                {
+                    room = rooBossPrefab;
                 }
                 else
                 {

@@ -456,11 +456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4015833289287034735, guid: 0fd197db8cb7e484dbeea576ca5968f7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 70
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 4015833289287034735, guid: 0fd197db8cb7e484dbeea576ca5968f7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 4015833289287034735, guid: 0fd197db8cb7e484dbeea576ca5968f7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -493,6 +493,10 @@ PrefabInstance:
     - target: {fileID: 4015833289287034735, guid: 0fd197db8cb7e484dbeea576ca5968f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636901089230121984, guid: 0fd197db8cb7e484dbeea576ca5968f7, type: 3}
+      propertyPath: orthographic size
+      value: 140
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -811,6 +815,12 @@ MonoBehaviour:
   _baseAttackPower: 10
   _baseMoveSpeed: 5
   _currentHealth: 0
+  _additionalMaxHealth: 0
+  _additionalAttackPower: 0
+  _additionalMoveSpeed: 0
+  _maxHealth: 0
+  _attackPower: 0
+  _moveSpeed: 0
   _baseAttackSpeed: 2
   _baseAutoFire: 0
   _baseSpreadAngle: 0
@@ -821,6 +831,26 @@ MonoBehaviour:
   _baseProjectileRange: 2
   _baseReflectionCount: 0
   _basePenetrationCount: 0
+  _additionalAttackSpeed: 0
+  _additionalAutoFire: 0
+  _additionalSpreadAngle: 0
+  _additionalMultiAngle: 0
+  _additionalProjectileCount: 0
+  _additionalProjectileSize: 0
+  _additionalProjectileSpeed: 0
+  _additionalProjectileRange: 0
+  _additionalReflectionCount: 0
+  _additionalPenetrationCount: 0
+  _attackSpeed: 0
+  _autoFire: 0
+  _spreadAngle: 0
+  _multiAngle: 0
+  _projectileCount: 0
+  _projectileSize: 0
+  _projectileSpeed: 0
+  _projectileRange: 0
+  _reflectionCount: 0
+  _penetrationCount: 0
 --- !u!114 &7026741663397314152
 MonoBehaviour:
   m_ObjectHideFlags: 0
