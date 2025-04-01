@@ -78,6 +78,9 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     }
     protected virtual void Start()
     {
+        if (dropItems.Length ==0)
+            dropItems = Resources.LoadAll<GameObject>("PrefabItem");
+
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -92,8 +95,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             {MonsterState.Dead, Dead}
         };
 
-        if (dropItems == null)
-            dropItems = Resources.LoadAll<GameObject>("PrefabItem");
+   
 
         StartCoroutine(StateMachine());
     }
