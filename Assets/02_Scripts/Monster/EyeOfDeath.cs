@@ -57,7 +57,7 @@ public class EyeOfDeath : MonoBehaviour
     {
         boom = true;
         if (target == null) return;
-        if(Vector2.Distance(transform.position, target.transform.position) < 0.7f)
+        if(Vector2.Distance(transform.position, target.transform.position) < 0.5f)
         {
             target.TakeDamage(1);
         }

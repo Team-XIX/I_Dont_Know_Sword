@@ -667,6 +667,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7706993601412820858, guid: c98788efce2d43e479382da5922bc670, type: 3}
+      propertyPath: voidCircle
+      value: 
+      objectReference: {fileID: 7655725831785320929}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1257,6 +1261,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9116014891869673975}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7655725831785320929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5454135004437005188, guid: c98788efce2d43e479382da5922bc670, type: 3}
+  m_PrefabInstance: {fileID: 2380372935994475730}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7973613284192817496
 MonoBehaviour:
   m_ObjectHideFlags: 0

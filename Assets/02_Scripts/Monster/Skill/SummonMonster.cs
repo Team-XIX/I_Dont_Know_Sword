@@ -24,9 +24,9 @@ public class SummonMonster : MonoBehaviour
         float alpha = 0;
         while (alpha < 1)
         {
-            alpha += 0.01f;
+            alpha += 0.05f;
             spriteRenderer.color = new Color(0, 0, 0, alpha);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.1f);
         }
         for (int i = 0; i < summonCount; i++)
         {

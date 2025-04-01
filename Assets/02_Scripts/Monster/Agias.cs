@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class Agias : MonsterBase
@@ -16,6 +17,8 @@ public class Agias : MonsterBase
     [SerializeField] private List<GameObject> projectilePool; // 투사체 풀
     [SerializeField] private GameObject monsterProjectile; // 몬스터 투사체
     [SerializeField] private GameObject summonMonster; // 소환 몬스터 프리팹
+    [SerializeField] private GameObject deathRay; // 5줄기 광선 프리팹
+    [SerializeField] private GameObject voidCircle; // 전범위 투사체 프리팹
 
     protected override void Start()
     {
@@ -24,8 +27,8 @@ public class Agias : MonsterBase
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
         InvokeRepeating(nameof(IsNearWall), 0f, 0.1f); // 0.1초마다 벽 감지
-        InvokeRepeating(nameof(SetMove), 0f, 3.3f); // 3.3초마다 이동시작 (이동 시작후 2초후 스킬 사용)
-        InvokeRepeating(nameof(SkillUse), 0f, 4.1f); // 7.2초마다 스킬 사용
+        InvokeRepeating(nameof(SetMove), 0f, 2.9f); // 2.9초마다 이동시작 (이동 시작후 2초후 스킬 사용)
+        InvokeRepeating(nameof(SkillUse), 0f, 4.1f); // 4.1초마다 스킬 사용
     }
 
     // 몬스터 이동 패턴
@@ -217,7 +220,7 @@ public class Agias : MonsterBase
 
         int random = Random.Range(0, 9);
 
-        if (random <= 8)// 1/3 확률로 몬스터 소환. (테스트로 8 만들어둠 이후 2로 수정)
+        if (random <= 2)// 1/3 확률로 몬스터 소환.
         {
             if (curAnimStateInfo.IsName("SummonEye") == false)
             {
@@ -298,39 +301,60 @@ public class Agias : MonsterBase
     {
         Debug.Log("AnimEventDeathRay");
     }
-    public void AnimEventVoidBall()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 분사
+    public void AnimEventVoidBall()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 분사 (0.5초 간격 4번)
     {
-        Debug.Log("AnimEventVoidBall");
-        return;
-        if (target == null) return;// 타겟이 없으면 리턴
-
-        int count = 0;
-        // 풀에 사용 가능한 투사체가 있는지 확인 후 발사
-        foreach (var projectile in projectilePool)
+        StartCoroutine(CircleAlphaOn(0));
+        StartCoroutine(MultiTimeProjectile(4));
+    }
+    IEnumerator CircleAlphaOn(float a)
+    {
+        while (a < 0.6f)
         {
-            if (!projectile.activeSelf)
-            {
-                FireProjectile(projectile, count);
-                count++;
-                if (count >= 24) break;
-            }
-        }
-
-        // 부족한 투사체 생성
-        while (count < 24)
-        {
-            GameObject newProjectile = Instantiate(monsterProjectile, transform.position, Quaternion.identity);
-            projectilePool.Add(newProjectile);
-            FireProjectile(newProjectile, count);
-            count++;
+            a += 0.1f;
+            voidCircle.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1, a);
+            yield return new WaitForSeconds(0.1f);
         }
     }
-    void FireProjectile(GameObject projectile, int index)// 투사체 발사(코드 재사용성을 위한 분리)
+    IEnumerator MultiTimeProjectile(int skillTime)
+    {
+        for (int i = 0; i < skillTime; i++)
+        {
+            if (target == null) yield break;// 타겟이 없으면 리턴
+
+            int count = 0;
+            float rotationOffset = Random.Range(0, 360f);// 랜덤 회전값
+
+            // 풀에 사용 가능한 투사체가 있는지 확인 후 발사
+            foreach (var projectile in projectilePool)
+            {
+                if (!projectile.activeSelf)
+                {
+                    FireProjectile(projectile, count, rotationOffset);
+                    count++;
+                    if (count >= 18) break;
+                }
+            }
+
+            // 부족한 투사체 생성
+            while (count < 18)
+            {
+                GameObject newProjectile = Instantiate(monsterProjectile, transform.position, Quaternion.identity);
+                projectilePool.Add(newProjectile);
+                FireProjectile(newProjectile, count, rotationOffset);
+                count++;
+            }
+            voidCircle.transform.DOScale(1.35f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutQuad);// 전범위 투사체 크기 조절
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        voidCircle.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1, 0);// 알파값 초기화
+    }
+    void FireProjectile(GameObject projectile, int index, float rotationOffset)// 투사체 발사(코드 재사용성을 위한 분리)
     {
         projectile.transform.position = transform.position;
         projectile.SetActive(true);
 
-        float angle = 360f / 24f * index * Mathf.Deg2Rad; // 각도를 360도로 나누어 계산
+        float angle = (360f / 18f * index + rotationOffset) * Mathf.Deg2Rad; // 랜덤 회전값 추가 + 각도를 360도 / 18개 로 나누어 계산
         projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * projectileSpeed;
     }
 }
