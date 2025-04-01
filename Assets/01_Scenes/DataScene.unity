@@ -786,7 +786,7 @@ MonoBehaviour:
   weaponDataList: []
   item: {fileID: 7398225406061943446, guid: 22fbc442eed187e48a96ce5d5951a1f2, type: 3}
   equipItem: {fileID: 7299710647409413328, guid: 098e4e31d58e1734c904748c06c6884b, type: 3}
-  enemy: {fileID: 0}
+  weaponItem: {fileID: 8172756603104567311, guid: 8d04e020fadf0a2428e33d4704ca697c, type: 3}
 --- !u!1 &1502138809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,6 +2087,12 @@ MonoBehaviour:
   _baseAttackPower: 10
   _baseMoveSpeed: 5
   _currentHealth: 0
+  _additionalMaxHealth: 0
+  _additionalAttackPower: 0
+  _additionalMoveSpeed: 0
+  _maxHealth: 0
+  _attackPower: 0
+  _moveSpeed: 0
   _baseAttackSpeed: 2
   _baseAutoFire: 0
   _baseSpreadAngle: 0
@@ -2097,6 +2103,26 @@ MonoBehaviour:
   _baseProjectileRange: 2
   _baseReflectionCount: 0
   _basePenetrationCount: 0
+  _additionalAttackSpeed: 0
+  _additionalAutoFire: 0
+  _additionalSpreadAngle: 0
+  _additionalMultiAngle: 0
+  _additionalProjectileCount: 0
+  _additionalProjectileSize: 0
+  _additionalProjectileSpeed: 0
+  _additionalProjectileRange: 0
+  _additionalReflectionCount: 0
+  _additionalPenetrationCount: 0
+  _attackSpeed: 0
+  _autoFire: 0
+  _spreadAngle: 0
+  _multiAngle: 0
+  _projectileCount: 0
+  _projectileSize: 0
+  _projectileSpeed: 0
+  _projectileRange: 0
+  _reflectionCount: 0
+  _penetrationCount: 0
 --- !u!1001 &9213457178704833560
 PrefabInstance:
   m_ObjectHideFlags: 0

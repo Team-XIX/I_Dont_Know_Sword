@@ -147,10 +147,10 @@ public class DataManager : SingleTon<DataManager>
     {
         return weaponDataList.Find(weapon => weapon.id == id);
     }
-    public void CreateItem() // called at button
+    public void CreateItem() // called at button test code
     {
-        //Instantiate(item,transform);
-        //Instantiate(equipItem,transform);
+        Instantiate(item,transform);
+        Instantiate(equipItem,transform);
         Instantiate(weaponItem, transform);
     }
 
