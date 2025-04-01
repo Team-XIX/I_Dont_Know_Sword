@@ -413,6 +413,8 @@ MonoBehaviour:
   dashDuration: 0.5
   dashInvincibilityDuration: 0.15
   dashCooldown: 0.45
+  damageInvincibilityDuration: 1
+  blinkInterval: 0.2
   mainSprite: {fileID: 6060907635323760927}
   weaponTransform: {fileID: 7121044079538843751}
 --- !u!114 &6627434036239352626

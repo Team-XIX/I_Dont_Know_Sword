@@ -26,11 +26,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     private bool canFire = true;
     private bool isFireButtonPressed = false; // 발사 버튼 누름 상태 추적
 
+    [Header("피격 설정")]
+    [SerializeField] private float damageInvincibilityDuration = 1.0f;
+    [SerializeField] private float blinkInterval = 0.1f;
+
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
     [SerializeField] private Transform weaponTransform;
+    [SerializeField] private WeaponManager weaponManager;
 
-    private Collider2D playerCollider; // 나중에 사용 예정(아마도)
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private StatHandler statHandler;
@@ -38,9 +42,12 @@ public class PlayerController : MonoBehaviour, IDamageable
     private WaitForSeconds dashDurationWait;
     private WaitForSeconds dashCooldownWait;
     private WaitForSeconds invincibilityDurationWait;
+    private WaitForSeconds damageInvincibilityWait;
+    private WaitForSeconds blinkIntervalWait;
 
     private int isMovingHash;
     private int isDashingHash;
+    private int isHitHash;
     public bool IsInvincible => isInvincible;
     public bool IsDashing => isDashing;
     public Vector2 MoveDirection => lastMoveDirection;
@@ -49,7 +56,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
 
         if (mainSprite == null)
         {
@@ -87,11 +93,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         UpdateAnimationState();
         UpdateFireTimer();
 
-        // 연사 모드이고 발사 버튼이 눌려있으면 자동 발사
+        // 연사 모드이고 좌클릭 유지하면 자동 발사
         if (statHandler != null && statHandler.AutoFire && isFireButtonPressed && canFire && !isDashing)
         {
             FireProjectile();
-            canFire = false; // 발사 후 쿨다운 시작
+            canFire = false;
         }
     }
 
@@ -125,22 +131,35 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        // 버튼이 눌렸을 때
         if (context.performed)
         {
             isFireButtonPressed = true;
 
-            // 대시 중이 아니고 발사 가능한 상태라면 즉시 발사
             if (!isDashing && canFire)
             {
                 FireProjectile();
-                canFire = false; // 발사 후 쿨다운 시작
+                canFire = false;
             }
         }
-        // 버튼이 떼어졌을 때
         else if (context.canceled)
         {
             isFireButtonPressed = false;
+        }
+    }
+
+    public void OnSwitchWeaponPrevious(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isDashing)
+        {
+            SwitchToPreviousWeapon();
+        }
+    }
+
+    public void OnSwitchWeaponNext(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isDashing)
+        {
+            SwitchToNextWeapon();
         }
     }
 
@@ -170,12 +189,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (statHandler != null)
         {
             // AttackSpeed 값이 클수록 발사 간격이 짧아짐
-            // AttackSpeed 1 = 1초당 1번 발사, AttackSpeed 2 = 1초당 2번 발사, AttackSpeed 3 = 1초당 3번 발사
+            // AttackSpeed 1 = 1초당 1번 발사, AttackSpeed 2 = 1초당 2번 발사, AttackSpeed 3 = 1초당 3번 발사...
             fireInterval = 1f / statHandler.AttackSpeed;
         }
         else
         {
-            fireInterval = 1f; // 기본값
+            fireInterval = 1f;
         }
     }
 
@@ -255,7 +274,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (ProjectileSystem.Instance == null) return;
 
-        // 발사 간격 업데이트 - StatHandler의 값이 변경되었을 수 있으므로 발사 시마다 확인
         UpdateFireInterval();
 
         Vector2 mousePosition = Vector2.zero;
@@ -269,11 +287,9 @@ public class PlayerController : MonoBehaviour, IDamageable
             mousePosition = weaponFloating.GetMousePosition();
             fireDirection = (mousePosition - (Vector2)transform.position).normalized;
 
-            // 수정: 무기의 최종 목표 위치 계산 (무기가 향하게 될 위치)
             Vector2 targetWeaponPosition = (Vector2)transform.position +
                 fireDirection * weaponFloating.GetFireDistance();
 
-            // 투사체 시스템을 통해 무기의 목표 위치에서 발사
             ProjectileSystem.Instance.FireProjectile(targetWeaponPosition, fireDirection);
         }
     }
@@ -317,12 +333,83 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    /// <summary>
+    /// 플레이어가 데미지를 받을 때 호출되는 함수
+    /// </summary>
+    /// <param name="damage">받는 데미지 양</param>
     public void TakeDamage(int damage)
     {
         if (isInvincible) return;
+
         if (statHandler != null)
         {
             statHandler.CurrentHealth -= damage;
+        }
+
+        //// 데미지 효과 애니메이션 재생 (넣을수도)
+        //if (animator != null)
+        //{
+        //    animator.SetTrigger(isHitHash);
+        //}
+
+        StartCoroutine(DamageInvincibility());
+    }
+
+    /// <summary>
+    /// 데미지를 받은 후 일시적인 무적 상태 및 깜빡임 효과 적용
+    /// </summary>
+    private IEnumerator DamageInvincibility()
+    {
+        isInvincible = true;
+
+        // 깜빡임 효과
+        StartCoroutine(BlinkEffect());
+        yield return damageInvincibilityWait;
+        isInvincible = false;
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 데미지를 받은 후 깜빡임 효과 적용
+    /// </summary>
+    private IEnumerator BlinkEffect()
+    {
+        if (spriteRenderer == null) yield break;
+
+        float endTime = Time.time + damageInvincibilityDuration;
+
+        while (Time.time < endTime)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return blinkIntervalWait;
+        }
+
+        spriteRenderer.enabled = true;
+    }
+
+    /// <summary>
+    /// 이전 무기로 전환
+    /// </summary>
+    private void SwitchToPreviousWeapon()
+    {
+        if (weaponManager != null)
+        {
+            weaponManager.SwitchToPreviousWeapon();
+        }
+    }
+
+    /// <summary>
+    /// 다음 무기로 전환
+    /// </summary>
+    private void SwitchToNextWeapon()
+    {
+        if (weaponManager != null)
+        {
+            weaponManager.SwitchToNextWeapon();
         }
     }
     public void UseItem(Item item)// Add Item
