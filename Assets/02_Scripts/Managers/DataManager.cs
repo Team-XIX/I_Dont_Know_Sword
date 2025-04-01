@@ -25,7 +25,7 @@ public class DataManager : SingleTon<DataManager>
 
     public GameObject item;
     public GameObject equipItem;
-    public GameObject enemy;
+    public GameObject weaponItem;
 
     private string itemJsonPath;
     private string equipItemDataJsonPath;
@@ -149,8 +149,9 @@ public class DataManager : SingleTon<DataManager>
     }
     public void CreateItem() // called at button
     {
-        Instantiate(item,transform);
-        Instantiate(equipItem,transform);
+        //Instantiate(item,transform);
+        //Instantiate(equipItem,transform);
+        Instantiate(weaponItem, transform);
     }
 
     private void SetCount()
