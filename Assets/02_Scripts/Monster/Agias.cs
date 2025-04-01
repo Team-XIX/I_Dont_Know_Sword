@@ -1,12 +1,12 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DarkMage : MonsterBase
+
+public class Agias : MonsterBase
 {
     [Header("Monster Value")]
-    [SerializeField] private float projectileSpeed = 7f; // 투사체 속도
+    [SerializeField] private float projectileSpeed = 3f; // 투사체 속도
     [SerializeField] private int samplePoints = 8; // 샘플링할 점의 개수 (몬스터의 콜라이더가 벽 콜라이더와 겹침을 확인하기 위한 샘플 포인트)
     CircleCollider2D circleCollider;
     bool isNearWall = false;
@@ -15,8 +15,6 @@ public class DarkMage : MonsterBase
     [Header("Skill FX")]
     [SerializeField] private List<GameObject> projectilePool; // 투사체 풀
     [SerializeField] private GameObject monsterProjectile; // 몬스터 투사체
-    [SerializeField] private Transform shootRight;// 오른쪽을 바라볼때 투사체 발사 시작위치.
-    [SerializeField] private Transform shootLeft;// 왼쪽을 바라볼때 투사체 발사 시작위치.
 
     protected override void Start()
     {
@@ -25,7 +23,8 @@ public class DarkMage : MonsterBase
         wallLayerMask = LayerMask.GetMask("Wall");
         InvokeRepeating(nameof(UpdatePath), 0f, 0.5f); // 0.5초마다 경로 갱신
         InvokeRepeating(nameof(IsNearWall), 0f, 0.1f); // 0.1초마다 벽 감지
-        InvokeRepeating(nameof(SetMove), 0f, 3f); // 4초마다 이동시작 (이동 시작후 2초후 스킬 사용)
+        InvokeRepeating(nameof(SetMove), 0f, 3.3f); // 3.3초마다 이동시작 (이동 시작후 2초후 스킬 사용)
+        InvokeRepeating(nameof(SkillUse), 0f, 4.1f); // 7.2초마다 스킬 사용
     }
 
     // 몬스터 이동 패턴
@@ -96,7 +95,7 @@ public class DarkMage : MonsterBase
             StartCoroutine(ForceMoveFromWall());
 
         monsterState = MonsterState.Move;
-        StartCoroutine(MoveAttack());
+        StartCoroutine(MoveEnd());
     }
     bool IsStuckInWall()// 몬스터가 벽에 끼였는지 확인. (비상 탈출용)
     {
@@ -131,14 +130,14 @@ public class DarkMage : MonsterBase
         while (time < 1.5f)
         {
             time += Time.deltaTime;
-            transform.position = Vector2.Lerp(startPos, targetPos, time);
+            transform.position = Vector2.Lerp(startPos, (targetPos-startPos) * 0.5f , time);// 플레이어와 몬스터의 중간 지점으로 이동.
             yield return null;
         }
     }
-    IEnumerator MoveAttack()
+    IEnumerator MoveEnd()
     {
         yield return new WaitForSeconds(2f);
-        monsterState = MonsterState.Skill;
+        monsterState = MonsterState.Idle;
     }
 
     // 몬스터 상태 머신
@@ -155,14 +154,6 @@ public class DarkMage : MonsterBase
 
         while (monsterState == MonsterState.Idle)
         {
-            if (target != null && Vector2.Distance(transform.position, target.transform.position) < detectRange)
-            {
-                // 벽이 없으면 다시 Move 상태로 전환
-                if (!isNearWall)
-                {
-                    ChangeState(MonsterState.Move);
-                }
-            }
             yield return null;
         }
     }
@@ -222,22 +213,31 @@ public class DarkMage : MonsterBase
     {
         var curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        int random = Random.Range(0, 3);
+        int random = Random.Range(0, 8);
 
-        if (random == 0)// 1/3 확률로 플레이어의 위치로 투사체 연속 발사.
+        if (random <= 1)// 2/8 확률로 몬스터 소환.
         {
-            if (curAnimStateInfo.IsName("BloodShot") == false)
+            if (curAnimStateInfo.IsName("SummonEye") == false)
             {
-                anim.Play("BloodShot", 0, 0);
+                anim.Play("SummonEye", 0, 0);
                 yield return null;
                 curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
             }
         }
-        else// 2/3 확률로 원형으로 투사체 24개 발사.
+        else if(random <= 4)// 3/8 확률로 5줄기 광선 발사.
         {
-            if (curAnimStateInfo.IsName("BloodExplode") == false)
+            if (curAnimStateInfo.IsName("DeathRay") == false)
             {
-                anim.Play("BloodExplode", 0, 0);
+                anim.Play("DeathRay", 0, 0);
+                yield return null;
+                curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
+            }
+        }
+        else// 3/8 확률로 전범위 투사체 대량 분사.
+        {
+            if (curAnimStateInfo.IsName("VoidBall") == false)
+            {
+                anim.Play("VoidBall", 0, 0);
                 yield return null;
                 curAnimStateInfo = anim.GetCurrentAnimatorStateInfo(0);// 상태정보 갱신
             }
@@ -280,30 +280,27 @@ public class DarkMage : MonsterBase
     {
         gameObject.SetActive(false);
     }
-
-    // 애니메이션 이벤트
-    public void AnimEventBloodShot()// 애니메이션 이벤트를 통해 투사체 발사
+    void SkillUse()
     {
         if (target == null) return;
-        foreach (var projectile in projectilePool)
-        {
-            if (projectile.activeSelf == false)
-            {
-                projectile.transform.position = target.transform.position.x < transform.position.x ? shootLeft.position : shootRight.position;
-                projectile.SetActive(true);
-                projectile.GetComponent<Rigidbody2D>().velocity = (target.transform.position - transform.position).normalized * projectileSpeed;
-                break;
-            }
-        }
-        // 만약 풀에 사용 가능한 투사체가 없다면 새로 생성
-        GameObject newProjectile = Instantiate(monsterProjectile, target.transform.position.x < transform.position.x ? shootLeft.position : shootRight.position, Quaternion.identity);
-        projectilePool.Add(newProjectile);
-        newProjectile.GetComponent<Rigidbody2D>().velocity = (target.transform.position - transform.position).normalized * projectileSpeed;
+        ChangeState(MonsterState.Skill);
     }
-    public void AnimEventBloodExplode()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 발사 한번에 24개에
+
+    // 애니메이션 이벤트
+    public void SummonEyeOfDeath()
     {
+        Debug.Log("SummonEyeOfDeath");
+    }
+    public void AnimEventDeathRay()
+    {
+        Debug.Log("AnimEventDeathRay");
+    }
+    public void AnimEventVoidBall()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 분사
+    {
+        Debug.Log("AnimEventVoidBall");
+        return;
         if (target == null) return;// 타겟이 없으면 리턴
-        
+
         int count = 0;
         // 풀에 사용 가능한 투사체가 있는지 확인 후 발사
         foreach (var projectile in projectilePool)

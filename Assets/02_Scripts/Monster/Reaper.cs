@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class Reaper : MonsterBase
 {
+    [Header("Monster Value")]
     [SerializeField] private float attackRange = 2.3f; // 공격 범위
     [SerializeField] private float dashRange = 10f; // 대쉬 범위
     [SerializeField] private float dashCoolTime = 8f; // 대쉬 쿨타임
