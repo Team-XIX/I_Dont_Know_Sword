@@ -19,11 +19,7 @@ public class Agias : MonsterBase
     [SerializeField] private GameObject summonMonster; // 소환 몬스터 프리팹
     [SerializeField] private GameObject deathRay; // 5줄기 광선 프리팹
     [SerializeField] private GameObject voidCircle; // 전범위 투사체 프리팹
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.N))
-            TakeDamage(100);
-    }
+
     protected override void Start()
     {
         base.Start();
