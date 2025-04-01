@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1513306195936489570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2767040962701205599}
+  - component: {fileID: 5470461636474335456}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2767040962701205599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513306195936489570}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 419269854390199679}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5470461636474335456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513306195936489570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab73d75261d24c4c87c5a846869f54e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponDataList: []
+  currentWeaponIndex: 0
+  playerWeaponComponent: {fileID: 5411384659441711984}
+  startingWeaponId: 1
 --- !u!1 &5400255798447944175
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,6 +59,7 @@ GameObject:
   - component: {fileID: 7121044079538843751}
   - component: {fileID: 4681502186866469974}
   - component: {fileID: 1582148312394575312}
+  - component: {fileID: 5411384659441711984}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -73,7 +122,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -461594295, guid: 56f90d4649757d74291acccf32595682, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,6 +151,19 @@ MonoBehaviour:
   fixedFireDistance: 1
   positionLerpSpeed: 50
   rotationLerpSpeed: 50
+--- !u!114 &5411384659441711984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5400255798447944175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f430e2fe77e5354a8470fd1099129b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSpriteRenderer: {fileID: 4681502186866469974}
 --- !u!1 &6060907635323760927
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +237,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 523037085, guid: fce980aeaee69304a9976b247d3b9f61, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -244,6 +306,7 @@ Transform:
   m_Children:
   - {fileID: 1921889918441226094}
   - {fileID: 7121044079538843751}
+  - {fileID: 2767040962701205599}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3146412242309649631
@@ -391,6 +454,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e8f0fb14-5842-4e53-8a94-5e546d492c20
     m_ActionName: Player/Shoot[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 60bd3012-b6b9-41b5-9e31-4a8090a29a43
+    m_ActionName: Player/SwitchWeaponPrevious[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 51ff974d-8013-42f6-a650-6e464b787a35
+    m_ActionName: Player/SwitchWeaponNext[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -417,6 +488,7 @@ MonoBehaviour:
   blinkInterval: 0.2
   mainSprite: {fileID: 6060907635323760927}
   weaponTransform: {fileID: 7121044079538843751}
+  weaponManager: {fileID: 5470461636474335456}
 --- !u!114 &6627434036239352626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,16 +502,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseMaxHealth: 3
-  _baseAttackPower: 10
+  _baseAttackPower: 0
   _baseMoveSpeed: 5
   _currentHealth: 0
-  _baseAttackSpeed: 2
+  _baseAttackSpeed: 0
   _baseAutoFire: 0
   _baseSpreadAngle: 0
   _baseMultiAngle: 0
-  _baseProjectileCount: 1
-  _baseProjectileSize: 3
-  _baseProjectileSpeed: 10
-  _baseProjectileRange: 2
+  _baseProjectileCount: 0
+  _baseProjectileSize: 0
+  _baseProjectileSpeed: 0
+  _baseProjectileRange: 0
   _baseReflectionCount: 0
   _basePenetrationCount: 0

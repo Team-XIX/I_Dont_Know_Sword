@@ -192,11 +192,19 @@ public class ProjectileSystem : MonoBehaviour
 
         if (cachedStatHandler != null)
         {
+            // 여기가 중요: StatHandler의 프로퍼티 값을 올바르게 매핑
+            // ProjectileSpeed -> Speed
             cachedOptions.Speed = cachedStatHandler.ProjectileSpeed > 0 ?
                                  cachedStatHandler.ProjectileSpeed : 10f;
+
+            // ProjectileRange -> Lifetime
             cachedOptions.Lifetime = cachedStatHandler.ProjectileRange > 0 ?
                                     cachedStatHandler.ProjectileRange : 5f;
-            cachedOptions.Size = cachedStatHandler.ProjectileSize;
+
+            // ProjectileSize -> Size                        
+            cachedOptions.Size = cachedStatHandler.ProjectileSize > 0 ?
+                                cachedStatHandler.ProjectileSize : 1f;
+
             cachedOptions.PenetrationCount = cachedStatHandler.PenetrationCount;
             cachedOptions.ReflectionCount = cachedStatHandler.ReflectionCount;
             cachedOptions.SpreadAngle = cachedStatHandler.SpreadAngle;
@@ -222,34 +230,28 @@ public class ProjectileSystem : MonoBehaviour
     /// </summary>
     private void SpawnProjectile(Vector2 position, Vector2 direction, float damage, ProjectileOptions options)
     {
-        // 옵션이 없으면 기본값 생성
         if (options == null)
         {
             options = cachedOptions;
         }
 
-        // 탄퍼짐(SpreadAngle) 계산
         if (options.SpreadAngle > 0)
         {
             float randomSpread = Random.Range(-options.SpreadAngle, options.SpreadAngle);
             direction = RotateVector(direction, randomSpread);
         }
 
-        // 풀에서 투사체 가져오기
         Projectile projectile = GetProjectileFromPool();
         if (projectile == null)
         {
             return;
         }
 
-        // 투사체 위치 및 회전 설정
         projectile.transform.position = position;
         projectile.gameObject.SetActive(true);
 
-        // 활성 목록에 추가
         activeProjectiles.Add(projectile);
 
-        // 투사체 초기화
         projectile.Initialize(
             damage,
             direction,
