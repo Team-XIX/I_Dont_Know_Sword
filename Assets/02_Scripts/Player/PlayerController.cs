@@ -436,7 +436,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         UpdateFireInterval();
     }
 
-    public void UseItem(Item item)// Add Item
+    public void UseItem(Item item)// Add Item stat
     {
         ItemData data = item.itemData;
 
@@ -448,7 +448,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         statHandler.ModifyStat(data.type, data.value, data.time, data.isPermanent);
     }
 
-    public void AddItem(EquipItem equipItem) // Add EquipItem
+    public void AddItem(EquipItem equipItem) // Add EquipItem stat
     {
         EquipItemData data = equipItem.equipItemData;
 
@@ -472,6 +472,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         else if(collision.gameObject.TryGetComponent<EquipItem>(out EquipItem equipItem))
         {
             AddItem(equipItem);
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.TryGetComponent<Weapon>(out Weapon weapon))
+        {
+            //weapon바꿔야함.
+            //weaponManager.AddWeapon(weapon);
             Destroy(collision.gameObject);
         }
     }

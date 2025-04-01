@@ -49,7 +49,7 @@ public class WeaponData : BaseData
                 case "projectileCnt":
                     projectileCnt = int.Parse(values[i]);
                     break;
-                case "projectilSize":
+                case "projectileSize":
                     projectilSize = float.Parse(values[i]);
                     break;
                 case "projectileSpeed":

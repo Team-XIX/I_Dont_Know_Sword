@@ -11,7 +11,6 @@ public class Weapon : MonoBehaviour
 
     public void Start()
     {
-        //Invoke(nameof(Init),2f);
         Init();
     }
 
