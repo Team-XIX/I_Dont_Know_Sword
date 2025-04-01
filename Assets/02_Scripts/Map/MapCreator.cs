@@ -27,7 +27,6 @@ public class MapCreator : MonoBehaviour
     //플레이어 이동시키는 Action
     public static Action<Direction> teleportAction;
 
-    //GameManager에 Player가 없는 관계로 임시로 만든 플레이어
     public PlayerController playerController;
 
     private void Start()
@@ -42,6 +41,7 @@ public class MapCreator : MonoBehaviour
         CreateMap();
 
         playerController.transform.position = roomMap[0].spawnPoint[1].position;
+        ShowPlayerPosition();
     }
 
     //맵 생성
@@ -101,6 +101,7 @@ public class MapCreator : MonoBehaviour
         {
             return;
         }
+        ErasePlayerPosition();
         switch (dir)
         {
             case Direction.Up:
@@ -121,6 +122,7 @@ public class MapCreator : MonoBehaviour
                 break;
             default: break;
         }
+        ShowPlayerPosition();
     }
 
     //현재 방에 있는 모든 몬스터 죽이기
@@ -169,6 +171,23 @@ public class MapCreator : MonoBehaviour
         }
     }
 
+    //즉시 보스방으로 텔레포트
+    public void TeleportToBossRoom()
+    {
+        currentRoomNum = roomMap.Count - 1;
+        playerController.transform.position = roomMap[currentRoomNum].spawnPoint[1].position;
+    }
 
+    //미니맵에 현재 위치 표시
+    public void ShowPlayerPosition()
+    {
+        roomMap[currentRoomNum].PaintPath();
+        roomMap[currentRoomNum].PaintCurrentPos();
+    }
 
+    //미니맵에 현재 위치 지우기
+    public void ErasePlayerPosition()
+    {
+        roomMap[currentRoomNum].EraseCurrentPos();
+    }
 }

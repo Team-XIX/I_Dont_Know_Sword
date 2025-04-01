@@ -6,12 +6,11 @@ public class Weapon : MonoBehaviour
     public int getId;
 
     public WeaponData weaponData;
-    SpriteRenderer _spriteRenderer;
+    public SpriteRenderer _spriteRenderer;
     SpriteAtlas _atlasSprite;
 
     public void Start()
     {
-        //Invoke(nameof(Init),2f);
         Init();
     }
 

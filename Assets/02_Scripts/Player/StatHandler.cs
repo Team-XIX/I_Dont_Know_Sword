@@ -45,15 +45,36 @@ public class StatHandler : MonoBehaviour
     // 현재 체력
     [SerializeField] private int _currentHealth;
 
-    // 추가 스탯 (아이템, 버프 등에 의한 추가 능력치)
-    private int _additionalMaxHealth = 0;
-    private float _additionalAttackPower = 0f;
-    private float _additionalMoveSpeed = 0f;
+    // 추가 스탯 (아이템, 버프 등에 의한 추가 능력치) - 인스펙터에 표시
+    [Header("추가 스탯 (읽기 전용)")]
+    [SerializeField] private int _additionalMaxHealth = 0;
+    [SerializeField] private float _additionalAttackPower = 0f;
+    [SerializeField] private float _additionalMoveSpeed = 0f;
 
-    // 계산된 최종 능력치 속성
-    public int MaxHealth { get; private set; }
-    public float AttackPower { get; private set; }
-    public float MoveSpeed { get; private set; }
+    // 계산된 최종 능력치 속성 - 인스펙터에 표시
+    [Header("최종 능력치 (읽기 전용)")]
+    [SerializeField] private int _maxHealth;
+    [SerializeField] private float _attackPower;
+    [SerializeField] private float _moveSpeed;
+
+    // 최종 능력치 프로퍼티 (게임 코드에서 사용)
+    public int MaxHealth
+    {
+        get => _maxHealth;
+        private set => _maxHealth = value;
+    }
+
+    public float AttackPower
+    {
+        get => _attackPower;
+        private set => _attackPower = value;
+    }
+
+    public float MoveSpeed
+    {
+        get => _moveSpeed;
+        private set => _moveSpeed = value;
+    }
 
     // 기본 스탯 속성 (get/set)
     public int BaseMaxHealth
@@ -196,29 +217,92 @@ public class StatHandler : MonoBehaviour
     [SerializeField] private int _baseReflectionCount = 0;  // 반사 횟수
     [SerializeField] private int _basePenetrationCount = 0;  // 관통 횟수
 
-    // 투사체 추가 스탯
-    private float _additionalAttackSpeed = 0f;
-    private bool _additionalAutoFire = false;
-    private float _additionalSpreadAngle = 0f;
-    private float _additionalMultiAngle = 0f;
-    private int _additionalProjectileCount = 0;
-    private float _additionalProjectileSize = 0f;
-    private float _additionalProjectileSpeed = 0f;
-    private float _additionalProjectileRange = 0f;
-    private int _additionalReflectionCount = 0;
-    private int _additionalPenetrationCount = 0;
+    // 투사체 추가 스탯 - 인스펙터에 표시
+    [Header("추가 투사체 스탯 (읽기 전용)")]
+    [SerializeField] private float _additionalAttackSpeed = 0f;
+    [SerializeField] private bool _additionalAutoFire = false;
+    [SerializeField] private float _additionalSpreadAngle = 0f;
+    [SerializeField] private float _additionalMultiAngle = 0f;
+    [SerializeField] private int _additionalProjectileCount = 0;
+    [SerializeField] private float _additionalProjectileSize = 0f;
+    [SerializeField] private float _additionalProjectileSpeed = 0f;
+    [SerializeField] private float _additionalProjectileRange = 0f;
+    [SerializeField] private int _additionalReflectionCount = 0;
+    [SerializeField] private int _additionalPenetrationCount = 0;
 
-    // 최종 투사체 스탯
-    public float AttackSpeed { get; private set; }
-    public bool AutoFire { get; private set; }
-    public float SpreadAngle { get; private set; }
-    public float MultiAngle { get; private set; }
-    public int ProjectileCount { get; private set; }
-    public float ProjectileSize { get; private set; }
-    public float ProjectileSpeed { get; private set; }
-    public float ProjectileRange { get; private set; }
-    public int ReflectionCount { get; private set; }
-    public int PenetrationCount { get; private set; }
+    // 최종 투사체 스탯 - 인스펙터에 표시
+    [Header("최종 투사체 스탯 (읽기 전용)")]
+    [SerializeField] private float _attackSpeed;
+    [SerializeField] private bool _autoFire;
+    [SerializeField] private float _spreadAngle;
+    [SerializeField] private float _multiAngle;
+    [SerializeField] private int _projectileCount;
+    [SerializeField] private float _projectileSize;
+    [SerializeField] private float _projectileSpeed;
+    [SerializeField] private float _projectileRange;
+    [SerializeField] private int _reflectionCount;
+    [SerializeField] private int _penetrationCount;
+
+    // 최종 투사체 스탯 프로퍼티 (게임 코드에서 사용)
+    public float AttackSpeed
+    {
+        get => _attackSpeed;
+        private set => _attackSpeed = value;
+    }
+
+    public bool AutoFire
+    {
+        get => _autoFire;
+        private set => _autoFire = value;
+    }
+
+    public float SpreadAngle
+    {
+        get => _spreadAngle;
+        private set => _spreadAngle = value;
+    }
+
+    public float MultiAngle
+    {
+        get => _multiAngle;
+        private set => _multiAngle = value;
+    }
+
+    public int ProjectileCount
+    {
+        get => _projectileCount;
+        private set => _projectileCount = value;
+    }
+
+    public float ProjectileSize
+    {
+        get => _projectileSize;
+        private set => _projectileSize = value;
+    }
+
+    public float ProjectileSpeed
+    {
+        get => _projectileSpeed;
+        private set => _projectileSpeed = value;
+    }
+
+    public float ProjectileRange
+    {
+        get => _projectileRange;
+        private set => _projectileRange = value;
+    }
+
+    public int ReflectionCount
+    {
+        get => _reflectionCount;
+        private set => _reflectionCount = value;
+    }
+
+    public int PenetrationCount
+    {
+        get => _penetrationCount;
+        private set => _penetrationCount = value;
+    }
 
     // 기본 투사체 스탯 속성 (get/set)
     public float BaseAttackSpeed
@@ -605,11 +689,126 @@ public class StatHandler : MonoBehaviour
     {
         if (modifyAction == null) return;
 
+        bool wasSuppressed = _suppressEvents; // 현재 억제 상태 저장
         _suppressEvents = true;
 
-        modifyAction.Invoke();
+        try
+        {
+            modifyAction.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"StatHandler: ModifyMultipleStats 실행 중 예외 발생: {ex.Message}");
+        }
+        finally
+        {
+            _suppressEvents = wasSuppressed; // 예외가 발생해도 원래 상태로 복원
+            if (!_suppressEvents)
+            {
+                OnStatsChanged?.Invoke();
+            }
+        }
+    }
 
-        _suppressEvents = false;
-        OnStatsChanged?.Invoke();
+    public void ModifyStat(EItemType type, int val, float time, bool isPermanent)
+    {
+        //시간되면 변경
+        switch (type)
+        {
+            case EItemType.Health:
+                CurrentHealth += val;
+                break;
+            case EItemType.Speed:
+                BaseMoveSpeed += val;
+                if (!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.Speed, val, time));
+                break;
+            case EItemType.Atk:
+                BaseAttackPower += val;
+                if (!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.Atk, val, time));
+                break;
+            case EItemType.AtkSpeed:
+                BaseAttackSpeed += val;
+                if (!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.AtkSpeed, val, time));
+                break;
+        }
+    }
+
+    private IEnumerator TempStatForDuration(EItemType type, int val, float duration) //duration 동안 일시적인 스탯
+    {
+        yield return new WaitForSeconds(duration);
+        switch (type)
+        {
+            case EItemType.Speed:
+                BaseMoveSpeed -= val;
+                break;
+            case EItemType.Atk:
+                BaseAttackPower -= val;
+                break;
+            case EItemType.AtkSpeed:
+                BaseAttackSpeed -= val;
+                break;
+        }
+    }
+
+    public void ModifyEquipStat(EquipItemData data)
+    {
+        if (data.canStack)
+        {
+            switch (data.type)
+            {
+                case EEquipItemType.MaxHealth:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseMaxHealth += int.Parse(data.value.ToString());
+                    }
+                    break;
+                case EEquipItemType.ProjectileCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileCount += (int)data.value;
+                    }
+                    break;
+                case EEquipItemType.FireSpeed:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseAttackSpeed += int.Parse(data.value.ToString());
+                    }
+                    break;
+                case EEquipItemType.ProjectileSize:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileSize += data.value;
+                    }
+                    break;
+                case EEquipItemType.ProjectileSpeed:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileSpeed += data.value;
+                    }
+                    break;
+                case EEquipItemType.ReflectCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseReflectionCount += int.Parse(data.value.ToString());
+                    }
+                    break;
+                case EEquipItemType.PenetrationCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BasePenetrationCount += int.Parse(data.value.ToString());
+                    }
+                    break;
+            }
+        }
     }
 }

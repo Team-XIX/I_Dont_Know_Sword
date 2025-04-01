@@ -23,15 +23,25 @@ public class Room : MonoBehaviour
 
     [Header("방의 몬스터 리스트")]
     [SerializeField]
-    public List<GameObject> monsterList; 
+    public List<GameObject> monsterList;
+
+    [Header("미니맵에 방 표시")]
+    [SerializeField]
+    public GameObject miniMapSquare;
+
+    [Header("미니맵에 플레이어 존재 여부 표시")]
+    [SerializeField]
+    public GameObject currentPlayerPosSquare;
 
     [Header("방의 클리어 여부")]       //몬스터가 다 없어진 후에 true를 반환해주어야 함
     public bool isCleared = false;
 
-    private void Start()
+    private void Awake()
     {
         //몬스터가 죽었을때의 이벤트 구독 예정
         MonsterBase.OnMonsterDied += CheckClear;
+        currentPlayerPosSquare.SetActive(false);
+        miniMapSquare.SetActive(false);
     }
 
     //방 생성시 입구 관리
@@ -118,5 +128,32 @@ public class Room : MonoBehaviour
     {
         isCleared = true;
         OpenEnterance();
+    }
+
+    //지나온 길 표시하는 함수
+    public void PaintPath()
+    {
+        if(!miniMapSquare.activeSelf)
+        {
+            miniMapSquare.SetActive(true);
+        }
+    }
+
+    //방안에 플레이어가 있으면 표시해주는 함수
+    public void PaintCurrentPos()
+    {
+        if (!currentPlayerPosSquare.activeSelf)
+        {
+            currentPlayerPosSquare.SetActive(true);
+        }
+    }
+
+    //방안에 플레이어가 없으면 지워주는 함수
+    public void EraseCurrentPos()
+    {
+        if (currentPlayerPosSquare.activeSelf)
+        {
+            currentPlayerPosSquare.SetActive(false);
+        }
     }
 }
