@@ -1,9 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 using System;
+
+public enum EItemType
+{
+    Health = 1,
+    Speed,
+    Atk,
+    AtkSpeed
+}
 
 // 아이템 데이터 클래스
 [System.Serializable]
@@ -12,6 +18,7 @@ public class ItemData : BaseData
     public int value;
     public bool isPermanent;
     public float time;
+    public EItemType type;
     public string spritePath;
 
     public Sprite GetSprite()
@@ -46,10 +53,12 @@ public class ItemData : BaseData
                 case "time":
                     time = float.Parse(values[i]);
                     break;
+                case "type":
+                    type = (EItemType)int.Parse(values[i]);
+                    break;
                 case "spritePath":
                     spritePath = values[i];
                     break;
-
             }
         }
     }
