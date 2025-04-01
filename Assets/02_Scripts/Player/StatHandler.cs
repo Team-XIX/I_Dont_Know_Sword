@@ -612,4 +612,106 @@ public class StatHandler : MonoBehaviour
         _suppressEvents = false;
         OnStatsChanged?.Invoke();
     }
+
+    public void ModifyStat(EItemType type, int val, float time, bool isPermanent)
+    {
+        //시간되면 변경
+        switch (type)
+        {
+            case EItemType.Health:
+                CurrentHealth += val;
+                break;
+            case EItemType.Speed:
+                BaseMoveSpeed += val;
+                if(!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.Speed, val, time));
+                break;
+            case EItemType.Atk:
+                BaseAttackPower += val;
+                if (!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.Atk, val, time));
+                break;
+            case EItemType.AtkSpeed:
+                BaseAttackSpeed += val;
+                if (!isPermanent)
+                    StartCoroutine(TempStatForDuration(EItemType.AtkSpeed, val, time));
+                break;
+        }
+    }
+
+    private IEnumerator TempStatForDuration(EItemType type, int val, float duration) //duration 동안 일시적인 스탯
+    {
+        yield return new WaitForSeconds(duration);
+        switch (type)
+        {
+            case EItemType.Speed:
+                BaseMoveSpeed -= val;
+                break;
+            case EItemType.Atk:
+                BaseAttackPower -= val;
+                break;
+            case EItemType.AtkSpeed:
+                BaseAttackSpeed -= val;
+                break;
+        }
+    }
+
+    public void ModifyEquipStat(EquipItemData data)
+    {
+        if (data.canStack)
+        {
+            switch (data.type)
+            {
+                case EEquipItemType.MaxHealth:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseMaxHealth += int.Parse(data.value.ToString()); 
+                    }
+                    break;
+                case EEquipItemType.ProjectileCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileCount += (int)data.value;
+                    }
+                    break;
+                case EEquipItemType.FireSpeed:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseAttackSpeed += int.Parse(data.value.ToString());
+                    }
+                    break;
+                case EEquipItemType.ProjectileSize:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileSize += data.value;
+                    }
+                    break;
+                case EEquipItemType.ProjectileSpeed:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseProjectileSpeed += data.value;
+                    }
+                    break;
+                case EEquipItemType.ReflectCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BaseReflectionCount += int.Parse(data.value.ToString());
+                    }
+                    break;
+                case EEquipItemType.PenetrationCnt:
+                    if (data.curStack < data.maxStackAmount)
+                    {
+                        data.curStack++;
+                        BasePenetrationCount += int.Parse(data.value.ToString());
+                    }
+                    break;
+            }
+        }
+    }
 }
