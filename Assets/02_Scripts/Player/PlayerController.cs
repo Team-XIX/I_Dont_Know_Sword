@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -322,6 +323,45 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (statHandler != null)
         {
             statHandler.CurrentHealth -= damage;
+        }
+    }
+    public void UseItem(Item item)// Add Item
+    {
+        ItemData data = item.itemData;
+
+        if (data == null)
+        {
+            Debug.Log("ItemData Null");
+        }
+
+        statHandler.ModifyStat(data.type, data.value, data.time, data.isPermanent);
+    }
+
+    public void AddItem(EquipItem equipItem) // Add EquipItem
+    {
+        EquipItemData data = equipItem.equipItemData;
+
+        if (data == null)
+        {
+            Debug.Log("EquipItemData Null");
+        }
+
+        //statHandler.ModifyEquipStat(data.type,data.value,data.maxStackAmount,data.canStack);
+        statHandler.ModifyEquipStat(data);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Item Check
+        if (collision.gameObject.TryGetComponent<Item>(out Item item))
+        {
+            UseItem(item);
+            Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.TryGetComponent<EquipItem>(out EquipItem equipItem))
+        {
+            AddItem(equipItem);
+            Destroy(collision.gameObject);
         }
     }
 }

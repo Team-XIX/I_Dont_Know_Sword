@@ -2,14 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EEquipItemType
+{
+    MaxHealth = 1,
+    ProjectileCnt,
+    FireSpeed,
+    ProjectileSize,
+    ProjectileSpeed,
+    ReflectCnt,
+    PenetrationCnt,
+    Revive
+}
+
 [System.Serializable]
 public class EquipItemData : BaseData
 {
     public float value;
-    public int type;
     public bool canStack;
     public int maxStackAmount;
+    public EEquipItemType type;
     public string spritePath;
+
+    public int curStack = 1;
 
     public Sprite GetSprite()
     {
@@ -38,7 +52,7 @@ public class EquipItemData : BaseData
                     value = float.Parse(values[i]);
                     break;
                 case "type":
-                    type = int.Parse(values[i]);
+                    type = (EEquipItemType)int.Parse(values[i]);
                     break;
                 case "canStack":
                     canStack = bool.Parse(values[i]);
