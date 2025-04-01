@@ -667,6 +667,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2460692559326715405, guid: c98788efce2d43e479382da5922bc670, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 986cb724bb3328643b126cace9dd88d0, type: 2}
     - target: {fileID: 7706993601412820858, guid: c98788efce2d43e479382da5922bc670, type: 3}
       propertyPath: voidCircle
       value: 

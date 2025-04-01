@@ -19,7 +19,11 @@ public class Agias : MonsterBase
     [SerializeField] private GameObject summonMonster; // 소환 몬스터 프리팹
     [SerializeField] private GameObject deathRay; // 5줄기 광선 프리팹
     [SerializeField] private GameObject voidCircle; // 전범위 투사체 프리팹
-
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.N))
+            TakeDamage(100);
+    }
     protected override void Start()
     {
         base.Start();
@@ -292,6 +296,10 @@ public class Agias : MonsterBase
     }
 
     // 애니메이션 이벤트
+    public void AnimEventOnDead()
+    {
+        StartCoroutine(AlphaToZero());
+    }
     public void SummonEyeOfDeath()
     {
         GameObject summon = Instantiate(summonMonster, target.transform.position + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0), Quaternion.identity);
@@ -348,6 +356,16 @@ public class Agias : MonsterBase
         }
 
         voidCircle.GetComponent<SpriteRenderer>().color = new Color(1, 0, 1, 0);// 알파값 초기화
+    }
+    IEnumerator AlphaToZero()
+    {
+        float a = 1;
+        while (a > 0)
+        {
+            a -= 0.2f;
+            voidCircle.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, a);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
     void FireProjectile(GameObject projectile, int index, float rotationOffset)// 투사체 발사(코드 재사용성을 위한 분리)
     {
