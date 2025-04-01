@@ -1088,7 +1088,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8939400927453040358}
         m_TargetAssemblyTypeName: SoundOptions, Assembly-CSharp
-        m_MethodName: SetBgmVoulme
+        m_MethodName: SetSfxVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
