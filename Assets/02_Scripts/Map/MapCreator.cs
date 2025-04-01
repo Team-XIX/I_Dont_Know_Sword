@@ -32,7 +32,7 @@ public class MapCreator : MonoBehaviour
     private void Start()
     {
         mapLength = 5; 
-        roomInterval = 3;
+        roomInterval = 30;
 
         //초기 시작
         currentRoomNum = 0;
