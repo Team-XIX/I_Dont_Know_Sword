@@ -99,7 +99,7 @@ public class AudioManager : SingleTon<AudioManager>
     {
         float bgmVolume, sfxVolume;
 
-        if (audioMixer.GetFloat("BGM", out bgmVolume)) ;
-        if (audioMixer.GetFloat("SFX", out sfxVolume)) ;
+        if (audioMixer.GetFloat("BGM", out bgmVolume));
+        if (audioMixer.GetFloat("SFX", out sfxVolume));
     }
 }
