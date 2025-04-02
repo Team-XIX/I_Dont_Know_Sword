@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [Header("피격 설정")]
     [SerializeField] private float damageInvincibilityDuration = 1.0f;
+    [SerializeField] private float blinkInterval = 0.1f;
 
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
@@ -47,7 +48,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private int isMovingHash;
     private int isDashingHash;
-    private int isHitHash;
     public bool IsInvincible => isInvincible;
     public bool IsDashing => isDashing;
     public Vector2 MoveDirection => lastMoveDirection;
@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         dashDurationWait = new WaitForSeconds(dashDuration);
         dashCooldownWait = new WaitForSeconds(dashCooldown);
         invincibilityDurationWait = new WaitForSeconds(dashInvincibilityDuration);
+        damageInvincibilityWait = new WaitForSeconds(damageInvincibilityDuration);
+        blinkIntervalWait = new WaitForSeconds(blinkInterval);
 
         isMovingHash = Animator.StringToHash("isMoving");
         isDashingHash = Animator.StringToHash("isDashing");
@@ -357,11 +359,8 @@ public class PlayerController : MonoBehaviour, IDamageable
             statHandler.CurrentHealth -= damage;
         }
 
-        //// 데미지 효과 애니메이션 재생 (넣을수도)
-        //if (animator != null)
-        //{
-        //    animator.SetTrigger(isHitHash);
-        //}
+        AudioClip takeDamageSFX = AudioManager.Instance.sfxClips[3];
+        AudioManager.Instance.PlaySFX(takeDamageSFX);
 
         StartCoroutine(DamageInvincibility());
     }
@@ -425,16 +424,6 @@ public class PlayerController : MonoBehaviour, IDamageable
             Debug.Log("다음 무기로 전환");
 
         }
-    }
-
-    /// <summary>
-    /// 무기가 변경되었을 때 호출되는 콜백
-    /// </summary>
-    private void OnWeaponChanged(int index, int total, WeaponData currentWeapon)
-    {
-        // 무기 변경에 따른 추가 처리
-        // StatHandler의 변경된 값에 따라 발사 간격 업데이트
-        UpdateFireInterval();
     }
 
     public void UseItem(Item item)// Add Item stat
@@ -509,10 +498,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     void OnDestroy()
     {
-        if (weaponManager != null)
-        {
-            weaponManager.OnWeaponChanged -= OnWeaponChanged;
-        }
         if (statHandler != null)
         {
             statHandler.OnPlayerDeath -= OnPlayerDeath;
