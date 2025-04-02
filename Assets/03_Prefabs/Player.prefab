@@ -522,7 +522,7 @@ MonoBehaviour:
   moveSpeed: 5
   dashForce: 7
   dashDuration: 0.5
-  dashInvincibilityDuration: 0.15
+  dashInvincibilityDuration: 0.5
   dashCooldown: 0.45
   gameoverDelay: 1.5
   damageInvincibilityDuration: 1
