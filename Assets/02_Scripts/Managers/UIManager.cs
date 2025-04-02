@@ -72,6 +72,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickGameDoneButton()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");   
     }
 }
