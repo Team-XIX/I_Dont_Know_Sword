@@ -91,6 +91,7 @@ public class DarkMage : MonsterBase
     // 몬스터 행동 패턴
     void SetMove()// 일정 시간마다 2초간 움직임.
     {
+        if (!this.gameObject.activeSelf) return;
         // 벽에 끼인 상태면 강제로 플레이어를 향해 이동.
         if (IsStuckInWall())
             StartCoroutine(ForceMoveFromWall());

@@ -254,7 +254,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1_50
+      name: 6
       rect:
         serializedVersion: 2
         x: 0
@@ -275,7 +275,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 5
+      name: 123
       rect:
         serializedVersion: 2
         x: 48
@@ -443,7 +443,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1_61
+      name: 5
       rect:
         serializedVersion: 2
         x: 64
@@ -716,7 +716,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1_2
+      name: 7
       rect:
         serializedVersion: 2
         x: 112
@@ -770,6 +770,7 @@ TextureImporter:
     nameFileIdTable:
       1: -1335389128
       111: -1841270150
+      123: -1041669885
       1_0: -1477434637
       1_1: 632784264
       1_10: 831452090
@@ -782,7 +783,6 @@ TextureImporter:
       1_17: 601624002
       1_18: 2144992672
       1_19: -1363729874
-      1_2: -913117502
       1_20: -345806054
       1_21: 960457362
       1_22: -538310887
@@ -815,7 +815,6 @@ TextureImporter:
       1_47: -880197219
       1_48: -235404330
       1_5: -23194359
-      1_50: -373544545
       1_52: -1639908421
       1_53: -137318573
       1_54: -1566600951
@@ -824,7 +823,6 @@ TextureImporter:
       1_59: 1067599362
       1_6: 1843217664
       1_60: 1269121488
-      1_61: -461594295
       1_62: -1317303914
       1_64: -706116556
       1_66: -1848160578
@@ -841,7 +839,9 @@ TextureImporter:
       2: 157978414
       3: 14553164
       4: -1971985795
-      5: -1041669885
+      5: -461594295
+      6: -373544545
+      7: -913117502
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

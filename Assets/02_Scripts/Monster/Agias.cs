@@ -30,7 +30,11 @@ public class Agias : MonsterBase
         InvokeRepeating(nameof(SetMove), 0f, 2.4f); // 2.4초마다 이동시작 (이동 시작후 2초후 스킬 사용)
         InvokeRepeating(nameof(SkillUse), 0f, 4.3f); // 4.3초마다 스킬 사용
     }
-
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        UIManager.Instance.ShowGameDone();
+    }
     // 몬스터 이동 패턴
     private void UpdatePath()
     {

@@ -15,9 +15,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashInvincibilityDuration = 0.15f;
     [SerializeField] private float dashCooldown = 0.45f;
+    [SerializeField] private float gameoverDelay = 1.5f;
     private bool canDash = true;
     private bool isDashing = false;
     private bool isInvincible = false;
+    private bool isDead = false;
 
     [Header("발사 설정")]
     private float fireTimer = 0f;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [Header("피격 설정")]
     [SerializeField] private float damageInvincibilityDuration = 1.0f;
+    [SerializeField] private float blinkInterval = 0.1f;
 
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
@@ -45,7 +48,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private int isMovingHash;
     private int isDashingHash;
-    private int isHitHash;
     public bool IsInvincible => isInvincible;
     public bool IsDashing => isDashing;
     public Vector2 MoveDirection => lastMoveDirection;
@@ -66,6 +68,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         dashDurationWait = new WaitForSeconds(dashDuration);
         dashCooldownWait = new WaitForSeconds(dashCooldown);
         invincibilityDurationWait = new WaitForSeconds(dashInvincibilityDuration);
+        damageInvincibilityWait = new WaitForSeconds(damageInvincibilityDuration);
+        blinkIntervalWait = new WaitForSeconds(blinkInterval);
 
         isMovingHash = Animator.StringToHash("isMoving");
         isDashingHash = Animator.StringToHash("isDashing");
@@ -83,6 +87,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             moveSpeed = statHandler.MoveSpeed;
             UpdateFireInterval();
+
+            statHandler.OnPlayerDeath += OnPlayerDeath;
         }
     }
 
@@ -111,6 +117,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isDead) return;
         moveInput = context.ReadValue<Vector2>();
 
         if (moveInput != Vector2.zero)
@@ -297,6 +304,12 @@ public class PlayerController : MonoBehaviour, IDamageable
                 fireDirection * weaponFloating.GetFireDistance();
 
             ProjectileSystem.Instance.FireProjectile(targetWeaponPosition, fireDirection);
+
+            if (AudioManager.Instance != null)
+            {
+                AudioClip fireSFX = AudioManager.Instance.sfxClips[9];
+                AudioManager.Instance.PlaySFX(fireSFX);
+            }
         }
     }
 
@@ -351,12 +364,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             statHandler.CurrentHealth -= damage;
         }
-
-        //// 데미지 효과 애니메이션 재생 (넣을수도)
-        //if (animator != null)
-        //{
-        //    animator.SetTrigger(isHitHash);
-        //}
+        if (AudioManager.Instance != null)
+        {
+            AudioClip takeDamageSFX = AudioManager.Instance.sfxClips[3];
+            AudioManager.Instance.PlaySFX(takeDamageSFX);
+        }
 
         StartCoroutine(DamageInvincibility());
     }
@@ -422,16 +434,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>
-    /// 무기가 변경되었을 때 호출되는 콜백
-    /// </summary>
-    private void OnWeaponChanged(int index, int total, WeaponData currentWeapon)
-    {
-        // 무기 변경에 따른 추가 처리
-        // StatHandler의 변경된 값에 따라 발사 간격 업데이트
-        UpdateFireInterval();
-    }
-
     public void UseItem(Item item)// Add Item stat
     {
         ItemData data = item.itemData;
@@ -460,15 +462,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Item Check
+        AudioClip itemPickupSfx = AudioManager.Instance.sfxClips[2];
+        
         if (collision.gameObject.TryGetComponent<Item>(out Item item))
         {
             UseItem(item);
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
         else if(collision.gameObject.TryGetComponent<EquipItem>(out EquipItem equipItem))
         {
             AddItem(equipItem);
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
         else if (collision.gameObject.TryGetComponent<Weapon>(out Weapon weapon))
         {
@@ -479,15 +485,35 @@ public class PlayerController : MonoBehaviour, IDamageable
                 weaponManager.AddWeapon(weapon);
             }
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
+    }
+
+    private void OnPlayerDeath()
+    {
+        isDashing = false;
+        isInvincible = true;
+        isDead = true;
+
+        if (animator != null)
+        {
+            animator.SetTrigger("isDeath");
+        }
+
+        StartCoroutine(GameOverDelay());
+    }
+
+    private IEnumerator GameOverDelay()
+    {
+        yield return new WaitForSeconds(gameoverDelay);
+        UIManager.Instance.IsGameOver();
     }
 
     void OnDestroy()
     {
-        // 무기 매니저 이벤트 구독 해제
-        if (weaponManager != null)
+        if (statHandler != null)
         {
-            weaponManager.OnWeaponChanged -= OnWeaponChanged;
+            statHandler.OnPlayerDeath -= OnPlayerDeath;
         }
     }
 }

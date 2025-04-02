@@ -30,10 +30,10 @@ public class StatHandler : MonoBehaviour
     }
     #endregion
 
-    // 현재 체력이 변경될 때만 이벤트 호출
+    // 이벤트
     public event Action OnHealthChanged;
+    public event Action OnPlayerDeath;
 
-    // 이벤트 호출을 최소화하기 위한 플래그
     private bool _suppressEvents = false;
 
     #region 기본 스탯 속성
@@ -150,6 +150,12 @@ public class StatHandler : MonoBehaviour
             if (!_suppressEvents && oldHealth != _currentHealth)
             {
                 OnHealthChanged?.Invoke();
+
+                // 체력이 0이 되면 죽음 이벤트 발생
+                if (_currentHealth <= 0)
+                {
+                    OnPlayerDeath?.Invoke();
+                }
             }
         }
     }
