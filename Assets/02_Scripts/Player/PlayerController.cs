@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [Header("피격 설정")]
     [SerializeField] private float damageInvincibilityDuration = 1.0f;
-    [SerializeField] private float blinkInterval = 0.1f;
 
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
