@@ -418,7 +418,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (weaponManager != null)
         {
             weaponManager.SwitchToPreviousWeapon();
-            Debug.Log("이전 무기로 전환");
         }
     }
 
@@ -430,19 +429,12 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (weaponManager != null)
         {
             weaponManager.SwitchToNextWeapon();
-            Debug.Log("다음 무기로 전환");
-
         }
     }
 
     public void UseItem(Item item)// Add Item stat
     {
         ItemData data = item.itemData;
-
-        if (data == null)
-        {
-            Debug.Log("ItemData Null");
-        }
 
         statHandler.ModifyStat(data.type, data.value, data.time, data.isPermanent);
     }
@@ -451,10 +443,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         EquipItemData data = equipItem.equipItemData;
 
-        if (data == null)
-        {
-            Debug.Log("EquipItemData Null");
-        }
 
         //statHandler.ModifyEquipStat(data.type,data.value,data.maxStackAmount,data.canStack);
         statHandler.ModifyEquipStat(data);
