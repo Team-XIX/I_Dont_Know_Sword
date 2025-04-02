@@ -485,50 +485,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &657245160
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 657245161}
-  - component: {fileID: 657245162}
-  m_Layer: 0
-  m_Name: LoadJson
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &657245161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657245160}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.694491, y: -0.8290914, z: -11.282358}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &657245162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657245160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7cd78944b84af34a9b1b9dc2020fc2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &682668263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,11 +2089,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2981767609835482447, guid: 22fbc442eed187e48a96ce5d5951a1f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.49
+      value: 15.83
       objectReference: {fileID: 0}
     - target: {fileID: 2981767609835482447, guid: 22fbc442eed187e48a96ce5d5951a1f2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.21
+      value: -23.67
       objectReference: {fileID: 0}
     - target: {fileID: 2981767609835482447, guid: 22fbc442eed187e48a96ce5d5951a1f2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2193,7 +2149,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1779031074}
-  - {fileID: 657245161}
   - {fileID: 9213457178704833560}
   - {fileID: 1220657076}
   - {fileID: 1292284676}
@@ -2207,6 +2162,6 @@ SceneRoots:
   - {fileID: 1754077776}
   - {fileID: 473997776}
   - {fileID: 1634852354}
-  - {fileID: 1633909125}
   - {fileID: 558693510}
+  - {fileID: 1633909125}
   - {fileID: 1507154495}
