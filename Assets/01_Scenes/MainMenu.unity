@@ -1040,11 +1040,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDataList: []
   equipItemDataList: []
-  enemyDataList: []
   weaponDataList: []
   item: {fileID: 7398225406061943446, guid: 22fbc442eed187e48a96ce5d5951a1f2, type: 3}
   equipItem: {fileID: 7299710647409413328, guid: 098e4e31d58e1734c904748c06c6884b, type: 3}
-  enemy: {fileID: 0}
+  weaponItem: {fileID: 0}
 --- !u!4 &1501495540
 Transform:
   m_ObjectHideFlags: 0
@@ -1728,6 +1727,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2451025603011449846, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451025603011449846, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2515026488402102915, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1735,6 +1742,42 @@ PrefabInstance:
     - target: {fileID: 4453930499739176733, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
       propertyPath: m_Name
       value: SettingMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453930499739176733, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631596523139432954, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631596523139432954, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7627041565735658289, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446412147878468223, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

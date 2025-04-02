@@ -6,6 +6,7 @@ public class UIManager : SingleTon<UIManager>
 {
     [Header("UI Panels")]
     public GameObject pauseMenu;
+    public GameObject gameOverMenu;
     //public GameObject inventoryUI;
     //public GameObject statusUI;
     //public GameObject weaponChangeUI;
@@ -30,7 +31,8 @@ public class UIManager : SingleTon<UIManager>
     private void InitializeUI() // UI 정보 초기화
     {
         pauseMenu.SetActive(false);
-        // UpdateHealthUI();
+        gameOverMenu.SetActive(false);
+        
     }
 
     public void TogglePause()
@@ -40,10 +42,10 @@ public class UIManager : SingleTon<UIManager>
         Time.timeScale = isActive ? 0 : 1;
     }
 
-    public void HealthUI()
+    public void IsGameOver()
     {
-        // 추가해야함 
-        // 오브젝트 풀 적용
+        bool isGameOver = !gameOverMenu.activeSelf;
+        gameOverMenu.SetActive(isGameOver);
+        Time.timeScale = isGameOver ? 0 : 1;
     }
-
 }

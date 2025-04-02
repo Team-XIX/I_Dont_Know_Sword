@@ -13,6 +13,9 @@ public class SceneHandler : MonoBehaviour
     {
         if (targetButton != null)
             targetButton.onClick.AddListener(() => StartCoroutine(ChangeScene()));
+
+        if (targetButton != null)
+            targetButton.onClick.AddListener(ChangeMainScene);
     }
     IEnumerator ChangeScene()
     {
@@ -23,6 +26,12 @@ public class SceneHandler : MonoBehaviour
         }
 
         SceneManager.LoadScene("GameScene");
+    }
+
+    public void ChangeMainScene()
+    {
+        SceneManager.LoadScene("MainMenu");
+        Cursor.visible = true;
     }
 
     public void GameOver()
