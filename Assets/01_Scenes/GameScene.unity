@@ -564,6 +564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOver_PopUp
       objectReference: {fileID: 0}
+    - target: {fileID: 7435562644541672949, guid: 10cbaf83c5047a34d8ab7b89657da71e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7818881430627910241, guid: 10cbaf83c5047a34d8ab7b89657da71e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
