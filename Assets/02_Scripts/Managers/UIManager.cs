@@ -1,32 +1,38 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
 
-public class UIManager : SingleTon<UIManager>
+public class UIManager : MonoBehaviour
 {
     [Header("UI Panels")]
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     [SerializeField] private Image gameDone;
-    //public GameObject inventoryUI;
-    //public GameObject statusUI;
-    //public GameObject weaponChangeUI;
-
-    //[Header("UI Elements")]
-    //public Image weaponIcon;
-    //public Image[] itemSlots;
-    //public Slider healthBar;
-    //public TMP_Text healthText;
 
     [Header("Buttons")]
-    //public Button pauseButton;
+
     public Button resumeButton;
     public Button gameDoneButton;
-    //public Button statusButton;
+    public static UIManager Instance { get; private set; }
 
-    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     private void Start()
     {
@@ -66,6 +72,6 @@ public class UIManager : SingleTon<UIManager>
 
     public void OnClickGameDoneButton()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");   
     }
 }
