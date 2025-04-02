@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -11,9 +10,6 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private PlayerWeapon playerWeaponComponent;
     [SerializeField] private int startingWeaponId = 1; // 시작 무기 ID
 
-    // 스프라이트는 아틀라스에서 직접 로드하므로 딕셔너리 불필요
-
-    // UI 연결을 위한 이벤트
     public delegate void WeaponChangedHandler(int index, int total, WeaponData currentWeapon);
     public event WeaponChangedHandler OnWeaponChanged;
 
@@ -22,10 +18,6 @@ public class WeaponManager : MonoBehaviour
         if (playerWeaponComponent == null)
         {
             playerWeaponComponent = GetComponentInChildren<PlayerWeapon>();
-            if (playerWeaponComponent == null)
-            {
-                Debug.LogError("PlayerWeapon 컴포넌트 미싱");
-            }
         }
 
         StartCoroutine(InitializeStartingWeapon());
@@ -36,8 +28,6 @@ public class WeaponManager : MonoBehaviour
     /// </summary>
     private IEnumerator InitializeStartingWeapon()
     {
-        // DataManager가 무기 데이터를 로드할 때까지 대기
-        // weaponCount가 0보다 크면 데이터가 로드된 것으로 간주
         while (DataManager.Instance == null || DataManager.Instance.weaponCount <= 1)
         {
             yield return new WaitForSeconds(0.5f);
