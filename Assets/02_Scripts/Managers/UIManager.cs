@@ -6,23 +6,23 @@ public class UIManager : SingleTon<UIManager>
 {
     [Header("UI Panels")]
     public GameObject pauseMenu;
-    public GameObject inventoryUI;
-    public GameObject statusUI;
-    public GameObject weaponChangeUI;
+    //public GameObject inventoryUI;
+    //public GameObject statusUI;
+    //public GameObject weaponChangeUI;
 
-    [Header("UI Elements")]
-    public Image weaponIcon;
-    public Image[] itemSlots;
-    public Slider healthBar;
-    public TMP_Text healthText;
+    //[Header("UI Elements")]
+    //public Image weaponIcon;
+    //public Image[] itemSlots;
+    //public Slider healthBar;
+    //public TMP_Text healthText;
 
     [Header("Buttons")]
-    public Button pauseButton;
+    //public Button pauseButton;
     public Button resumeButton;
-    public Button statusButton;
-   
+    //public Button statusButton;
 
-    private void Start() //Start에서 체력 UI 정보 초기화
+
+    private void Start()
     {
         InitializeUI();
     }
@@ -30,12 +30,10 @@ public class UIManager : SingleTon<UIManager>
     private void InitializeUI() // UI 정보 초기화
     {
         pauseMenu.SetActive(false);
-     
-
         // UpdateHealthUI();
     }
 
-    public void TogglePause() //퍼즈 토글 버튼
+    public void TogglePause()
     {
         bool isActive = !pauseMenu.activeSelf;
         pauseMenu.SetActive(isActive);
