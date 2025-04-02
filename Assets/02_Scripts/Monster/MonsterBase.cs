@@ -53,6 +53,8 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     bool isBlinking = false;// 피격시 깜빡임
     [SerializeField] protected bool isLookRight = false;// 오리지널 스프라이트의 바라보는 방향값.
 
+    private bool isQuitting = false; //종료 체크 bool변수
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.N))
@@ -98,11 +100,18 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
 
         StartCoroutine(StateMachine());
     }
+
+    private void OnApplicationQuit()
+    {
+        isQuitting = true;
+    }
+
     private void OnDisable()
     {
         StopAllCoroutines();// 몬스터가 비활성화 되면 모든 코루틴을 멈춤.
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
-        RandomDrop();
+        if (!isQuitting) //게임 종료일때는 랜덤 생성하지않도록
+            RandomDrop();
     }
     protected IEnumerator StateMachine()
     {
