@@ -23,10 +23,6 @@ public class DataManager : SingleTon<DataManager>
     public List<EquipItemData> equipItemDataList = new List<EquipItemData>();
     public List<WeaponData> weaponDataList = new List<WeaponData>();
 
-    public GameObject item;
-    public GameObject equipItem;
-    public GameObject weaponItem;
-
     private string itemJsonPath;
     private string equipItemDataJsonPath;
     private string monsterJsonPath;
@@ -41,6 +37,12 @@ public class DataManager : SingleTon<DataManager>
     public int equipItemCount { get; private set; }
     public int enemyCount { get; private set; }
     public int weaponCount { get; private set; }
+
+    [Header("테스트용 프리팹")]
+    public GameObject item;
+    public GameObject equipItem;
+    public GameObject weaponItem;
+    public GameObject monsterprefab;
 
     private void Awake()
     {
@@ -149,9 +151,18 @@ public class DataManager : SingleTon<DataManager>
     }
     public void CreateItem() // called at button test code
     {
-        Instantiate(item,transform);
-        Instantiate(equipItem,transform);
-        Instantiate(weaponItem, transform);
+        if(item !=null)
+            Instantiate(item,transform);
+        if (equipItem != null)
+            Instantiate(equipItem,transform);
+        if (weaponItem!= null)
+            Instantiate(weaponItem, transform);
+    }
+
+    public void SpawnMonster() // called at button test code
+    {
+        if (monsterprefab != null)
+            Instantiate(monsterprefab,transform);
     }
 
     private void SetCount()
