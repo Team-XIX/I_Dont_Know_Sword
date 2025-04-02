@@ -73,13 +73,11 @@ public class DataManager : SingleTon<DataManager>
         {
             string csvData = request.downloadHandler.text;
             csvData = csvData.Replace("\"", "");
-            Debug.Log(csvData);
             ParseCsvToData(csvData, dataList);
 
             // JSON으로 변환 후 파일 저장
             string json = JsonUtility.ToJson(new Wrapper<T>(dataList), true);
             File.WriteAllText(jsonPath, json);
-            Debug.Log($"{typeof(T).Name} 데이터 저장 완료: {jsonPath}");
 
         }
         else
@@ -99,7 +97,6 @@ public class DataManager : SingleTon<DataManager>
             string json = File.ReadAllText(jsonPath);
             Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
             dataList.AddRange(wrapper.items);
-            Debug.Log($"{typeof(T).Name} JSON에서 로드 완료: {dataList.Count}개");
         }
         else
         {
