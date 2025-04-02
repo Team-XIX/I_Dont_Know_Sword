@@ -114,6 +114,8 @@ public class NormalMonster : MonsterBase
     */// flood fill 알고리즘 폐기.Raycasting 방식으로 변경.
     private void MoveTo(Vector2 targetPos)
     {
+        if (!this.gameObject.activeSelf) return;
+
         Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
         float moveDistance = moveSpeed * Time.deltaTime;
         Vector2 nextPosition = (Vector2)transform.position + direction * moveDistance;
