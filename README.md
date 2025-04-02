@@ -66,7 +66,7 @@
     - [FixedUpdate - 카메라 움직임](https://tnjs0104.tistory.com/68)
 
 - HP_Container Null 레퍼런스 참조 오류
-    - https://github.com/Punksoda/TIL/blob/main/Unity_2025_04_02.md
+    - [이벤트 구독, 취소 null 레퍼런스](https://github.com/Punksoda/TIL/blob/main/Unity_2025_04_02.md)
 
 
 <br />
