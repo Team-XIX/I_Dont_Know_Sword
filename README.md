@@ -2,11 +2,12 @@
 <img src="https://github.com/Team-XIX/I_Dont_Know_Sword/blob/main/knightnosword.PNG?raw=true" width="800">
 
 - 프로젝트명 : 기사가 검술을 모름
-- 게임 컨셉 : 2D 로그라이크 탑다운 슈팅게임.
+- 게임 컨셉 : 2D 로그라이크 탑다운 슈팅게임
 - 레퍼런스 : 건전, 바인딩 오브 아이작
 - 개발 환경 : Unity
 - 제작 기간 : 3/27 ~ 4/2
 - itch.io 주소 : [웹 게임 실행](https://punksoda.itch.io/i-dont-know-sword)
+      Play game을 누른뒤 우측 하단의 파란색 창 버튼 클릭으로 큰화면 플레이 가능
 
 <br />
 
