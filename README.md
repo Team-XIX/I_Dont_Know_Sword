@@ -68,8 +68,8 @@
 - 카메라 이동 시 스프라이트가 흔들리는 것처럼 보이는 현상
     - [FixedUpdate - 카메라 움직임](https://tnjs0104.tistory.com/68)
 
-- HP_Container Null 레퍼런스 참조 오류
-    - [이벤트 구독, 취소 null 레퍼런스](https://github.com/Punksoda/TIL/blob/main/Unity_2025_04_02.md)
+- Cursor UI 수정
+    - [씬 전환에 따른 커서 UI수정하기](https://github.com/Punksoda/TIL/blob/main/Unity_2025_04_02.md)
 
 
 <br />
