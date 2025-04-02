@@ -304,6 +304,12 @@ public class PlayerController : MonoBehaviour, IDamageable
                 fireDirection * weaponFloating.GetFireDistance();
 
             ProjectileSystem.Instance.FireProjectile(targetWeaponPosition, fireDirection);
+
+            if (AudioManager.Instance != null)
+            {
+                AudioClip fireSFX = AudioManager.Instance.sfxClips[9];
+                AudioManager.Instance.PlaySFX(fireSFX);
+            }
         }
     }
 
@@ -358,9 +364,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             statHandler.CurrentHealth -= damage;
         }
-
-        AudioClip takeDamageSFX = AudioManager.Instance.sfxClips[3];
-        AudioManager.Instance.PlaySFX(takeDamageSFX);
+        if (AudioManager.Instance != null)
+        {
+            AudioClip takeDamageSFX = AudioManager.Instance.sfxClips[3];
+            AudioManager.Instance.PlaySFX(takeDamageSFX);
+        }
 
         StartCoroutine(DamageInvincibility());
     }
@@ -454,15 +462,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Item Check
+        AudioClip itemPickupSfx = AudioManager.Instance.sfxClips[2];
+        
         if (collision.gameObject.TryGetComponent<Item>(out Item item))
         {
             UseItem(item);
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
         else if(collision.gameObject.TryGetComponent<EquipItem>(out EquipItem equipItem))
         {
             AddItem(equipItem);
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
         else if (collision.gameObject.TryGetComponent<Weapon>(out Weapon weapon))
         {
@@ -473,6 +485,7 @@ public class PlayerController : MonoBehaviour, IDamageable
                 weaponManager.AddWeapon(weapon);
             }
             Destroy(collision.gameObject);
+            AudioManager.Instance.PlaySFX(itemPickupSfx);
         }
     }
 
