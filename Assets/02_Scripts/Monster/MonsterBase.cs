@@ -11,6 +11,8 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     [SerializeField] int attackPower;
     [SerializeField] float attackSpeed = 1.5f;
     public GameObject dropItem;
+
+    public bool isDie { get { return Hp <= 0; } }
     public int Hp 
     { 
         get => hp;
@@ -52,8 +54,6 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     Color originalColor;
     bool isBlinking = false;// 피격시 깜빡임
     [SerializeField] protected bool isLookRight = false;// 오리지널 스프라이트의 바라보는 방향값.
-
-    private bool isQuitting = false; //종료 체크 bool변수
 
     private void Update()
     {
@@ -101,18 +101,15 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         StartCoroutine(StateMachine());
     }
 
-    private void OnApplicationQuit()
-    {
-        isQuitting = true;
-    }
-
     protected virtual void OnDisable()
     {
         StopAllCoroutines();// 몬스터가 비활성화 되면 모든 코루틴을 멈춤.
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
-        if (!isQuitting) //게임 종료일때는 랜덤 생성하지않도록
+
+        if (isDie) //게임 종료일때는 랜덤 생성하지않도록
             DropItem();
     }
+
     protected IEnumerator StateMachine()
     {
         while (true)
@@ -139,7 +136,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int damage)// 데미지를 받는 함수
     {
-        if(Hp <= 0) return;
+        if(isDie) return;
         Hp -= damage;
         if(!isBlinking)
         {
