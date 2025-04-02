@@ -63,7 +63,7 @@
     - [Particle System - 잔상 효과](https://toacode.tistory.com/42)
  
 - 카메라 이동 시 스프라이트가 흔들리는 것처럼 보이는 현상
-    - https://tnjs0104.tistory.com/68
+    - [FixedUpdate - 카메라 움직임](https://tnjs0104.tistory.com/68)
 
 - HP_Container Null 레퍼런스 참조 오류
     - https://github.com/Punksoda/TIL/blob/main/Unity_2025_04_02.md
