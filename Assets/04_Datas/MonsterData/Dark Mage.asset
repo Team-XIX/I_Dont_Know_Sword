@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873023e19aa4f2948bc878f772acfd6d, type: 3}
   m_Name: Dark Mage
   m_EditorClassIdentifier: 
-  maxHp: 80
+  maxHp: 220
   attackPower: 1
   attackSpeed: 3
   attackRange: 0
