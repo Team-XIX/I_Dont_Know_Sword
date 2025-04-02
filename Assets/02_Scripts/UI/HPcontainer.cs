@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Pool;
 
 public class HPcontainer : MonoBehaviour
 {
@@ -10,16 +9,16 @@ public class HPcontainer : MonoBehaviour
 
     private List<GameObject> hearts = new List<GameObject>(); // 현재 활성화 된 하트풀
     private List<GameObject> availableHearts = new List<GameObject>(); // 현재 비활성화 되어있는 하트풀
-    private bool isQuitting = false;
-    private void Start()
+    private bool isQuitting = false; // 게임이 끝난 후에 널참조 해결
+    private void Start() // 기존에 등록되어 있는 함수 구독
     {
         StatHandler.Instance.OnHealthChanged += UpdateHearts;
         UpdateHearts();
 
-        StartCoroutine(InitializeStatHandler());
+        StartCoroutine(InitializeStatHandler()); 
     }
 
-    private void OnDisable()
+    private void OnDisable() // 비활성화시 구독 취소
     {
         if (!isQuitting)
         {
@@ -32,7 +31,7 @@ public class HPcontainer : MonoBehaviour
         isQuitting = true;
     }
 
-    private IEnumerator InitializeStatHandler()
+    private IEnumerator InitializeStatHandler() // 코루틴을 통해서 기존에 있는 스탯핸들러 찾아서 구독시켜주기 
     {
         while(StatHandler.Instance == null)
         {

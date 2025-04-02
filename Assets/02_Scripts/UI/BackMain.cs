@@ -15,6 +15,7 @@ public class BackMain : MonoBehaviour
     }
     public void ChangeMainScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
         Cursor.visible = true;
     }

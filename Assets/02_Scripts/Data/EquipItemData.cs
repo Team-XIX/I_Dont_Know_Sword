@@ -23,7 +23,7 @@ public class EquipItemData : BaseData
     public EEquipItemType type;
     public string spritePath;
 
-    public int curStack = 1;
+    public int curStack = 0;
 
     public Sprite GetSprite()
     {

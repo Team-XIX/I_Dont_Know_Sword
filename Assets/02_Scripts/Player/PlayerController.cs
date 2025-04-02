@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             isFireButtonPressed = false;
         }
+
     }
 
     public void OnSwitchWeaponPrevious(InputAction.CallbackContext context)

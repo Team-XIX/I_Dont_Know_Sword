@@ -16,8 +16,7 @@ public class Chest : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        if (damage > 1)
-            _animator.SetTrigger("Open");
+        _animator.SetTrigger("Open");
     }
 
     private void CreateRandomItem() //call at Open Animation Event
