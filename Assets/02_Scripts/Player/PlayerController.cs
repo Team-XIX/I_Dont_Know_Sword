@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [Header("피격 설정")]
     [SerializeField] private float damageInvincibilityDuration = 1.0f;
-    [SerializeField] private float blinkInterval = 0.1f;
 
     [Header("참조")]
     [SerializeField] private GameObject mainSprite;
@@ -159,6 +158,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         if (context.performed && !isDashing)
         {
             SwitchToNextWeapon();
+        }
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            UIManager.Instance.TogglePause();
         }
     }
 

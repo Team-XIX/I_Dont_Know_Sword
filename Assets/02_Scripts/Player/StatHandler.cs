@@ -30,8 +30,8 @@ public class StatHandler : MonoBehaviour
     }
     #endregion
 
-    // 어떤 스탯이 변경되더라도 이 이벤트가 호출해서 UI 업데이트 해야함!
-    public event Action OnStatsChanged;
+    // 현재 체력이 변경될 때만 이벤트 호출
+    public event Action OnHealthChanged;
 
     // 이벤트 호출을 최소화하기 위한 플래그
     private bool _suppressEvents = false;
@@ -143,12 +143,13 @@ public class StatHandler : MonoBehaviour
         get => _currentHealth;
         set
         {
+            int oldHealth = _currentHealth;
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
 
-            // 이벤트 발생 (이벤트 억제가 아닐 때만)
-            if (!_suppressEvents)
+            // 이벤트 발생 (이벤트 억제가 아니고, 체력이 변경된 경우에만)
+            if (!_suppressEvents && oldHealth != _currentHealth)
             {
-                OnStatsChanged?.Invoke();
+                OnHealthChanged?.Invoke();
             }
         }
     }
@@ -163,38 +164,37 @@ public class StatHandler : MonoBehaviour
         if (MaxHealth > oldMaxHealth && oldMaxHealth > 0)
         {
             int healthIncrease = MaxHealth - oldMaxHealth;
+            int oldHealth = _currentHealth;
             _currentHealth += healthIncrease;
+
+            // 체력이 변경되었을 때만 이벤트 발생
+            if (!_suppressEvents && oldHealth != _currentHealth)
+            {
+                OnHealthChanged?.Invoke();
+            }
         }
         // 최대 체력이 감소한 경우, 현재 체력이 최대 체력을 초과하지 않도록 조정
         else if (MaxHealth < oldMaxHealth)
         {
+            int oldHealth = _currentHealth;
             _currentHealth = Mathf.Min(_currentHealth, MaxHealth);
-        }
 
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
+            // 체력이 변경되었을 때만 이벤트 발생
+            if (!_suppressEvents && oldHealth != _currentHealth)
+            {
+                OnHealthChanged?.Invoke();
+            }
         }
     }
 
     private void RecalculateAttackPower()
     {
         AttackPower = _baseAttackPower + _additionalAttackPower;
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateMoveSpeed()
     {
         MoveSpeed = _baseMoveSpeed + _additionalMoveSpeed;
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void UpdateCurrentHealthToMax()
@@ -510,102 +510,52 @@ public class StatHandler : MonoBehaviour
     private void RecalculateAttackSpeed()
     {
         AttackSpeed = Mathf.Max(0.1f, _baseAttackSpeed + _additionalAttackSpeed);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateAutoFire()
     {
         // 기본값이나 추가값 중 하나라도 true이면 연사 가능
         AutoFire = _baseAutoFire || _additionalAutoFire;
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateSpreadAngle()
     {
         SpreadAngle = Mathf.Max(0f, _baseSpreadAngle + _additionalSpreadAngle);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateMultiAngle()
     {
         MultiAngle = Mathf.Max(0f, _baseMultiAngle + _additionalMultiAngle);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateProjectileCount()
     {
         ProjectileCount = Mathf.Max(1, _baseProjectileCount + _additionalProjectileCount);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateProjectileSize()
     {
         ProjectileSize = Mathf.Max(0.1f, _baseProjectileSize + _additionalProjectileSize);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateProjectileSpeed()
     {
         ProjectileSpeed = Mathf.Max(0.1f, _baseProjectileSpeed + _additionalProjectileSpeed);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateProjectileRange()
     {
         ProjectileRange = Mathf.Max(0.1f, _baseProjectileRange + _additionalProjectileRange);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculateReflectionCount()
     {
         ReflectionCount = Mathf.Max(0, _baseReflectionCount + _additionalReflectionCount);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
 
     private void RecalculatePenetrationCount()
     {
         PenetrationCount = Mathf.Max(0, _basePenetrationCount + _additionalPenetrationCount);
-
-        if (!_suppressEvents)
-        {
-            OnStatsChanged?.Invoke();
-        }
     }
     #endregion
 
@@ -615,6 +565,9 @@ public class StatHandler : MonoBehaviour
     private void RecalculateAllStats()
     {
         _suppressEvents = true;  // 이벤트 발생 억제 시작
+
+        // 현재 체력 저장 (변경 사항 감지용)
+        int oldHealth = _currentHealth;
 
         RecalculateMaxHealth();
         RecalculateAttackPower();
@@ -631,7 +584,12 @@ public class StatHandler : MonoBehaviour
         RecalculatePenetrationCount();
 
         _suppressEvents = false;  // 이벤트 발생 억제 해제
-        OnStatsChanged?.Invoke();  // 모든 계산이 끝난 후 한 번만 이벤트 발생
+
+        // 체력이 변경된 경우에만 이벤트 호출
+        if (oldHealth != _currentHealth)
+        {
+            OnHealthChanged?.Invoke();
+        }
     }
 
     private void Start()
@@ -663,6 +621,9 @@ public class StatHandler : MonoBehaviour
     {
         _suppressEvents = true;
 
+        // 현재 체력 저장 (변경 사항 감지용)
+        int oldHealth = _currentHealth;
+
         _additionalMaxHealth = 0;
         _additionalAttackPower = 0f;
         _additionalMoveSpeed = 0f;
@@ -680,6 +641,8 @@ public class StatHandler : MonoBehaviour
         _suppressEvents = false;
 
         RecalculateAllStats();
+
+        // 체력 변경 확인 (RecalculateAllStats에서도 체크하지만, 중복 체크 방지를 위해 여기서는 호출하지 않음)
     }
 
     /// <summary>
@@ -692,6 +655,9 @@ public class StatHandler : MonoBehaviour
         bool wasSuppressed = _suppressEvents; // 현재 억제 상태 저장
         _suppressEvents = true;
 
+        // 현재 체력 저장 (변경 사항 감지용)
+        int oldHealth = _currentHealth;
+
         try
         {
             modifyAction.Invoke();
@@ -703,9 +669,11 @@ public class StatHandler : MonoBehaviour
         finally
         {
             _suppressEvents = wasSuppressed; // 예외가 발생해도 원래 상태로 복원
-            if (!_suppressEvents)
+
+            // 체력이 변경되었고 이벤트 억제가 아닐 때만 이벤트 호출
+            if (!_suppressEvents && oldHealth != _currentHealth)
             {
-                OnStatsChanged?.Invoke();
+                OnHealthChanged?.Invoke();
             }
         }
     }

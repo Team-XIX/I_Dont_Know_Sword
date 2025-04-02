@@ -20,19 +20,10 @@ public class PlayerWeapon : MonoBehaviour
     }
 
     /// <summary>
-    /// 새 무기 장착 (데이터만)
+    /// 무기 장착
     /// </summary>
     public void EquipWeapon(WeaponData weaponData)
     {
-        EquipWeapon(weaponData, null);
-    }
-
-    /// <summary>
-    /// 새 무기 장착 (데이터와 스프라이트)
-    /// </summary>
-    public void EquipWeapon(WeaponData weaponData, Sprite weaponSprite)
-    {
-        Debug.Log($"EquipWeapon: 무기 데이터={weaponData?.name}, StatHandler={StatHandler.Instance != null}");
 
         if (isWeaponEquipped && currentWeaponData != null)
         {
@@ -46,8 +37,8 @@ public class PlayerWeapon : MonoBehaviour
             ApplyWeaponStats();
             isWeaponEquipped = true;
 
-            // 무기 스프라이트 업데이트
-            UpdateWeaponVisuals(weaponSprite);
+            // 무기 스프라이트 업데이트 (아틀라스에서 직접 로드)
+            UpdateWeaponVisuals();
         }
     }
 
@@ -64,7 +55,7 @@ public class PlayerWeapon : MonoBehaviour
 
             if (weaponSpriteRenderer != null)
             {
-                // 기본 스프라이트 설정
+                // 스프라이트 설정
                 weaponSpriteRenderer.sprite = null;
             }
         }
@@ -100,7 +91,6 @@ public class PlayerWeapon : MonoBehaviour
         StatHandler statHandler = StatHandler.Instance;
         if (statHandler == null || currentWeaponData == null) return;
 
-        // 여러 스탯을 한번에 변경하여 이벤트 발생 최소화
         statHandler.ModifyMultipleStats(() =>
         {
             statHandler.AdditionalAttackPower += currentWeaponData.atk;
@@ -120,9 +110,6 @@ public class PlayerWeapon : MonoBehaviour
                 statHandler.AdditionalAutoFire = true;
             }
         });
-
-        // 로그 출력 (디버깅용)
-        Debug.Log($"무기 [{currentWeaponData.name}] 능력치 적용됨");
     }
 
     /// <summary>
@@ -159,26 +146,15 @@ public class PlayerWeapon : MonoBehaviour
     /// </summary>
     private void UpdateWeaponVisuals(Sprite weaponSprite = null)
     {
-        if (weaponSpriteRenderer != null)
+        if (weaponSpriteRenderer != null && currentWeaponData != null)
         {
-            if (weaponSprite != null)
+            SpriteAtlas atlas = Resources.Load<SpriteAtlas>("WeaponSprite/Weapon");
+            if (atlas != null)
             {
-                // 전달받은 스프라이트 사용
-                weaponSpriteRenderer.sprite = weaponSprite;
-                Debug.Log($"Weapon sprite updated: {weaponSprite.name}");
-            }
-            else if (currentWeaponData != null)
-            {
-                // 스프라이트가 없다면 아틀라스에서 로드 시도
-                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("WeaponSprite/Weapon");
-                if (atlas != null)
+                Sprite sprite = atlas.GetSprite($"{currentWeaponData.id}");
+                if (sprite != null)
                 {
-                    Sprite sprite = atlas.GetSprite($"{currentWeaponData.id}");
-                    if (sprite != null)
-                    {
-                        weaponSpriteRenderer.sprite = sprite;
-                        Debug.Log($"Weapon sprite loaded from atlas: {sprite.name}");
-                    }
+                    weaponSpriteRenderer.sprite = sprite;
                 }
             }
         }
