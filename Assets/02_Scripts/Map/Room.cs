@@ -42,6 +42,8 @@ public class Room : MonoBehaviour
         MonsterBase.OnMonsterDied += CheckClear;
         currentPlayerPosSquare.SetActive(false);
         miniMapSquare.SetActive(false);
+        //조건을 달성하기 전 다른 방으로 이동 못하게 막기
+        CloseEnterance();
     }
 
     //방 생성시 입구 관리
@@ -68,8 +70,6 @@ public class Room : MonoBehaviour
             default: break;
         }
 
-        //조건을 달성하기 전 다른 방으로 이동 못하게 막기
-        CloseEnterance();
     }
 
     //입구 초기화
