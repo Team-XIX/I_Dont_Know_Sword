@@ -10,7 +10,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     [SerializeField] int hp;
     [SerializeField] int attackPower;
     [SerializeField] float attackSpeed = 1.5f;
-    public GameObject[] dropItems;
+    public GameObject dropItem;
     public int Hp 
     { 
         get => hp;
@@ -79,8 +79,8 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     }
     protected virtual void Start()
     {
-        if (dropItems.Length ==0)
-            dropItems = Resources.LoadAll<GameObject>("PrefabItem");
+        if (dropItem == null)
+            dropItem = Resources.Load<GameObject>("Drop/Chest");
 
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -111,7 +111,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         StopAllCoroutines();// 몬스터가 비활성화 되면 모든 코루틴을 멈춤.
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
         if (!isQuitting) //게임 종료일때는 랜덤 생성하지않도록
-            RandomDrop();
+            DropItem();
     }
     protected IEnumerator StateMachine()
     {
@@ -165,9 +165,8 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         isBlinking = false;
     }
 
-    public void RandomDrop()
+    public void DropItem()
     {
-        int randNum = UnityEngine.Random.Range(0, dropItems.Length);
-        Instantiate(dropItems[randNum], transform.position, Quaternion.identity);
+        Instantiate(dropItem, transform.position, Quaternion.identity);
     }
 }

@@ -751,7 +751,7 @@ public class StatHandler : MonoBehaviour
                     if (data.curStack < data.maxStackAmount)
                     {
                         data.curStack++;
-                        BaseAttackSpeed += int.Parse(data.value.ToString());
+                        BaseAttackSpeed += data.value;
                     }
                     break;
                 case EEquipItemType.ProjectileSize:
