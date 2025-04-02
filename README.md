@@ -6,7 +6,7 @@
 - 레퍼런스 : 건전, 바인딩 오브 아이작
 - 개발 환경 : Unity
 - 제작 기간 : 3/27 ~ 4/2
-
+- itch.io 주소 : [웹 게임 실행](https://punksoda.itch.io/i-dont-know-sword)
 
 <br />
 
@@ -59,8 +59,8 @@
 <br />
 
 ## 🤔 트러블 슈팅 및 핵심 기능 
-- 몬스터 대쉬스킬 잔상
-    - [Particle System - 잔상 효과](https://toacode.tistory.com/42)
+- 몬스터 벽에 걸림 방지
+    - [Physics2D.OverlapPoint - 2D 상의 겹침의 정도](https://toacode.tistory.com/44)
  
 - 카메라 이동 시 스프라이트가 흔들리는 것처럼 보이는 현상
     - [FixedUpdate - 카메라 움직임](https://tnjs0104.tistory.com/68)
