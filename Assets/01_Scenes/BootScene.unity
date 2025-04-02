@@ -201,6 +201,7 @@ MonoBehaviour:
   MaxSFXaudioSources: 12
   bgmClips:
   - {fileID: 8300000, guid: e499938748668164d8a3f42d36a3389f, type: 3}
+  - {fileID: 8300000, guid: e499938748668164d8a3f42d36a3389f, type: 3}
   - {fileID: 8300000, guid: b86c60bee4e20054098da817a31937ea, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: ca259701fcf529a458df95348982602c, type: 3}
