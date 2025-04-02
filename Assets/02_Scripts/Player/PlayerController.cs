@@ -15,9 +15,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashInvincibilityDuration = 0.15f;
     [SerializeField] private float dashCooldown = 0.45f;
+    [SerializeField] private float gameoverDelay = 1.5f;
     private bool canDash = true;
     private bool isDashing = false;
     private bool isInvincible = false;
+    private bool isDead = false;
 
     [Header("발사 설정")]
     private float fireTimer = 0f;
@@ -83,6 +85,8 @@ public class PlayerController : MonoBehaviour, IDamageable
         {
             moveSpeed = statHandler.MoveSpeed;
             UpdateFireInterval();
+
+            statHandler.OnPlayerDeath += OnPlayerDeath;
         }
     }
 
@@ -111,6 +115,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isDead) return;
         moveInput = context.ReadValue<Vector2>();
 
         if (moveInput != Vector2.zero)
@@ -482,12 +487,35 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    private void OnPlayerDeath()
+    {
+        isDashing = false;
+        isInvincible = true;
+        isDead = true;
+
+        if (animator != null)
+        {
+            animator.SetTrigger("isDeath");
+        }
+
+        StartCoroutine(GameOverDelay());
+    }
+
+    private IEnumerator GameOverDelay()
+    {
+        yield return new WaitForSeconds(gameoverDelay);
+        UIManager.Instance.IsGameOver();
+    }
+
     void OnDestroy()
     {
-        // 무기 매니저 이벤트 구독 해제
         if (weaponManager != null)
         {
             weaponManager.OnWeaponChanged -= OnWeaponChanged;
+        }
+        if (statHandler != null)
+        {
+            statHandler.OnPlayerDeath -= OnPlayerDeath;
         }
     }
 }

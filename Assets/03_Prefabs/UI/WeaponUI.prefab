@@ -173,6 +173,7 @@ MonoBehaviour:
   weaponIndexText: {fileID: 6569167184422239903}
   weaponIconAtlas: {fileID: 100100200, guid: 0a62b3a96cd20ae4c844279636ab384b, type: 3}
   defaultWeaponIcon: {fileID: -1335389128, guid: a73636fecddbd394ca345442cb3d8ba2, type: 3}
+  fixedHeight: 64
 --- !u!1 &3324272014700171120
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +343,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -13, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &9061126811358313920
 CanvasRenderer:

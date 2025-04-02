@@ -415,7 +415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1443999319247585921, guid: cd9e73005c30ad341ae9ae1d35b5e684, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 650
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1443999319247585921, guid: cd9e73005c30ad341ae9ae1d35b5e684, type: 3}
       propertyPath: m_SizeDelta.y
@@ -652,6 +652,11 @@ PrefabInstance:
 --- !u!224 &865639906 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7818881430627910241, guid: 10cbaf83c5047a34d8ab7b89657da71e, type: 3}
+  m_PrefabInstance: {fileID: 865639905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &865639907 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7435562644541672949, guid: 10cbaf83c5047a34d8ab7b89657da71e, type: 3}
   m_PrefabInstance: {fileID: 865639905}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &933144156
@@ -1339,8 +1344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 1157169217}
-  gameOverMenu: {fileID: 0}
-  resumeButton: {fileID: 0}
+  gameOverMenu: {fileID: 865639907}
+  resumeButton: {fileID: 1583468802}
 --- !u!1001 &1583468801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1454,6 +1459,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+--- !u!114 &1583468802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4552345732331637906, guid: 946236aba5365c34fb104b86e9c7ae21, type: 3}
+  m_PrefabInstance: {fileID: 1583468801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1720095904
 PrefabInstance:
   m_ObjectHideFlags: 0
