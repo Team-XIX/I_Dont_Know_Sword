@@ -10,7 +10,7 @@ public class HPcontainer : MonoBehaviour
 
     private List<GameObject> hearts = new List<GameObject>(); // 현재 활성화 된 하트풀
     private List<GameObject> availableHearts = new List<GameObject>(); // 현재 비활성화 되어있는 하트풀
-
+    private bool isQuitting = false;
     private void Start()
     {
         StatHandler.Instance.OnHealthChanged += UpdateHearts;
@@ -21,7 +21,15 @@ public class HPcontainer : MonoBehaviour
 
     private void OnDisable()
     {
-        StatHandler.Instance.OnHealthChanged -= UpdateHearts;
+        if (!isQuitting)
+        {
+           StatHandler.Instance.OnHealthChanged -= UpdateHearts;
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        isQuitting = true;
     }
 
     private IEnumerator InitializeStatHandler()
