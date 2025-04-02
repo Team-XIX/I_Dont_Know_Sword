@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
+
 using UnityEngine;
 
 
@@ -7,6 +9,7 @@ public class MapEditorWindow : EditorWindow
     private static MapEditorWindow mapEditorWindow;
 
     [MenuItem("Window/MapEditor")]
+
     private static void SetUp()
     {
         mapEditorWindow = CreateInstance<MapEditorWindow>();
@@ -61,3 +64,4 @@ public class MapEditorWindow : EditorWindow
     }
 
 }
+#endif
