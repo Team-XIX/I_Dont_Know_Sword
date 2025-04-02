@@ -13,6 +13,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     public GameObject dropItem;
 
     public bool isDie { get { return Hp <= 0; } }
+
     public int Hp 
     { 
         get => hp;
@@ -104,7 +105,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
         StopAllCoroutines();// 몬스터가 비활성화 되면 모든 코루틴을 멈춤.
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
 
-        if (isDie) //게임 종료일때는 랜덤 생성하지않도록
+        if (isDie) //씬 전환일때는 생성하지않도록
             DropItem();
     }
 
