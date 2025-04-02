@@ -8,16 +8,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Monster
+  - Projectile
+  - Item
+  - EnemyProjectile
+  - Obstacle
+  - MiniMap
   - 
   - 
   - 

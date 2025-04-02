@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5ff4f9125220e429c17631eb5cf2cb, type: 3}
+  m_Name: MonsterData
+  m_EditorClassIdentifier: 
+  associatedSheet: 13LaKiWlLCM3n6clMDMPFnIkyIVu88-dFgpKQc3IAR08
+  associatedWorksheet: EnemyData
+  START_ROW_LENGTH: 2
+  END_ROW_LENGTH: 7
+  DataList:
+  - id: 1
+    name: "\uBC15\uC950"
+    description: "\uC57D\uD574\uBCF4\uC774\uC9C0\uB9CC \uC9C4\uC9DC \uC57D\uD558\uB2E4"
+    maxHp: 15
+    atkPower: 1
+    atkSpeed: 1.5
+    atkRange: 1.5
+    detectRange: 10
+    moveSpeed: 3
+  - id: 2
+    name: "\uD30C\uB780\uACE8\uB818"
+    description: "\uAC15\uD574\uBCF4\uC774\uC9C0\uB9CC \uC7A1\uBAB9\uC774\uB2E4"
+    maxHp: 35
+    atkPower: 1
+    atkSpeed: 1.5
+    atkRange: 1.8
+    detectRange: 7.5
+    moveSpeed: 2
+  - id: 3
+    name: "\uB178\uB780\uACE8\uB818"
+    description: "\uAC15\uD574\uBCF4\uC774\uC9C0\uB9CC \uC7A1\uBAB9\uC774\uB2E4"
+    maxHp: 40
+    atkPower: 1
+    atkSpeed: 1.5
+    atkRange: 1.8
+    detectRange: 7.5
+    moveSpeed: 2.2
+  - id: 4
+    name: "\uB9AC\uD37C"
+    description: "\uC21C\uC2DD\uAC04\uC5D0 \uD50C\uB808\uC774\uC5B4\uAC8C \uC811\uADFC\uD558\uB294
+      \uBAAC\uC2A4\uD130\uC774\uB2E4."
+    maxHp: 100
+    atkPower: 1
+    atkSpeed: 3
+    atkRange: 2
+    detectRange: 20
+    moveSpeed: 5
+  - id: 5
+    name: "\uB2E4\uD06C\uBA54\uC774\uC9C0"
+    description: "\uC6D0\uAC70\uB9AC \uACF5\uACA9\uC744 \uD558\uB294 \uBAAC\uC2A4\uD130"
+    maxHp: 80
+    atkPower: 1
+    atkSpeed: 3
+    atkRange: 0
+    detectRange: 12
+    moveSpeed: 4
+  - id: 6
+    name: "\uC544\uAE30\uC544\uC2A4"
+    description: "\uBCF4\uC2A4 \uBAAC\uC2A4\uD130"
+    maxHp: 300
+    atkPower: 1
+    atkSpeed: 0.2
+    atkRange: 0
+    detectRange: 20
+    moveSpeed: 1.5
