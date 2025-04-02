@@ -1820,7 +1820,9 @@ MonoBehaviour:
   dashDuration: 0.5
   dashInvincibilityDuration: 0.15
   dashCooldown: 0.45
+  gameoverDelay: 1.5
   damageInvincibilityDuration: 1
+  blinkInterval: 0.1
   mainSprite: {fileID: 8553635309427378808}
   weaponTransform: {fileID: 4646361608447789824}
   weaponManager: {fileID: 0}
