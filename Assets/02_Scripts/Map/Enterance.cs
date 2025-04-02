@@ -10,7 +10,7 @@ public class Enterance : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            MapCreator.teleportAction?.Invoke(dir);
+            MapManager.Instance.mapCreator.Teleport(dir);
         }
     }
 }

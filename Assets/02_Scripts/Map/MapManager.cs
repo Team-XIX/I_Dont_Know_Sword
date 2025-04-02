@@ -15,14 +15,9 @@ public class MapManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
+        else
         {
-            Instance = null;
+            Instance = this;
         }
     }
 }

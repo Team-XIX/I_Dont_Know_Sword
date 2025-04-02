@@ -27,8 +27,6 @@ public class MapCreator : MonoBehaviour
     [SerializeField]
     private int currentRoomNum;
 
-    //플레이어 이동시키는 Action
-    public static Action<Direction> teleportAction;
 
     public PlayerController playerController;
 
@@ -39,7 +37,6 @@ public class MapCreator : MonoBehaviour
 
         //초기 시작
         currentRoomNum = 0;
-        teleportAction += Teleport;
 
         CreateMap();
 
