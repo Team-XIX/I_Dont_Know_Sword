@@ -26,11 +26,6 @@ public class HPcontainer : MonoBehaviour
         }
     }
 
-    void OnApplicationQuit()
-    {
-        isQuitting = true;
-    }
-
     private IEnumerator InitializeStatHandler() // 코루틴을 통해서 기존에 있는 스탯핸들러 찾아서 구독시켜주기 
     {
         while(StatHandler.Instance == null)
@@ -40,7 +35,6 @@ public class HPcontainer : MonoBehaviour
         }
 
         StatHandler.Instance.OnHealthChanged += UpdateHearts;
-        Debug.Log("complete event");
     }
     public void UpdateHearts()
     {
