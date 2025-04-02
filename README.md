@@ -62,6 +62,9 @@
 - 몬스터 대쉬스킬 잔상
     - [Particle System - 잔상 효과](https://toacode.tistory.com/42)
  
+- 카메라 이동 시 스프라이트가 흔들리는 것처럼 보이는 현상
+    - https://tnjs0104.tistory.com/68
+ 
 
 
 <br />
