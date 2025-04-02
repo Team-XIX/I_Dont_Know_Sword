@@ -314,7 +314,7 @@ public class Agias : MonsterBase
     public void AnimEventVoidBall()// 애니메이션 이벤트를 통해 호출할 전범위 투사체 분사 (0.5초 간격 4번)
     {
         StartCoroutine(CircleAlphaOn(0));
-        StartCoroutine(MultiTimeProjectile(4));
+        StartCoroutine(MultiTimeProjectile(4,18));
     }
     IEnumerator DeathRayActivate(float rotationOffset)
     {
@@ -333,7 +333,7 @@ public class Agias : MonsterBase
             yield return new WaitForSeconds(0.1f);
         }
     }
-    IEnumerator MultiTimeProjectile(int skillTime)
+    IEnumerator MultiTimeProjectile(int skillTime,int projectileCount)
     {
         for (int i = 0; i < skillTime; i++)
         {
@@ -349,19 +349,20 @@ public class Agias : MonsterBase
                 {
                     FireProjectile(projectile, count, rotationOffset);
                     count++;
-                    if (count >= 18) break;
+                    if (count >= projectileCount) break;
                 }
             }
 
             // 부족한 투사체 생성
-            while (count < 18)
+            while (count < projectileCount)
             {
                 GameObject newProjectile = Instantiate(monsterProjectile, transform.position, Quaternion.identity);
                 projectilePool.Add(newProjectile);
                 FireProjectile(newProjectile, count, rotationOffset);
                 count++;
             }
-            voidCircle.transform.DOScale(1.35f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutQuad);// 전범위 투사체 크기 조절
+
+            voidCircle.transform.DOScale(1.35f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutQuad);// 발사 이펙트
             yield return new WaitForSeconds(0.5f);
         }
 
