@@ -7,7 +7,8 @@
 - 개발 환경 : Unity
 - 제작 기간 : 3/27 ~ 4/2
 - itch.io 주소 : [웹 게임 실행](https://punksoda.itch.io/i-dont-know-sword)
-      - Play game을 누른뒤 우측 하단의 파란색 창 버튼 클릭으로 큰화면 플레이 가능
+      -Play game을 누른뒤 우측 하단의 파란색 창 버튼 클릭으로 큰화면 플레이 가능
+
 
 <br />
 
