@@ -389,8 +389,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2669189029359735210}
-        m_TargetAssemblyTypeName: SceneHandler, Assembly-CSharp
+      - m_Target: {fileID: 2065947359744972213}
+        m_TargetAssemblyTypeName: BackMain, Assembly-CSharp
         m_MethodName: ChangeMainScene
         m_Mode: 1
         m_Arguments:
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 7818881430627910241}
   - component: {fileID: 4740914738795633855}
   - component: {fileID: 6473217298790778631}
-  - component: {fileID: 2669189029359735210}
+  - component: {fileID: 2065947359744972213}
   m_Layer: 5
   m_Name: GameOver_PopUp
   m_TagString: Untagged
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2669189029359735210
+--- !u!114 &2065947359744972213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -488,9 +488,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7435562644541672949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ddcaba3c62fddc4db06912ffc6f2a1c, type: 3}
+  m_Script: {fileID: 11500000, guid: f46357cc92558734c9c6c1a9f979b7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetButton: {fileID: 8346428309422965977}
-  audioSource: {fileID: 0}
-  clickSound: {fileID: 0}
+  backButton: {fileID: 8346428309422965977}

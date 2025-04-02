@@ -334,11 +334,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d3c41078af37ca043b155013fa2adfcc, type: 3}
   - {fileID: 8300000, guid: ef62b5381c9e3ed41a7d786af3c31795, type: 3}
   - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
-  - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
-  - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
-  - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
-  - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
-  - {fileID: 8300000, guid: 8c0186cef8a8baa448d768493f964545, type: 3}
+  - {fileID: 8300000, guid: e8bb7dd6ca4f833489dbdf9c39795329, type: 3}
+  - {fileID: 8300000, guid: 1ce32afa5b6013d43bf03d422ef5ea7f, type: 3}
+  - {fileID: 8300000, guid: b077d8ff09e67bc4fb964da0becbbc3d, type: 3}
+  - {fileID: 8300000, guid: d5a71ab544ab13f42902c1b1f4414b2f, type: 3}
+  - {fileID: 8300000, guid: 388b747459f00dd4bb92db57158f7de9, type: 3}
   audioMixer: {fileID: 24100000, guid: 01722ffc807335d4285fbcf9e1ce0d7d, type: 2}
   sfxMixerGroup: {fileID: -6011793807202752456, guid: 01722ffc807335d4285fbcf9e1ce0d7d, type: 2}
   bgmMixerGroup: {fileID: 1756493579729793607, guid: 01722ffc807335d4285fbcf9e1ce0d7d, type: 2}
