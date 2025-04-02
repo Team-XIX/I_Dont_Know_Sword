@@ -161,6 +161,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            UIManager.Instance.TogglePause();
+        }
+    }
+
     #endregion
 
     /// <summary>

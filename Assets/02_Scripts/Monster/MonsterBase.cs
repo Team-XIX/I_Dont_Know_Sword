@@ -19,7 +19,6 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
             hp = value;
             if (hp <= 0)// set을 호출해주는 시점에 체킹.
             {
-                StopAllCoroutines();
                 ChangeState(MonsterState.Dead); // 체력이 0 이하가 되면 즉시 Dead로 변경
                 StartCoroutine(Dead());
             }
@@ -101,6 +100,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
     }
     private void OnDisable()
     {
+        StopAllCoroutines();// 몬스터가 비활성화 되면 모든 코루틴을 멈춤.
         OnMonsterDied?.Invoke(gameObject);// 몬스터가 비활성화 되면(죽으면) 해당 맵에 이벤트 함수를 통해 알림.
         RandomDrop();
     }
@@ -130,6 +130,7 @@ public abstract class MonsterBase : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(int damage)// 데미지를 받는 함수
     {
+        if(Hp <= 0) return;
         Hp -= damage;
         if(!isBlinking)
         {

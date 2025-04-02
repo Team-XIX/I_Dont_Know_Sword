@@ -222,6 +222,7 @@ public class NormalMonster : MonsterBase
             yield return null;
         }
         // while문이 끝나게 되면 상태 변경 조건 확인.
+        if(target == null) ChangeState(MonsterState.Idle);// 타겟이 없으면 Idle 상태로 변경.
         if (Vector2.Distance(transform.position, target.transform.position) >= attackRange)// 타겟이 공격 범위 밖에 있으면 Move 상태로 변경.
         {
             ChangeState(MonsterState.Move);
