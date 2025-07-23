@@ -337,32 +337,34 @@ public class Agias : MonsterBase
     {
         for (int i = 0; i < skillTime; i++)
         {
-            if (target == null) yield break;// 타겟이 없으면 리턴
+            if (target == null) yield break;
 
-            int count = 0;
-            float rotationOffset = Random.Range(0, 360f);// 랜덤 회전값
+            float rotationOffset = Random.Range(0, 360f);
+            int fired = 0;
 
-            // 풀에 사용 가능한 투사체가 있는지 확인 후 발사
-            foreach (var projectile in projectilePool)
+            // 사용 가능한 투사체 먼저 발사
+            for (int j = 0; j < projectilePool.Count && fired < projectileCount; j++)
             {
-                if (!projectile.activeSelf)
+                if (!projectilePool[j].activeSelf)
                 {
-                    FireProjectile(projectile, count, rotationOffset);
-                    count++;
-                    if (count >= projectileCount) break;
+                    FireProjectile(projectilePool[j], fired, rotationOffset);
+                    fired++;
                 }
             }
 
-            // 부족한 투사체 생성
-            while (count < projectileCount)
+            // 부족하면 추가 생성
+            int toCreate = projectileCount - fired;
+            for (int j = 0; j < toCreate; j++)
             {
                 GameObject newProjectile = Instantiate(monsterProjectile, transform.position, Quaternion.identity);
                 projectilePool.Add(newProjectile);
-                FireProjectile(newProjectile, count, rotationOffset);
-                count++;
+                FireProjectile(newProjectile, fired + j, rotationOffset);
             }
 
-            voidCircle.transform.DOScale(1.35f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutQuad);// 발사 이펙트
+            voidCircle.transform.DOScale(1.35f, 0.2f)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetEase(Ease.InOutQuad);
+
             yield return new WaitForSeconds(0.5f);
         }
 
